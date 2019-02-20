@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import './index.css';
-import TopBar from './Components/TopBar'
-import FormLogin from './Components/FormLogin';
-import FormRegister from './Components/FormRegister';
+import TopBar from './Components/NavBar/TopBar';
+import Home from './Components/Home/Home';
+import FormLogin from './Components/Login/FormLogin';
+import FormRegister from './Components/Register/FormRegister';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentView: "Login" };
+    this.state = { currentView: "Home" };
   }
 
   setView = (viewName) => {
@@ -19,11 +20,11 @@ class App extends Component {
   render() {
     let view;
     let currentView = this.state.currentView;
-    if(currentView === "Register") {
-      view = <FormRegister />;
-    }
-    else {
-      view = <FormLogin />;
+    switch(currentView) {
+      case "Register" : view = <FormRegister />;break;
+      case "Login"    : view = <FormLogin setView={this.setView} />;break;
+      case "Home"     : view = <Home setView={this.setView} />;break;
+      default         : alert("No Page To Load (case:default:App.js)");
     }
 
     return (

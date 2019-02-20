@@ -1,0 +1,51 @@
+#headerPanel {
+    color: greenyellow;
+    background-color: rgba(221, 221, 221, 0.562);
+    border-radius: 2%/30%;
+    padding: 1%;
+    justify-content: center;
+    margin: 1%;
+}
+
+#infoLoginPanel {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginSection,
+#infoSection {
+    margin: 1%;
+}
+
+#infoSection {
+    color: wheat;
+    width: 60%;
+    height: 25vw;
+    padding: 1%;
+    border: 1px dashed grey;
+    border-radius: 5%;
+    background-color: rgba(17, 17, 17, 0.562);
+}
+
+#statisicsPanel {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.5%;
+    justify-content: center;
+    align-items: center;
+}
+
+#usersCount,
+#organizationsCount,
+#freelancersCount,
+#issuesCount {
+    background-color: rgba(221, 221, 221, 0.562);
+    border-radius: 10%;
+    padding: 4%;
+    margin: 1.5%;
+    width: 20%;
+    justify-content: center;
+}

@@ -13,10 +13,14 @@ class TopBar extends Component {
     this.props.setView("Register");
   }
 
+  handleHomeLink = () => {
+    this.props.setView("Home");
+  }
+
   render() {
       return(
-          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-              <Navbar.Brand href="#home">Issue Redressal</Navbar.Brand>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">
+              <Navbar.Brand href="#home" onClick={this.handleHomeLink} >Issue Redressal</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="mr-auto">
