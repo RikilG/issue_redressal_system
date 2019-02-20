@@ -1,0 +1,4 @@
+body {
+  background: lightblue url("home.jpeg") no-repeat fixed center;
+  background-size: cover;
+}
