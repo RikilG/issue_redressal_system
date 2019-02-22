@@ -10,7 +10,10 @@ import FormRegister from './Components/Register/FormRegister';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentView: "Home" };
+    this.state = {
+      currentView: "Home",
+      signinStatus: false,
+    };
   }
 
   setView = (viewName) => {
@@ -29,7 +32,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <TopBar setView={this.setView} />
+        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} />
         {view}
       </div>
     );
