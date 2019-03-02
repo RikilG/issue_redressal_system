@@ -1,0 +1,66 @@
+.fillDetails {
+  background-color: rgba(17, 17, 17, 0.562);
+  text-align: center;
+  color: rgb(255, 141, 96);
+  width: 40vw;
+  /* margin: 12% 10%; */
+  margin: 5% auto;
+  border: 1px dashed slateblue;
+  border-radius: 5%;
+  padding: 2vw 3vw;
+}
+
+#carousel {
+  width: 25vw;
+  height: 20vw;
+  border: 0.5vw solid blue;
+  margin: 1vw auto;
+}
+
+/* HIDE RADIO */
+[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type="radio"] + img {
+  cursor: pointer;
+  padding: 2mm;
+  width: 12vw;
+  height: 12vw;
+  border: 2mm solid black;
+  margin: 1vw;
+}
+
+/* CHECKED STYLES */
+[type="radio"]:checked + img {
+  outline: 2px solid #f00;
+}
+
+#textbox {
+  width: 30vw;
+  height: 20vw;
+  border: 0.2vw solid maroon;
+}
+
+#btnRegister,
+#btnLogin,
+#tvEmail,
+#tvPassword {
+  transition: all 0.5s;
+}
+
+#btnRegister:hover,
+#btnLogin:hover {
+  transform: scale(1.1);
+}
+
+#tvEmail:focus,
+#tvPassword:focus {
+  /* transform: scale(1.05); */
+  transform: scale(1.05, 1.25);
+  border: 0.2vw solid rgb(228, 49, 49);
+}
