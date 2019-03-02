@@ -29,6 +29,10 @@ class TopBar extends Component {
     this.props.setView("Profile");
   };
 
+  handleFeedLink = () => {
+    this.props.setView("Feed");
+  }
+
   render() {
     let loginLink, logoutLink, registerLink;
     if (this.props.signinStatus) {
@@ -75,19 +79,19 @@ class TopBar extends Component {
             {/* <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link> */}
             {(this.props.signinStatus)?<NavDropdown title="Services" id="collasible-nav-dropdown">
-              <NavDropdown.Item
-                href="#action/3.1"
-                onSelect={this.handleDetailsLink}>
+              <NavDropdown.Item href="#action/3.1" onSelect={this.handleDetailsLink}>
                 Submit Issue
               </NavDropdown.Item>
               {/* <NavDropdown.Item href="#action/3.2">
                 Another action
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
+              <NavDropdown.Item href="#action/3.3">
+              Something
               </NavDropdown.Item> */}
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4" onSelect={this.handleFeedLink} >
+                Feed
+              </NavDropdown.Item>
             </NavDropdown>:null}
           </Nav>
           <Nav>

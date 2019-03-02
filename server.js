@@ -15,7 +15,7 @@ app.use(cors());
 app.get('/',(req,res) => {
     console.log(req);
     res.json(req.query);
-})
+});
 
 app.post('/login',(req,res) => {
     // console.log(req.body);
@@ -31,13 +31,25 @@ app.post('/login',(req,res) => {
             isAdmin: false
         });
     }
-})
+});
+
+app.post('/register',(req,res) => {
+    res.json({
+        status: "accepted"
+    });
+});
+
+app.post('/postIssue',(req,res) => {
+    res.json({
+        status: "accepted"
+    });
+});
 
 app.post('/feed',(req,res) => {
     res.json({
         issues: ['issue1','issue2','issue3','issues from '+req.body.email ]
     });
-})
+});
 
 app.post('/admin',(req,res) => {
     console.log(req.body);
@@ -50,7 +62,7 @@ app.post('/admin',(req,res) => {
     else {
         res.json({  });
     }
-})
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
@@ -58,4 +70,4 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
     console.log(`server running on : "http://localhost:${port}"`);
-})
+});

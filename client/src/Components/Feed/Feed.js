@@ -31,7 +31,7 @@ class Feed extends Component {
             <div id="feedRoot">
                 {issues.map((issue, index) =>
                     <p id="issues" key={index}>
-                    {issue}
+                    {issue.compliantName}
                     </p>
                 )}
             </div>

@@ -17,6 +17,7 @@
   border: 0.5vw solid blue;
   margin: 1vw auto;
   border-radius: 2vw;
+  transition: all 0.2s;
 }
 
 /* HIDE RADIO */
@@ -36,6 +37,7 @@
   height: 12vw;
   border: 2mm solid black;
   margin: 1vw;
+  transition: all 0.4s;
 }
 
 /* CHECKED STYLES */
