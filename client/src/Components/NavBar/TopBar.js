@@ -9,6 +9,7 @@ class TopBar extends Component {
   };
 
   handleLogoutLink = () => {
+    this.props.setSigninStatus(false,"");
     this.props.setView("Login");
   };
 
@@ -22,6 +23,10 @@ class TopBar extends Component {
 
   handleDetailsLink = () => {
     this.props.setView("FillDetails");
+  };
+
+  handleProfileLink = () => {
+    this.props.setView("Profile");
   };
 
   render() {
@@ -86,6 +91,14 @@ class TopBar extends Component {
             </NavDropdown>:null}
           </Nav>
           <Nav>
+            {(this.props.signinStatus)?
+              <Nav.Link
+                eventKey={3}
+                href="#profile"
+                onSelect={this.handleProfileLink}>
+                Profile
+              </Nav.Link>
+            :null}
             {registerLink}
             {loginLink}
             {logoutLink}
