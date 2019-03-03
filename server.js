@@ -13,8 +13,8 @@ if(err)
 console.log("connected");
 });
 
-var schema1=new Schema({ firstname:String,
-                        lastname:String,
+var schema1=new mongo.Schema({ fname:String,
+                        lname:String,
                         email:String,
                         password:String,
                         address1:String,
@@ -23,9 +23,17 @@ var schema1=new Schema({ firstname:String,
                         state:String,
                         pincode:Number
                         });
-var customer=mongo.model('customer',schema);
+var customer=mongo.model('customer',schema1);
 
-var schema2=new Schema({})
+var schema2=new mongo.Schema({complaintName:String,
+                            email:String,
+                            pay:Number,
+                            type:String,
+                            workNature:String,
+                            description:String
+                            });
+var issue=new mongo.model('issue',schema2);
+
 //serve react static files.
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
@@ -37,45 +45,64 @@ app.get('/',(req,res) => {
 })
 
 app.post('/login',(req,res) => {
-    // console.log(req.body);
-    if(req.body.email === "admin@issueredressal") {
+    if(req.body.email==="admin@issueredressal"&&req.body.password==="admin@123"){
         res.json({
-            validUser: true,
-            isAdmin: true
+            isAdmin:true,
+            validUser:true
         });
     }
-    else {
-        res.json({
-            validUser: true,
-            isAdmin: false
-        });
-    }
+    else{
+    customer.findOne({email:req.body.email},function(err,data){
+        if(data===null){
+            res.json({    
+                validUser:false,
+                isAdmin:false
+            });
+        }
+        else{
+            if(data.password===req.body.password){
+                res.json({
+                    validUser:true,
+                    isAdmin:false
+                });
+            }
+            else{
+                res.json({    
+                    validUser:false,
+                    isAdmin:false
+                });
+            }
+        }
+    });
+  }
 })
 app.post('/register',function(req,res){
-    var newcustm=new customer(req.body.json);
+    var newcustm=new customer(req.body);
     newcustm.save();
 });
 
-app.post('/register',(req,res) => {
-    console.log(req.body);
-})
+app.post('/postIssue',function(req,body){
+    var newissue=new issue(req.body);
+    newissue.save();
+});
 
 app.post('/feed',(req,res) => {
-    res.json({
-        issues: ['issue1','issue2','issue3','issues from '+req.body.email ]
-    });
-})
+    issue.find({email:req.body.email},function(err,issues){
+        res.json(issues);
+    })
+});
 
 app.post('/admin',(req,res) => {
     console.log(req.body);
     if(req.body.email === "admin@issueredressal") {
-        res.json({
-            users: ['user1','user2','user3'],
-            issues: ['issue1','issue2','issue3','issues from '+req.body.email ]
+        customer.find({},function(err,custms){
+            issue.find({},function(er,issues){
+                res.json(custms,issues);
+            });
         });
     }
     else {
-        res.json({  });
+        res.json({ });
     }
 })
 

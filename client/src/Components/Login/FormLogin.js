@@ -39,9 +39,12 @@ class FormLogin extends Component {
         this.props.setSigninStatus(true,this.state.email);
         this.props.setView("AdminHome");
       }
-      else if(data.validUser === true) {
+      else if(data.validUser) {
         this.props.setSigninStatus(true,this.state.email);
         this.props.setView("Feed");
+      }
+      else{
+        alert("Invalid credentials");
       }
     })
   }
