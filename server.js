@@ -78,17 +78,29 @@ app.post('/login',(req,res) => {
 })
 app.post('/register',function(req,res){
     var newcustm=new customer(req.body);
-    newcustm.save();
+    customer.findOne({email:req.body.email},function(err,data){
+        if(data==null){
+            newcustm.save();
+         res.json({
+           accepted:true
+        });
+       }
+       else{
+           res.json({accepted:false});
+       }
+    });
 });
 
-app.post('/postIssue',function(req,body){
+app.post('/postIssue',function(req,res){
     var newissue=new issue(req.body);
     newissue.save();
+    res.json({});
 });
 
 app.post('/feed',(req,res) => {
     issue.find({email:req.body.email},function(err,issues){
-        res.json(issues);
+        //console.log();
+        res.send(issues);
     })
 });
 
@@ -97,7 +109,10 @@ app.post('/admin',(req,res) => {
     if(req.body.email === "admin@issueredressal") {
         customer.find({},function(err,custms){
             issue.find({},function(er,issues){
-                res.json(custms,issues);
+                res.json({
+                    allCus:custms,
+                    allIss:issues
+                });
             });
         });
     }

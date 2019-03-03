@@ -13,7 +13,7 @@ class FillDetails extends Component {
       i: 0,
       complaintName: "",
       pay: "",
-      department: "",
+      department: "Choose...",
       description: "",
       other: "",
       type: "Household",
@@ -39,7 +39,9 @@ class FillDetails extends Component {
   }
   onDeptChange = (input) => {
     this.setState({ department: input.target.value });
-    console.log(input.target.value);
+  }
+  onPayChange = (input) => {
+    this.setState({ pay: input.target.value });
   }
   onIssueTypeChange = (input) => {
     if(input.target.value === "Community")
@@ -98,7 +100,7 @@ class FillDetails extends Component {
           <Form.Row>
             <Form.Group controlId="estimated pay" >
               <Form.Label>Estimated pay</Form.Label>
-              <Form.Control placeholder="Rs.1000" />
+              <Form.Control placeholder="Rs.1000" onChange={this.onPayChange} />
             </Form.Group>
           </Form.Row>
           <Form.Row>

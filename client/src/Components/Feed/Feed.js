@@ -6,7 +6,7 @@ class Feed extends Component {
         super(props);
         this.state = {
             email: this.props.email,
-            issues: []
+            issues: ['No Issues Here']
         }
     }
 
@@ -20,7 +20,9 @@ class Feed extends Component {
             })
         }).then(res => res.json())
         .then(data => {
-            this.setState({ issues: data.issues });
+            if(data.length !== 0) {
+                this.setState({ issues: data });
+            }
         });
     }
 
@@ -31,9 +33,8 @@ class Feed extends Component {
             <div id="feedRoot">
                 {issues.map((issue, index) =>
                     <p id="issues" key={index}>
-                    {issue.compliantName}
-                    </p>
-                )}
+                    {issue.complaintName}
+                    </p>)}
             </div>
         );
     }
