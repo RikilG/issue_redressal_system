@@ -141,7 +141,7 @@ class FormRegister extends Component {
             <Form.Group id="formGridCheckbox">
                 <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} />
             </Form.Group>
-        <Button variant="primary" onClick={this.handleRegister} >Submit</Button>
+            <Button variant="primary" onClick={this.handleRegister} >Submit</Button>
         </Form>
         </div>
       );
