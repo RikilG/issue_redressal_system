@@ -42,7 +42,7 @@ app.use(cors());
 app.get('/',(req,res) => {
     console.log(req);
     res.json(req.query);
-})
+});
 
 app.post('/login',(req,res) => {
     if(req.body.email==="admin@issueredressal"&&req.body.password==="admin@123"){
@@ -104,7 +104,7 @@ app.post('/admin',(req,res) => {
     else {
         res.json({ });
     }
-})
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
@@ -112,4 +112,4 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
     console.log(`server running on : "http://localhost:${port}"`);
-})
+});
