@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './FormRegister.css'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
+import {Form, Button, Col} from 'react-bootstrap';
 
 class FormRegister extends Component {
     constructor(props) {
@@ -17,6 +15,8 @@ class FormRegister extends Component {
             city: "",
             state: "",
             pincode: "",
+            mobile: "",
+            aadhaar: "",
             iAgree: false
         }
     }
@@ -33,11 +33,8 @@ class FormRegister extends Component {
     onPasswordChange = (input) => {
         this.setState({ password: input.target.value })
     }
-    onAdd1Change = (input) => {
+    onAddChange = (input) => {
         this.setState({ address1: input.target.value })
-    }
-    onAdd2Change = (input) => {
-        this.setState({ address2: input.target.value })
     }
     onCityChange = (input) => {
         this.setState({ city: input.target.value })
@@ -47,6 +44,12 @@ class FormRegister extends Component {
     }
     onPinChange = (input) => {
         this.setState({ pincode: input.target.value })
+    }
+    onMobileChange = (input) => {
+        this.setState({ mobile: input.target.value })
+    }
+    onAadhaarChange = (input) => {
+        this.setState({ aadhaar: input.target.value })
     }
     onChkChange = (input) => {
         this.setState({ iAgree:!this.state.iAgree });
@@ -84,14 +87,18 @@ class FormRegister extends Component {
           })
     }
 
+    handleServiceRegister = () => {
+        this.props.setView("ServiceProviderReg");
+    }
+
     render() {
       return (
           <div className="formregister">
-            <Form>
+            <Form onSubmit={this.handleRegister}>
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridFName">
                     <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" placeholder="First Name" onChange={this.onFnameChange} />
+                    <Form.Control type="text" placeholder="First Name" onChange={this.onFnameChange} required/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridLName">
                     <Form.Label>Last Name</Form.Label>
@@ -101,25 +108,31 @@ class FormRegister extends Component {
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} />
+                    <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} required/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} />
+                    <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
                 </Form.Group>
             </Form.Row>
             <Form.Group controlId="formGridAddress1">
-                <Form.Label>Address 1</Form.Label>
-                <Form.Control placeholder="1234 Main St" onChange={this.onAdd1Change} />
+                <Form.Label>Address</Form.Label>
+                <Form.Control placeholder="1234 Main St" onChange={this.onAddChange} />
             </Form.Group>
-            <Form.Group controlId="formGridAddress2">
-                <Form.Label>Address 2</Form.Label>
-                <Form.Control placeholder="Apartment, studio, or floor" onChange={this.onAdd2Change} />
-            </Form.Group>
+            <Form.Row>
+                <Form.Group as={Col} controlId="formGridMobile">
+                    <Form.Label>Mobile No.</Form.Label>
+                    <Form.Control placeholder="Mobile No" onChange={this.onMobileChange} required />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridAadhaar">
+                    <Form.Label>Aadhaar No.</Form.Label>
+                    <Form.Control placeholder="Aadhaar No" onChange={this.onAadhaarChange} required />
+                </Form.Group>
+            </Form.Row>
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridCity">
                     <Form.Label>City</Form.Label>
-                    <Form.Control placeholder="City" onChange={this.onCityChange} />
+                    <Form.Control placeholder="City" onChange={this.onCityChange} required />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridState">
                     <Form.Label>State</Form.Label>
@@ -140,14 +153,18 @@ class FormRegister extends Component {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridZip">
                     <Form.Label>Pin Code</Form.Label>
-                    <Form.Control placeholder="Pincode" onChange={this.onPinChange} />
+                    <Form.Control placeholder="Pincode" onChange={this.onPinChange} required />
                 </Form.Group>
             </Form.Row>
             <Form.Group id="formGridCheckbox">
-                <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} />
+                <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />
             </Form.Group>
-            <Button variant="primary" onClick={this.handleRegister} >Submit</Button>
+            <Button type="Submit" variant="primary" >Submit</Button>
         </Form>
+        <p>
+        <br />
+        <h5>Trying to help the society? <a href="#serviceReg" onClick={this.handleServiceRegister}>Register Here</a>.</h5>
+        </p>
         </div>
       );
     }

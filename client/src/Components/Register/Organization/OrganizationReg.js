@@ -1,0 +1,122 @@
+import React, { Component } from 'react';
+import './OrganizationReg.css';
+import {Form, Col, Button} from 'react-bootstrap';
+
+class OrganizationReg extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: "",
+            email: "",
+            password: "",
+            headquaters: "",
+            mobile: "",
+            workforce: "",
+            iAgree: false,
+            chkElectrician: false,
+            chkPlumber: false,
+            chkCarpenter: false,
+            chkCivil: false,
+            otherWork: "",
+            certificates: ""
+        }
+    }
+
+    onNameChange    = (input) => { this.setState({ name: input.target.value }) }
+    onEmailChange   = (input) => { this.setState({ email: input.target.value }) }
+    onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
+    onAddChange     = (input) => { this.setState({ headquaters: input.target.value }) }
+    onMobileChange  = (input) => { this.setState({ mobile: input.target.value }) }
+    onWorkforceChange=(input) => { this.setState({ workforce: input.target.value }) }
+    onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
+    onCertificatesChange=(input)=>{this.setState({ certificates:input.target.value })}
+
+    handleRegister = () => {
+        if(!this.state.iAgree) {
+            alert("Please agree to T&C to continue.")
+            return;
+        }
+        fetch("/regOrganization", {
+            method: "post",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password,
+                headquaters: this.state.headquaters,
+                mobile: this.state.mobile,
+                workforce: this.state.workforce,
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+              if(data.accepted){
+                alert("Successfully registered!!!, login to continue.");
+                this.props.setView("Home");
+              }
+                else
+                alert("Organization already enrolled, contact site admin for more details.");
+
+          })
+    }
+
+    render() {
+        return (
+            <div id="freelanRegRoot">
+            <h1>Organization</h1>
+            <Form onSubmit={this.handleRegister} >
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridName">
+                        <Form.Label>Name of Organization</Form.Label>
+                        <Form.Control type="text" placeholder="Organization Name" onChange={this.onNameChange} required />
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} required />
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formGridPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
+                    </Form.Group>
+                </Form.Row>
+                <Form.Group controlId="formGridAddress">
+                    <Form.Label>Headquaters location</Form.Label>
+                    <Form.Control placeholder="Ex: NH1, New Delhi" onChange={this.onAddChange} required />
+                </Form.Group>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridMobile">
+                        <Form.Label>Telephone No.</Form.Label>
+                        <Form.Control placeholder="Telephone No" onChange={this.onMobileChange} required />
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formGridWorkforce">
+                        <Form.Label>Workforce Count</Form.Label>
+                        <Form.Control placeholder="Ex: 58" onChange={this.onWorkforceChange} required />
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Label className="skills" as={Col} >Skills : </Form.Label>
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Electrician" onChange={(input) => this.setState({ chkElectrician:!this.state.chkElectrician })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber:!this.state.chkPlumber })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil:!this.state.chkCivil })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter:!this.state.chkCarpenter })} />
+                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridCertificates">
+                        <Form.Label>Certificates (if any) </Form.Label>
+                        <Form.Control type="text" placeholder="list of certificates" onChange={this.onCertificatesChange} />
+                    </Form.Group>
+                </Form.Row>
+                <Form.Group id="formGridCheckbox">
+                    <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />
+                </Form.Group>
+                <Button type="Submit" variant="primary" >Submit</Button>
+            </Form>
+            </div>
+        );
+    }
+}
+
+export default OrganizationReg;

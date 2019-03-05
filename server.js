@@ -34,6 +34,29 @@ var schema2=new mongo.Schema({complaintName:String,
                             });
 var issue=new mongo.model('issue',schema2);
 
+var freelancerSchema=new mongo.Schema({
+                                        fname: String,
+                                        lname: String,
+                                        email: String,
+                                        password: String,
+                                        address: String,
+                                        city: String,
+                                        state: String,
+                                        mobile: Number,
+                                        aadhaar: Number,
+                                        pincode: Number
+                                      });
+var freelancer=new mongo.model('freelancer',freelancerSchema);
+
+var organizationSchema=new mongo.Schema({
+                                            name: String,
+                                            email: String,
+                                            password: String,
+                                            headquaters: String,
+                                            mobile: Number,
+                                            workforce: Number,
+                                        });
+var organization=new mongo.model('organization',organizationSchema);
 //serve react static files.
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
@@ -76,11 +99,42 @@ app.post('/login',(req,res) => {
     });
   }
 })
+
 app.post('/register',function(req,res){
     var newcustm=new customer(req.body);
     customer.findOne({email:req.body.email},function(err,data){
         if(data==null){
             newcustm.save();
+         res.json({
+           accepted:true
+        });
+       }
+       else{
+           res.json({accepted:false});
+       }
+    });
+});
+
+app.post('/regFreelancer',function(req,res){
+    var newFreelancer=new freelancer(req.body);
+    freelancer.findOne({email:req.body.email},function(err,data){
+        if(data==null){
+            newFreelancer.save();
+         res.json({
+           accepted:true
+        });
+       }
+       else{
+           res.json({accepted:false});
+       }
+    });
+});
+
+app.post('/regOrganization',function(req,res){
+    var newOrganization=new organization(req.body);
+    organization.findOne({email:req.body.email},function(err,data){
+        if(data==null){
+            newOrganization.save();
          res.json({
            accepted:true
         });
