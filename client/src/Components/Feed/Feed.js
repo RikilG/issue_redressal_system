@@ -25,7 +25,6 @@ class Feed extends Component {
             }
         });
     }
-
     render() {
         let { issues } = this.state;
 
