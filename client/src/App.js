@@ -9,6 +9,7 @@ import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
 import FillDetails from './Components/IssueDetails/FillDetails';
 import FormRegister from './Components/Register/FormRegister';
+import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import Footer from './Components/Footer/Footer';
 
@@ -40,6 +41,7 @@ class App extends Component {
       case "Feed"     : view = <Feed setView={this.setView} email={this.state.email} />;break;
       case "FillDetails":view =<FillDetails email={this.state.email} setView={this.setView} />;break;
       case "AdminHome": view = <AdminHome email={this.state.email} />;break;
+      case "ServiceProviderReg":view=<ServiceProvider setView={this.setView} />;break;
       default         : alert("No Page To Load (case:default:App.js)");
     }
 
