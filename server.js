@@ -13,15 +13,17 @@ if(err)
 console.log("connected");
 });
 
-var schema1=new mongo.Schema({ fname:String,
+var schema1=new mongo.Schema({
+                        fname:String,
                         lname:String,
                         email:String,
                         password:String,
-                        address1:String,
-                        address2:String,
+                        address:String,
                         city:String,
                         state:String,
-                        pincode:Number
+                        pincode:Number,
+                        mobile:Number,
+                        aadhaar:Number
                         });
 var customer=mongo.model('customer',schema1);
 
@@ -126,6 +128,7 @@ app.post('/regFreelancer',function(req,res){
        }
        else{
            res.json({accepted:false});
+           console.log("Freelancer Rejected : "+req.body.email);
        }
     });
 });
@@ -141,6 +144,7 @@ app.post('/regOrganization',function(req,res){
        }
        else{
            res.json({accepted:false});
+           console.log("Organization Rejected : "+req.body.email);
        }
     });
 });

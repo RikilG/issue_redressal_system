@@ -10,8 +10,7 @@ class FormRegister extends Component {
             lname: "",
             email: "",
             password: "",
-            address1: "",
-            address2: "",
+            address: "",
             city: "",
             state: "",
             pincode: "",
@@ -34,7 +33,7 @@ class FormRegister extends Component {
         this.setState({ password: input.target.value })
     }
     onAddChange = (input) => {
-        this.setState({ address1: input.target.value })
+        this.setState({ address: input.target.value })
     }
     onCityChange = (input) => {
         this.setState({ city: input.target.value })
@@ -68,11 +67,12 @@ class FormRegister extends Component {
                 lname: this.state.lname,
                 email: this.state.email,
                 password: this.state.password,
-                address1: this.state.address1,
-                address2: this.state.address2,
+                address: this.state.address,
                 city: this.state.city,
                 state: this.state.state,
-                pincode: this.state.pincode
+                pincode: this.state.pincode,
+                mobile: this.state.mobile,
+                aadhaar: this.state.aadhaar
             })
           })
           .then(res => res.json())
@@ -115,7 +115,7 @@ class FormRegister extends Component {
                     <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
                 </Form.Group>
             </Form.Row>
-            <Form.Group controlId="formGridAddress1">
+            <Form.Group controlId="formGridAddress">
                 <Form.Label>Address</Form.Label>
                 <Form.Control placeholder="1234 Main St" onChange={this.onAddChange} />
             </Form.Group>
