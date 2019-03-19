@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
@@ -7,10 +8,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 mongo.connect('mongodb://raj:raj1@cluster0-shard-00-00-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-01-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-02-ojo88.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',{useNewUrlParser:true},function(err){
-if(err)
-  console.log(err);
-  else
-console.log("connected");
+    if(err)
+        console.log(err);
+    else {
+        var datetime = new Date(Date.now() + 5.5); //offset for IST
+        console.log(datetime.toString() + " : connected");
+        fs.appendFile("ServerLog.txt", datetime.toString() + " Connected to mongoDB atlas\n",(err)=>{if(err) console.log(err)});
+    }
 });
 
 var schema1=new mongo.Schema({
@@ -67,6 +71,13 @@ app.use(cors());
 app.get('/',(req,res) => {
     console.log(req);
     res.json(req.query);
+});
+
+app.get('/logs',(req,res) => {
+    console.log('log req received');
+    // console.log(req);
+    fs.appendFile("/ServerLog.txt", "Log Accessed\n",(err)=>{if(err) console.log(err)});
+    res.sendFile(path.join(__dirname+'/ServerLog.txt'));
 });
 
 app.post('/login',(req,res) => {
@@ -128,7 +139,8 @@ app.post('/regFreelancer',function(req,res){
        }
        else{
            res.json({accepted:false});
-           console.log("Freelancer Rejected : "+req.body.email);
+           //console.log("Freelancer Rejected : "+req.body.email);
+           fs.appendFile("/ServerLog.txt", "Freelancer Rejected : "+req.body.email+"\n");
        }
     });
 });
@@ -144,7 +156,8 @@ app.post('/regOrganization',function(req,res){
        }
        else{
            res.json({accepted:false});
-           console.log("Organization Rejected : "+req.body.email);
+           //console.log("Organization Rejected : "+req.body.email);
+           fs.appendFile("/ServerLog.txt", "Organization Rejected : "+req.body.email+"\n");
        }
     });
 });
