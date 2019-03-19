@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/',(req,res) => {
-    console.log(req);
+    // console.log(req);
     res.json(req.query);
 });
 
@@ -176,13 +176,18 @@ app.post('/feed',(req,res) => {
 });
 
 app.post('/admin',(req,res) => {
-    console.log(req.body);
     if(req.body.email === "admin@issueredressal") {
-        customer.find({},function(err,custms){
+        customer.find({},function(err,customers){
             issue.find({},function(er,issues){
-                res.json({
-                    allCus:custms,
-                    allIss:issues
+                freelancer.find({},function(err,freelancers){
+                    organization.find({},function(err,organizations){
+                        res.json({
+                            allCus:customers,
+                            allIss:issues,
+                            allFreelan:freelancers,
+                            allOrgs:organizations
+                        });
+                    });
                 });
             });
         });
