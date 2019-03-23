@@ -26,23 +26,10 @@ class AdminHome extends Component {
             })
         }).then(res => res.json())
         .then(data => {
-            // let allIssues = [], allCustomers = [];
-            let allIssues = data.allIss.map((issue, index) => {
-                return new Issue(issue);
-                // allIssues.push(x);
-            });
-            let allCustomers = data.allCus.map((customer, index) => {
-                return new Customer(customer);
-                // allCustomers.push(x);
-            });
-            let allFreelancers = data.allFreelan.map((freelancer, index) => {
-                return new Freelancer(freelancer);
-                // allCustomers.push(x);
-            });
-            let allOrganizations = data.allOrgs.map((organization, index) => {
-                return new Organization(organization);
-                // allCustomers.push(x);
-            });
+            let allIssues       = data.allIss.map((issue, index) => { return new Issue(issue); });
+            let allCustomers    = data.allCus.map((customer, index) => { return new Customer(customer); });
+            let allFreelancers  = data.allFreelan.map((freelancer, index) => { return new Freelancer(freelancer); });
+            let allOrganizations= data.allOrgs.map((organization, index) => { return new Organization(organization); });
             this.setState({
                 issues: allIssues,
                 users: allCustomers,
@@ -118,7 +105,7 @@ class AdminHome extends Component {
                 </Tab.Container>
                 </div>
                 <div>
-                    <Button variant="outline-info" size="lg" onClick={this.fetchLog}>Get Log</Button>
+                    <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Generate Log</Button>
                 </div>
             </div>
         );

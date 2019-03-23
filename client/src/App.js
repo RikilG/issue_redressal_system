@@ -19,6 +19,7 @@ class App extends Component {
     this.state = {
       currentView: "Home",
       signinStatus: false,
+      isAdmin: false,
       email: ""
     };
   }
@@ -29,6 +30,7 @@ class App extends Component {
   }
 
   setSigninStatus = (boolValue,userEmail) => this.setState({ signinStatus: boolValue, email: userEmail });
+  setAdmin = (boolValue) => this.setState({ isAdmin: boolValue });
 
   render() {
     let view;
@@ -36,8 +38,8 @@ class App extends Component {
     switch(currentView) {
       case "Register" : view = <FormRegister setView={this.setView} />;break;
       case "Profile"  : view = <Profile />;break;
-      case "Login"    : view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} />;break;
-      case "Home"     : view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} />;break;
+      case "Login"    : view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} />;break;
+      case "Home"     : view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} />;break;
       case "Feed"     : view = <Feed setView={this.setView} email={this.state.email} />;break;
       case "FillDetails":view =<FillDetails email={this.state.email} setView={this.setView} />;break;
       case "AdminHome": view = <AdminHome email={this.state.email} />;break;
@@ -47,7 +49,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} />
+        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} />
         {view}
         <footer id="footer"><Footer /></footer>
       </div>

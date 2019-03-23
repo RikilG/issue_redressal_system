@@ -4,34 +4,24 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 class TopBar extends Component {
-  handleLoginLink = () => {
-    this.props.setView("Login");
+
+  handleLoginLink     = () => { this.props.setView("Login"); };
+  handleRegisterLink  = () => { this.props.setView("Register"); };
+  handleDetailsLink   = () => { this.props.setView("FillDetails"); };
+  handleProfileLink   = () => { this.props.setView("Profile"); };
+  handleFeedLink      = () => { this.props.setView("Feed"); };
+
+  handleHomeLink      = () => {
+    if(!this.props.isAdmin)
+      this.props.setView("Home");
+    else
+      this.props.setView("AdminHome")
   };
 
   handleLogoutLink = () => {
     this.props.setSigninStatus(false,"");
     this.props.setView("Login");
   };
-
-  handleRegisterLink = () => {
-    this.props.setView("Register");
-  };
-
-  handleHomeLink = () => {
-    this.props.setView("Home");
-  };
-
-  handleDetailsLink = () => {
-    this.props.setView("FillDetails");
-  };
-
-  handleProfileLink = () => {
-    this.props.setView("Profile");
-  };
-
-  handleFeedLink = () => {
-    this.props.setView("Feed");
-  }
 
   render() {
     let loginLink, logoutLink, registerLink;
@@ -41,7 +31,8 @@ class TopBar extends Component {
           Logout
         </Nav.Link>
       );
-    } else {
+    }
+    else {
       loginLink = (
         <Nav.Link href="#login" onSelect={this.handleLoginLink}>
           Login
@@ -78,7 +69,7 @@ class TopBar extends Component {
             {/* add features and pricing here */}
             {/* <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link> */}
-            {(this.props.signinStatus)?<NavDropdown title="Services" id="collasible-nav-dropdown">
+            {(this.props.signinStatus && !this.props.isAdmin)?<NavDropdown title="Services" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1" onSelect={this.handleDetailsLink}>
                 Submit Issue
               </NavDropdown.Item>
