@@ -5,15 +5,16 @@ import Customer from '../../Classes/Customer';
 import Issue from '../../Classes/Issue';
 import Freelancer from '../../Classes/Freelancer';
 import Organization from '../../Classes/Organization';
+import CardX from '../../Classes/CardX/CardX';
 
 class AdminHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            issues: ["Loading..."],
-            users: ["Loading..."],
-            freelancers: ["Loading..."],
-            organizations: ["Loading..."]
+            issues: [],
+            users: [],
+            freelancers: [],
+            organizations: []
         };
     }
 
@@ -88,16 +89,20 @@ class AdminHome extends Component {
                         <Col sm={9}>
                             <Tab.Content>
                                 <Tab.Pane eventKey="issueTab" id="issuesContainer">
-                                    {issues.map((issue, index) => <p id="element" key={index}>{issue.complaintName}</p> )}
+                                    {/* {issues.map((issue, index) => <p id="element" key={index}>{issue.complaintName}</p> )} */}
+                                    {issues.map((issue, index) => <CardX header={issue.complaintName} content={issue} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="customerTab" id="usersContainer">
-                                    {users.map((user, index) => <p id="element" key={index}>{user.fname}</p> )}
+                                    {/* {users.map((user, index) => <p id="element" key={index}>{user.fname}</p> )} */}
+                                    {users.map((user, index) => <CardX header={user.fname} content={user} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
-                                    {freelancers.map((freelancer, index) => <p id="element" key={index}>{freelancer.fname}</p> )}
+                                    {/* {freelancers.map((freelancer, index) => <p id="element" key={index}>{freelancer.fname}</p> )} */}
+                                    {freelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="organizationTab" id="orgContainer">
-                                    {organizations.map((organization, index) => <p id="element" key={index}>{organization.name}</p> )}
+                                    {/* {organizations.map((organization, index) => <p id="element" key={index}>{organization.name}</p> )} */}
+                                    {organizations.map((organization, index) => <CardX header={organization.name} content={organization} key={index} /> )}
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>
