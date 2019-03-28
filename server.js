@@ -17,7 +17,7 @@ mongo.connect('mongodb://raj:raj1@cluster0-shard-00-00-ojo88.gcp.mongodb.net:270
     }
 });
 
-var schema1=new mongo.Schema({
+var cusSchema=new mongo.Schema({
                         fname:String,
                         lname:String,
                         email:String,
@@ -29,16 +29,16 @@ var schema1=new mongo.Schema({
                         mobile:Number,
                         aadhaar:Number
                         });
-var customer=mongo.model('customer',schema1);
+var customer=mongo.model('customer',cusSchema);
 
-var schema2=new mongo.Schema({complaintName:String,
+var issueSchema=new mongo.Schema({complaintName:String,
                             email:String,
                             pay:Number,
                             type:String,
                             workNature:String,
                             description:String
                             });
-var issue=new mongo.model('issue',schema2);
+var issue=new mongo.model('issue',issueSchema);
 
 var freelancerSchema=new mongo.Schema({
                                         fname: String,
@@ -194,6 +194,27 @@ app.post('/admin',(req,res) => {
     }
     else {
         res.json({ });
+    }
+});
+
+app.post('/adminDelete', (req,res) => {
+    switch(req.body.documentName) {
+        case 'Issue': issue.deleteOne({_id: req.body.id}, (err) => {
+            if(err) res.json({errorStatus: true});
+            else res.json({errorStatus: false});
+        });break;
+        case 'Freelancer': freelancer.deleteOne({_id: req.body.id}, (err) => {
+            if(err) res.json({errorStatus: true});
+            else res.json({errorStatus: false});
+        });break;
+        case 'Organization': organization.deleteOne({_id: req.body.id}, (err) => {
+            if(err) res.json({errorStatus: true});
+            else res.json({errorStatus: false});
+        });break;
+        case 'Customer': customer.deleteOne({_id: req.body.id}, (err) => {
+            if(err) res.json({errorStatus: true});
+            else res.json({errorStatus: false});
+        });break;
     }
 });
 

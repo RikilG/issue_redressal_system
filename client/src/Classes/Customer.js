@@ -1,5 +1,6 @@
 class Customer {
     constructor(jsonObject) {
+        this.id = jsonObject._id;
         this.fname = jsonObject.fname;
         this.lname = jsonObject.lname;
         this.email = jsonObject.email;

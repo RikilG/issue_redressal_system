@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import deleteIcon from '../../Assets/delete.png';
-import editIcon from '../../Assets/edit.png';
 import './CardX.css';
 import '../Customer';
 import '../Freelancer';
@@ -85,19 +84,38 @@ class CardX extends Component {
     }
 
     toggleBody = () => { this.setState({ showBody: !this.state.showBody }); }
-    deleteItemHandler = () => {console.log("Delete item invoked")}
-    editItemHandler = () => {console.log("Edit item invoked")}
+    deleteItemHandler = () => {
+        if(window.confirm("This operation is not reversible. Do you want to continue?")) {
+            fetch('/adminDelete', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    documentName: this.props.content.className,
+                    id: this.props.content.id
+                })
+            }).then(res => res.json())
+            .then(data => {
+                if(!data.errorStatus) {
+                    //page reload
+                    this.props.parent.componentDidMount();
+                }
+            });
+        }
+    }
 
     render() {
         return (
             <div className="cardxRoot">
-                <div className="cardxHeader" onClick={this.toggleBody} >{this.props.header}</div>
-                {this.state.showBody && (
-                    <div className="cardxBody" onClick={this.toggleBody} >
+                <div className="cardxHeader" onClick={this.toggleBody} >
+                    {this.props.header}
+                    {this.state.showBody && (
                         <div id="controls">
                             <img src={deleteIcon} alt='delete' onClick={this.deleteItemHandler} />
-                            <img src={editIcon} alt='edit' onClick={this.editItemHandler} />
                         </div>
+                    )}
+                </div>
+                {this.state.showBody && (
+                    <div className="cardxBody" onClick={this.toggleBody} >
                         {this.state.content}
                     </div>
                 )}

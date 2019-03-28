@@ -44,12 +44,10 @@
 
 #controls img {
     float: right;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
-    padding: 0.2vw;
+    padding: 0.3vw;
     border: 1px solid black;
     border-radius: 0.5vw;
-    height: 3vw;
-    width: 3vw;
+    height: 2.1vw;
+    width: 2.1vw;
     cursor: pointer;
 }
