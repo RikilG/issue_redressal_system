@@ -10,10 +10,10 @@ class ServiceProvider extends Component {
             <div id="serviceRegRoot">
                 <Tabs defaultActiveKey="freelancerReg" id="uncontrolled-tab-example">
                     <Tab eventKey="freelancerReg" title="Freelancer">
-                        <FreelancerReg />
+                        <FreelancerReg setView={this.props.setView} />
                     </Tab>
                     <Tab eventKey="organizationReg" title="Organization">
-                        <OrganizationReg />
+                        <OrganizationReg setView={this.props.setView} />
                     </Tab>
                     {/* <Tab eventKey="contact" title="Contact" disabled>
                         <Sonnet />

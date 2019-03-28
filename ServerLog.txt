@@ -1,0 +1,12 @@
+FUNCTION TO APPEND TO LOG
+fs.appendFile("/ServerLog.txt", "Hey there!", function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The file was saved!");
+});
+
+FUNCTION WE USE because we cannot see console.log from heroku
+fs.appendFile("/ServerLog.txt", "Hey there!");
+
+>>>>>LOG<<<<

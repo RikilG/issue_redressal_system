@@ -66,31 +66,31 @@ class OrganizationReg extends Component {
             <h1>Organization</h1>
             <Form onSubmit={this.handleRegister} >
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridName">
+                    <Form.Group as={Col} controlId="formOrgName">
                         <Form.Label>Name of Organization</Form.Label>
                         <Form.Control type="text" placeholder="Organization Name" onChange={this.onNameChange} required />
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Group as={Col} controlId="formOrgEmail">
                         <Form.Label>Email</Form.Label>
                         <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} required />
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formGridPassword">
+                    <Form.Group as={Col} controlId="formOrgPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
                     </Form.Group>
                 </Form.Row>
-                <Form.Group controlId="formGridAddress">
+                <Form.Group controlId="formOrgAddress">
                     <Form.Label>Headquaters location</Form.Label>
                     <Form.Control placeholder="Ex: NH1, New Delhi" onChange={this.onAddChange} required />
                 </Form.Group>
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridMobile">
+                    <Form.Group as={Col} controlId="formOrgMobile">
                         <Form.Label>Telephone No.</Form.Label>
                         <Form.Control placeholder="Telephone No" onChange={this.onMobileChange} required />
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formGridWorkforce">
+                    <Form.Group as={Col} controlId="formOrgWorkforce">
                         <Form.Label>Workforce Count</Form.Label>
                         <Form.Control placeholder="Ex: 58" onChange={this.onWorkforceChange} required />
                     </Form.Group>
@@ -101,15 +101,15 @@ class OrganizationReg extends Component {
                     <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber:!this.state.chkPlumber })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil:!this.state.chkCivil })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter:!this.state.chkCarpenter })} />
-                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
+                    <Form.Group as={Col} controlId="otherOrgWork"><Form.Control placeholder="Other Skills" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
                 </Form.Row>
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridCertificates">
+                    <Form.Group as={Col} controlId="formOrgCertificates">
                         <Form.Label>Certificates (if any) </Form.Label>
                         <Form.Control type="text" placeholder="list of certificates" onChange={this.onCertificatesChange} />
                     </Form.Group>
                 </Form.Row>
-                <Form.Group id="formGridCheckbox">
+                <Form.Group id="formOrgCheckbox">
                     <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />
                 </Form.Group>
                 <Button type="Submit" variant="primary" >Submit</Button>
