@@ -1,5 +1,7 @@
 #issuesContainer,
-#usersContainer {
+#usersContainer,
+#freelanContainer,
+#orgContainer {
     margin: 1vw;
     justify-content: center;
     padding: 1%;
@@ -7,24 +9,29 @@
     border-radius: 0.5vw;
 }
 
-#issues,
-#users {
+#element {
     background-color: whitesmoke;
     border-radius: 0.5vw;
     padding: 1vw;
+    margin-bottom: 1vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
     transition: all 0.4s;
 }
 
-#issues:hover {
-    background-color: lightblue;
-    transform: scale(1.008);
-}
-
-#users:hover {
+#element:hover {
     background-color: lightgreen;
     transform: scale(1.008);
 }
 
 #containerTitle {
     color: yellow;
+}
+
+#adminTabs {
+    margin: 1.5vw;
+}
+
+#btnLog {
+    margin: 1vw;
 }

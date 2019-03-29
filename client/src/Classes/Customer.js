@@ -1,5 +1,6 @@
 class Customer {
     constructor(jsonObject) {
+        this.id = jsonObject._id;
         this.fname = jsonObject.fname;
         this.lname = jsonObject.lname;
         this.email = jsonObject.email;
@@ -10,6 +11,7 @@ class Customer {
         this.pincode = jsonObject.pincode;
         this.mobile = jsonObject.mobile;
         this.aadhaar = jsonObject.aadhaar;
+        this.className = "Customer";
     }
 }
 
