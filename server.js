@@ -36,7 +36,8 @@ var issueSchema=new mongo.Schema({complaintName:String,
                             pay:Number,
                             type:String,
                             workNature:String,
-                            description:String
+                            description:String,
+                            status:String
                             });
 var issue=new mongo.model('issue',issueSchema);
 
@@ -84,6 +85,13 @@ app.post('/login',(req,res) => {
     if(req.body.email==="admin@issueredressal"&&req.body.password==="admin@123"){
         res.json({
             isAdmin:true,
+            validUser:true
+        });
+    }
+    else if(req.body.email==="ombudsman@issueredressal" && req.body.password==="ombud@123") {
+        res.json({
+            isAdmin:false,
+            isOmbudsman:true,
             validUser:true
         });
     }
@@ -217,6 +225,19 @@ app.post('/adminDelete', (req,res) => {
         });break;
     }
 });
+
+app.post('/Ombudsman', (req,res) => {
+    if(req.body.email === "ombudsman@issueredressal") {
+        issue.find({type: "Community"},function(er,comIssues){
+            issue.find({type: "Government"},function(er,govtIssues){
+                res.json({
+                    community: comIssues,
+                    government: govtIssues
+                });
+            });
+        });
+    }
+})
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));

@@ -20,6 +20,7 @@ class CardX extends Component {
                     Type: {this.props.content.type}<br/>
                     WorkNature: {this.props.content.workNature}<br/>
                     Description: {this.props.content.description}<br/>
+                    Status: {this.props.status}<br/>
                 </div>
             )
         }
@@ -108,7 +109,7 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
-                    {this.state.showBody && (
+                    {this.state.showBody && this.props.isAdmin && (
                         <div id="controls">
                             <img src={deleteIcon} alt='delete' onClick={this.deleteItemHandler} />
                         </div>

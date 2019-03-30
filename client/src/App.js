@@ -7,11 +7,12 @@ import Home from './Components/Home/Home';
 import Feed from './Components/Feed/Feed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
+import OmbudsmanHome from './Components/Ombudsman/OmbudsmanHome';
 import FillDetails from './Components/IssueDetails/FillDetails';
 import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
-import Footer from './Components/Footer/Footer';
+// import Footer from './Components/Footer/Footer';
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class App extends Component {
       case "Feed"     : view = <Feed setView={this.setView} email={this.state.email} />;break;
       case "FillDetails":view =<FillDetails email={this.state.email} setView={this.setView} />;break;
       case "AdminHome": view = <AdminHome email={this.state.email} />;break;
+      case "OmbudsmanHome":view = <OmbudsmanHome email={this.state.email} setView={this.setView} />;break;
       case "ServiceProviderReg":view=<ServiceProvider setView={this.setView} />;break;
       default         : alert("No Page To Load (case:default:App.js)");
     }
@@ -51,7 +53,7 @@ class App extends Component {
       <div className="App">
         <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} />
         {view}
-        <footer id="footer"><Footer /></footer>
+        {/* <footer id="footer"><Footer /></footer> */}
       </div>
     );
   }
