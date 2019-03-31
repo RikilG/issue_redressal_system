@@ -228,15 +228,28 @@ app.post('/adminDelete', (req,res) => {
 
 app.post('/Ombudsman', (req,res) => {
     if(req.body.email === "ombudsman@issueredressal") {
-        issue.find({type: "Community"},function(er,comIssues){
-            issue.find({type: "Government"},function(er,govtIssues){
-                res.json({
-                    community: comIssues,
-                    government: govtIssues
+        issue.find({ type: "Government", status: { $nin: ["In Progress","Completed"]} }, function (er, untracked) {
+            issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
+                issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
+                    res.json({
+                        trakedIssues: tracked,
+                        untrackedIssues: untracked,
+                        completedIssues: completed
+                    });
                 });
             });
         });
     }
+})
+
+app.post('/ombudTrack', (req,res) => {
+    issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
+        if (err) {
+            res.json({ errorStatus: true });
+            console.log(err);
+        }
+        else res.json({ errorStatus: false });
+    });
 })
 
 app.get('*', (req, res) => {

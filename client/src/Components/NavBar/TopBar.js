@@ -12,16 +12,22 @@ class TopBar extends Component {
   handleFeedLink      = () => { this.props.setView("Feed"); };
 
   handleHomeLink      = () => {
-    if(!this.props.isAdmin)
-      this.props.setView("Home");
+    if(this.props.isAdmin)
+      this.props.setView("AdminHome");
+    else if(this.props.isOmbudsman)
+      this.props.setView("OmbudsmanHome");
     else
-      this.props.setView("AdminHome")
+      this.props.setView("Home")
   };
 
   handleLogoutLink = () => {
     this.props.setSigninStatus(false,"");
     this.props.setView("Login");
   };
+
+  handleOmbudsmanPosts = () => {
+    this.props.setCompletedIssues(!this.props.completedIssues);
+  }
 
   render() {
     let loginLink, logoutLink, registerLink;
@@ -67,11 +73,14 @@ class TopBar extends Component {
               Home
             </Nav.Link>
             {/* add features and pricing here */}
-            {(this.props.signinStatus && !this.props.isAdmin)?
+            {(this.props.signinStatus && !this.props.isAdmin && !this.props.isOmbudsman)?
             <React.Fragment>
-            <Nav.Link href="#feed">Feed</Nav.Link>
-            <Nav.Link href="#postIssue">Post Issue</Nav.Link>
+            <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
+            <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>
             </React.Fragment>
+            :null}
+            {(this.props.isOmbudsman)?
+            <Nav.Link href="#prevPosts" onSelect={this.handleOmbudsmanPosts} >Completed Issues</Nav.Link>
             :null}
             {/* {(this.props.signinStatus && !this.props.isAdmin)?<NavDropdown title="Services" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1" onSelect={this.handleDetailsLink}>
