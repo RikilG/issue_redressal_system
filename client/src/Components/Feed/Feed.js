@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Feed.css';
 import Issue from '../../Classes/Issue';
-import CardXFeed from '../../Classes/CardXFeed/CardXFeed';
+import CardXFeed from '../../Classes/CardX/CardXFeed';
 
 class Feed extends Component {
     constructor(props) {
@@ -33,7 +33,7 @@ class Feed extends Component {
             <div id="feedRoot">
                 <h1 id="myFeed"> My Feed </h1>
                 <br/> 
-                {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} /> )}
+                {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} myIssues={true} /> )}
                 <br/> 
                 <h1 id="myFeed"> Community Feed</h1>
                 <br/>

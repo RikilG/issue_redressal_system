@@ -7,6 +7,7 @@ class Issue {
         this.type = jsonObject.type;
         this.workNature = jsonObject.workNature;
         this.description = jsonObject.description;
+        this.status = jsonObject.status;
         this.className = "Issue";
     }
 }

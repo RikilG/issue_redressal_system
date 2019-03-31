@@ -36,7 +36,8 @@ var issueSchema=new mongo.Schema({complaintName:String,
                             pay:Number,
                             type:String,
                             workNature:String,
-                            description:String
+                            description:String,
+                            status:String
                             });
 var issue=new mongo.model('issue',issueSchema);
 
@@ -84,6 +85,13 @@ app.post('/login',(req,res) => {
     if(req.body.email==="admin@issueredressal"&&req.body.password==="admin@123"){
         res.json({
             isAdmin:true,
+            validUser:true
+        });
+    }
+    else if(req.body.email==="ombudsman@issueredressal" && req.body.password==="ombud@123") {
+        res.json({
+            isAdmin:false,
+            isOmbudsman:true,
             validUser:true
         });
     }
@@ -175,6 +183,16 @@ app.post('/feed',(req,res) => {
     })
 });
 
+app.post('/redirectGovt', (req,res) => {
+    issue.findByIdAndUpdate(req.body.id, { type: "Government" }, (err) => {
+        if (err) {
+            res.json({ errorStatus: true });
+            console.log(err);
+        }
+        else res.json({ errorStatus: false });
+    });
+})
+
 app.post('/admin',(req,res) => {
     if(req.body.email === "admin@issueredressal") {
         customer.find({},function(err,customers){
@@ -217,6 +235,32 @@ app.post('/adminDelete', (req,res) => {
         });break;
     }
 });
+
+app.post('/Ombudsman', (req,res) => {
+    if(req.body.email === "ombudsman@issueredressal") {
+        issue.find({ type: "Government", status: { $nin: ["In Progress","Completed"]} }, function (er, untracked) {
+            issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
+                issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
+                    res.json({
+                        trakedIssues: tracked,
+                        untrackedIssues: untracked,
+                        completedIssues: completed
+                    });
+                });
+            });
+        });
+    }
+})
+
+app.post('/ombudTrack', (req,res) => {
+    issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
+        if (err) {
+            res.json({ errorStatus: true });
+            console.log(err);
+        }
+        else res.json({ errorStatus: false });
+    });
+})
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));

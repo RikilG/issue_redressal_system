@@ -39,10 +39,19 @@ class FormLogin extends Component {
         this.props.setSigninStatus(true,this.state.email);
         this.props.setView("AdminHome");
         this.props.setAdmin(true);
+        this.props.setOmbudsman(false);
+      }
+      else if(data.isOmbudsman) {
+        this.props.setSigninStatus(true,this.state.email);
+        this.props.setView("OmbudsmanHome");
+        this.props.setOmbudsman(true);
+        this.props.setAdmin(false); //to remove post issue from navbar
       }
       else if(data.validUser) {
         this.props.setSigninStatus(true,this.state.email);
         this.props.setView("Feed");
+        this.props.setAdmin(false);
+        this.props.setOmbudsman(false);
       }
       else{
         alert("Invalid credentials");

@@ -91,19 +91,19 @@ class AdminHome extends Component {
                             <Tab.Content>
                                 <Tab.Pane eventKey="issueTab" id="issuesContainer">
                                     {/* {issues.map((issue, index) => <p id="element" key={index}>{issue.complaintName}</p> )} */}
-                                    {issues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} key={index} /> )}
+                                    {issues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="customerTab" id="usersContainer">
                                     {/* {users.map((user, index) => <p id="element" key={index}>{user.fname}</p> )} */}
-                                    {users.map((user, index) => <CardX header={user.fname} content={user} parent={this} key={index} /> )}
+                                    {users.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
                                     {/* {freelancers.map((freelancer, index) => <p id="element" key={index}>{freelancer.fname}</p> )} */}
-                                    {freelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} key={index} /> )}
+                                    {freelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} /> )}
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="organizationTab" id="orgContainer">
                                     {/* {organizations.map((organization, index) => <p id="element" key={index}>{organization.name}</p> )} */}
-                                    {organizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} key={index} /> )}
+                                    {organizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} /> )}
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>
