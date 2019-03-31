@@ -183,6 +183,16 @@ app.post('/feed',(req,res) => {
     })
 });
 
+app.post('/redirectGovt', (req,res) => {
+    issue.findByIdAndUpdate(req.body.id, { type: "Government" }, (err) => {
+        if (err) {
+            res.json({ errorStatus: true });
+            console.log(err);
+        }
+        else res.json({ errorStatus: false });
+    });
+})
+
 app.post('/admin',(req,res) => {
     if(req.body.email === "admin@issueredressal") {
         customer.find({},function(err,customers){
