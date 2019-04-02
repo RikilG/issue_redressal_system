@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Button, Tab, Row, Col, Nav } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./EditIssue.css";
-import Customer from "../../Classes/Customer";
-import Issue from "../../Classes/Issue";
-import Freelancer from "../../Classes/Freelancer";
-import Organization from "../../Classes/Organization";
-import CardX from "../../Classes/CardX/CardX";
+// import Customer from "../../Classes/Customer";
+// import Issue from "../../Classes/Issue";
+// import Freelancer from "../../Classes/Freelancer";
+// import Organization from "../../Classes/Organization";
+// import CardX from "../../Classes/CardX/CardX";
 
 class EditIssue extends Component {
   constructor(props) {

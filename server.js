@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 mongo.connect(
   "mongodb://raj:raj1@cluster0-shard-00-00-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-01-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-02-ojo88.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
   { useNewUrlParser: true },
-  function(err) {
+  function (err) {
     if (err) console.log(err);
     else {
       var datetime = new Date(Date.now() + 5.5); //offset for IST
@@ -38,7 +38,7 @@ var cusSchema = new mongo.Schema({
   mobile: Number,
   aadhaar: Number
 });
-var customer = mongo.model("customer", cusSchema);
+var customer = mongo.model('customer', cusSchema);
 
 var issueSchema = new mongo.Schema({
   complaintName: String,
@@ -46,9 +46,10 @@ var issueSchema = new mongo.Schema({
   pay: Number,
   type: String,
   workNature: String,
-  description: String
+  description: String,
+  status: String
 });
-var issue = new mongo.model("issue", issueSchema);
+var issue = new mongo.model('issue', issueSchema);
 
 var freelancerSchema = new mongo.Schema({
   fname: String,
@@ -62,7 +63,7 @@ var freelancerSchema = new mongo.Schema({
   aadhaar: Number,
   pincode: Number
 });
-var freelancer = new mongo.model("freelancer", freelancerSchema);
+var freelancer = new mongo.model('freelancer', freelancerSchema);
 
 var organizationSchema = new mongo.Schema({
   name: String,
@@ -70,9 +71,9 @@ var organizationSchema = new mongo.Schema({
   password: String,
   headquaters: String,
   mobile: Number,
-  workforce: Number
+  workforce: Number,
 });
-var organization = new mongo.model("organization", organizationSchema);
+var organization = new mongo.model('organization', organizationSchema);
 //serve react static files.
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
@@ -92,29 +93,36 @@ app.get("/logs", (req, res) => {
   res.sendFile(path.join(__dirname + "/ServerLog.txt"));
 });
 
-app.post("/login", (req, res) => {
-  if (
-    req.body.email === "admin@issueredressal" &&
-    req.body.password === "admin@123"
-  ) {
+app.post('/login', (req, res) => {
+  if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
     res.json({
       isAdmin: true,
       validUser: true
     });
-  } else {
-    customer.findOne({ email: req.body.email }, function(err, data) {
+  }
+  else if (req.body.email === "ombudsman@issueredressal" && req.body.password === "ombud@123") {
+    res.json({
+      isAdmin: false,
+      isOmbudsman: true,
+      validUser: true
+    });
+  }
+  else {
+    customer.findOne({ email: req.body.email }, function (err, data) {
       if (data === null) {
         res.json({
           validUser: false,
           isAdmin: false
         });
-      } else {
+      }
+      else {
         if (data.password === req.body.password) {
           res.json({
             validUser: true,
             isAdmin: false
           });
-        } else {
+        }
+        else {
           res.json({
             validUser: false,
             isAdmin: false
@@ -123,11 +131,11 @@ app.post("/login", (req, res) => {
       }
     });
   }
-});
+})
 
-app.post("/register", function(req, res) {
+app.post("/register", function (req, res) {
   var newcustm = new customer(req.body);
-  customer.findOne({ email: req.body.email }, function(err, data) {
+  customer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newcustm.save();
       res.json({
@@ -139,9 +147,9 @@ app.post("/register", function(req, res) {
   });
 });
 
-app.post("/regFreelancer", function(req, res) {
+app.post("/regFreelancer", function (req, res) {
   var newFreelancer = new freelancer(req.body);
-  freelancer.findOne({ email: req.body.email }, function(err, data) {
+  freelancer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newFreelancer.save();
       res.json({
@@ -158,9 +166,9 @@ app.post("/regFreelancer", function(req, res) {
   });
 });
 
-app.post("/regOrganization", function(req, res) {
+app.post("/regOrganization", function (req, res) {
   var newOrganization = new organization(req.body);
-  organization.findOne({ email: req.body.email }, function(err, data) {
+  organization.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newOrganization.save();
       res.json({
@@ -177,7 +185,7 @@ app.post("/regOrganization", function(req, res) {
   });
 });
 
-app.post("/postIssue", function(req, res) {
+app.post("/postIssue", function (req, res) {
   var newissue = new issue(req.body);
   newissue.save();
   res.json({});
@@ -190,7 +198,7 @@ app.post("/postIssue", function(req, res) {
     }
 });*/
 
-app.post("/editIssue", function(req, res) {
+app.post("/editIssue", function (req, res) {
   let editissue = new issue(req.body);
   //why issue.?
   issue.UpdateOne({ _id: req.body.id }, { $set: editissue }, err => {
@@ -200,18 +208,28 @@ app.post("/editIssue", function(req, res) {
 });
 
 app.post("/feed", (req, res) => {
-  issue.find({ email: req.body.email }, function(err, issues) {
+  issue.find({ email: req.body.email }, function (err, issues) {
     //console.log();
     res.send(issues);
   });
 });
 
-app.post("/admin", (req, res) => {
+app.post('/redirectGovt', (req, res) => {
+  issue.findByIdAndUpdate(req.body.id, { type: "Government" }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+      console.log(err);
+    }
+    else res.json({ errorStatus: false });
+  });
+})
+
+app.post('/admin', (req, res) => {
   if (req.body.email === "admin@issueredressal") {
-    customer.find({}, function(err, customers) {
-      issue.find({}, function(er, issues) {
-        freelancer.find({}, function(err, freelancers) {
-          organization.find({}, function(err, organizations) {
+    customer.find({}, function (err, customers) {
+      issue.find({}, function (er, issues) {
+        freelancer.find({}, function (err, freelancers) {
+          organization.find({}, function (err, organizations) {
             res.json({
               allCus: customers,
               allIss: issues,
@@ -222,7 +240,8 @@ app.post("/admin", (req, res) => {
         });
       });
     });
-  } else {
+  }
+  else {
     res.json({});
   }
 });
@@ -256,8 +275,34 @@ app.post("/adminDelete", (req, res) => {
   }
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+app.post('/Ombudsman', (req, res) => {
+  if (req.body.email === "ombudsman@issueredressal") {
+    issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
+      issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
+        issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
+          res.json({
+            trakedIssues: tracked,
+            untrackedIssues: untracked,
+            completedIssues: completed
+          });
+        });
+      });
+    });
+  }
+})
+
+app.post('/ombudTrack', (req, res) => {
+  issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+      console.log(err);
+    }
+    else res.json({ errorStatus: false });
+  });
+})
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 app.listen(port, () => {

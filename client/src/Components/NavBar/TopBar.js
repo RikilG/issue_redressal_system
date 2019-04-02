@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -12,16 +12,22 @@ class TopBar extends Component {
   handleFeedLink      = () => { this.props.setView("Feed"); };
 
   handleHomeLink      = () => {
-    if(!this.props.isAdmin)
-      this.props.setView("Home");
+    if(this.props.isAdmin)
+      this.props.setView("AdminHome");
+    else if(this.props.isOmbudsman)
+      this.props.setView("OmbudsmanHome");
     else
-      this.props.setView("AdminHome")
+      this.props.setView("Home")
   };
 
   handleLogoutLink = () => {
     this.props.setSigninStatus(false,"");
     this.props.setView("Login");
   };
+
+  handleOmbudsmanPosts = () => {
+    this.props.setCompletedIssues(!this.props.completedIssues);
+  }
 
   render() {
     let loginLink, logoutLink, registerLink;
@@ -67,23 +73,24 @@ class TopBar extends Component {
               Home
             </Nav.Link>
             {/* add features and pricing here */}
-            {/* <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link> */}
-            {(this.props.signinStatus && !this.props.isAdmin)?<NavDropdown title="Services" id="collasible-nav-dropdown">
+            {(this.props.signinStatus && !this.props.isAdmin && !this.props.isOmbudsman)?
+            <React.Fragment>
+            <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
+            <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>
+            </React.Fragment>
+            :null}
+            {(this.props.isOmbudsman)?
+            <Nav.Link href="#prevPosts" onSelect={this.handleOmbudsmanPosts} >Completed Issues</Nav.Link>
+            :null}
+            {/* {(this.props.signinStatus && !this.props.isAdmin)?<NavDropdown title="Services" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1" onSelect={this.handleDetailsLink}>
                 Submit Issue
               </NavDropdown.Item>
-              {/* <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
-              Something
-              </NavDropdown.Item> */}
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4" onSelect={this.handleFeedLink} >
                 Feed
               </NavDropdown.Item>
-            </NavDropdown>:null}
+            </NavDropdown>:null} */}
           </Nav>
           <Nav>
             {(this.props.signinStatus)?

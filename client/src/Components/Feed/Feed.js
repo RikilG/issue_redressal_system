@@ -1,30 +1,28 @@
-import React, { Component } from "react";
-import "./Feed.css";
+import React, { Component } from 'react';
+import './Feed.css';
+import Issue from '../../Classes/Issue';
+import CardXFeed from '../../Classes/CardX/CardXFeed';
 
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: this.props.email,
-      issues: ["No Issues Here"]
-    };
+      issues: []
+    }
   }
 
   componentDidMount() {
     //fetch issue details from backend
-    fetch("/feed", {
+    fetch('/feed', {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email: this.state.email
+        email: this.props.email
       })
-    })
-      .then(res => res.json())
+    }).then(res => res.json())
       .then(data => {
-        if (data.length !== 0) {
-          this.setState({ issues: data });
-          console.log("cdm" + data);
-        }
+        let allIssues = data.map((issue, index) => { return new Issue(issue); });
+        this.setState({ issues: allIssues, });
       });
   }
 
@@ -35,16 +33,35 @@ class Feed extends Component {
 
   render() {
     let { issues } = this.state;
+
     return (
       <div id="feedRoot">
-        {issues.map((issue, index) => (
-          <p id="issues" key={index}>
-            {issue.complaintName}
-            <button id="button" variant="primary" onClick={this.onClickEdit}>
-              EdIt
-            </button>
-          </p>
-        ))}
+        <h1 id="myFeed"> My Feed </h1>
+        <br />
+        {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} myIssues={true} />)}
+        <br />
+        <h1 id="myFeed"> Community Feed</h1>
+        <br />
+        <div class="panel panel-default" id="panelMain">
+          <div class="panel panel-default" id="panel">
+            <div class="panel-heading">
+              <h1 class="panel-title">Daily Feed</h1>
+            </div>
+            <div class="panel-body">
+              {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} />)}
+            </div>
+          </div>
+          <div class="panel panel-default" id="panel">
+            <div class="panel-heading">
+              <h1 class="panel-title">Important Noted Feed</h1>
+            </div>
+            <div class="panel-body">Panel content…</div>
+          </div>
+
+        </div>
+
+
+
       </div>
     );
   }
