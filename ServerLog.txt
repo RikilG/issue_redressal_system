@@ -10,3 +10,18 @@ FUNCTION WE USE because we cannot see console.log from heroku
 fs.appendFile("/ServerLog.txt", "Hey there!");
 
 >>>>>LOG<<<<
+Tue Apr 02 2019 18:49:36 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:30:17 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:30:52 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:33:03 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:37:31 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:37:44 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:54:20 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:54:49 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 19:55:33 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:01:07 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:02:09 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:10:02 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:11:26 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:11:50 GMT+0530 (India Standard Time) Connected to mongoDB atlas
+Tue Apr 02 2019 20:18:49 GMT+0530 (India Standard Time) Connected to mongoDB atlas

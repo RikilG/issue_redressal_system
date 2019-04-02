@@ -178,8 +178,12 @@ app.post('/postIssue',function(req,res){
 
 app.post('/feed',(req,res) => {
     issue.find({email:req.body.email},function(err,issues){
-        //console.log();
-        res.send(issues);
+        issue.find({type: "Community"},function(err,communityIssues){
+            res.send({
+                myIssues: issues,
+                comIssues: communityIssues
+            });
+        })
     })
 });
 
