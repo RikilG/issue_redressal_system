@@ -216,6 +216,7 @@ app.post("/editIssue", function (req, res) {
     if (err) res.json({ errorStatus: true });
     else res.json({ errorStatus: false });
   });
+});
 
 app.post('/redirectGovt', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { type: "Government" }, (err) => {

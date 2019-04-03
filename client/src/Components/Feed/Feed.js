@@ -42,31 +42,26 @@ class Feed extends Component {
         return (
             <div id="feedRoot">
                 <h1 id="myFeed"> My Feed </h1> <br/> 
-                    {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} myIssues={true} /> )}
-                     
-                
-                
-                    <h1 id="myFeed"> Community Feed</h1>
-                    <br/>
-                    <div className="panel panel-default" id="panelMain">
-                    <div className="panel panel-default" id="panel">
-                    <div className="panel-heading">
-                    <h1 className="panel-title">Daily Feed</h1>
-                    </div>
-                    <div className="panel-body">
-                    {comIssues.map((issue, index) => <ComCard header={issue.complaintName} content={issue} parent={this} key={index} /> )}
-                    
-                    </div>
-                    </div>
+                {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} myIssues={true} /> )}
+                <h1 id="myFeed"> Community Feed</h1>
+                <br/>
+                <div className="panel panel-default" id="panelMain">
                     <div className="panel panel-default" id="panel">
                         <div className="panel-heading">
-                        <h1 className="panel-title"> Trendy Issues</h1>
-                        
+                            <h1 className="panel-title">Daily Feed</h1>
                         </div>
-                        <div className="panel-body"></div>
+                        <div className="panel-body">
+                            {comIssues.map((issue, index) => <ComCard header={issue.complaintName} content={issue} parent={this} key={index} /> )}
+                        </div>
                     </div>
-                    
+                <div className="panel panel-default" id="panel">
+                    <div className="panel-heading">
+                        <h1 className="panel-title"> Trendy Issues</h1>
                     </div>
+                    <div className="panel-body"></div>
+                </div>
+                </div>
+            </div>        
     );
   }
 }
