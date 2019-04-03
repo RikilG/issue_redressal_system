@@ -191,6 +191,17 @@ app.post("/postIssue", function (req, res) {
   res.json({});
 });
 
+app.post('/feed', (req, res) => {
+  issue.find({ email: req.body.email }, function (err, issues) {
+    issue.find({ type: "Community" }, function (err, communityIssues) {
+      res.send({
+        myIssues: issues,
+        comIssues: communityIssues
+      });
+    })
+  })
+});
+
 /*app.post("/getIssue", function(req, res) {
     var oldissue= new issue(req.body);
     issue.find({email:req.body.email}, function(err, issues)) {
@@ -204,13 +215,6 @@ app.post("/editIssue", function (req, res) {
   issue.UpdateOne({ _id: req.body.id }, { $set: editissue }, err => {
     if (err) res.json({ errorStatus: true });
     else res.json({ errorStatus: false });
-  });
-});
-
-app.post("/feed", (req, res) => {
-  issue.find({ email: req.body.email }, function (err, issues) {
-    //console.log();
-    res.send(issues);
   });
 });
 

@@ -13,7 +13,6 @@ class CardX extends Component {
                 <div className='cardxContent' >
                     Complaint Name: {this.props.content.complaintName}<br/>
                     Description:  <br/> {this.props.content.description}<br/>
-                    Email: {this.props.content.email}<br/>
                     Pay: {this.props.content.pay}<br/>
                     Type: {this.props.content.type}<br/>
                     WorkNature: {this.props.content.workNature}<br/>
