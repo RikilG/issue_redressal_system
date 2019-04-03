@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ComCard.css';
 import '../Issue';
 
+
 class CardX extends Component {
     constructor(props) {
         super(props);
@@ -10,9 +11,9 @@ class CardX extends Component {
         if(this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                    Description:  <br/> <br/>{this.props.content.description}<br/>
-                    WorkNature:    {this.props.content.workNature}<br/>
-                    Status: {this.props.content.status}<br/>
+                   <strong> Description:  </strong><br/> {this.props.content.description}<br/>
+                   <strong> WorkNature:  </strong>   {this.props.content.workNature}<br/>
+                   <strong> Status: </strong> {this.props.content.status}<br/>
                 </div>
             )
         }
@@ -36,8 +37,12 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" >
                     {this.props.header}
+                   
+                </div>
+                <div className="cardxBody">
+                    {this.state.content} 
                     {
-                        <span id="controls">
+                        <span id="comControls">
                             <div className="control" onClick={null}>
                                 {/* uncomment img tage and get suitable icon */}
                                 {/* <img className="action" src={govtIcon} alt='govt' /> */}
@@ -49,10 +54,8 @@ class CardX extends Component {
                                 Downvote
                             </div>
                         </span>
-                    }
-                </div>
-                <div className="cardxBody">
-                    {this.state.content}
+                    } 
+                  
                 </div>
             </div>
         );

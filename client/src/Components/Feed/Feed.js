@@ -3,7 +3,6 @@ import './Feed.css';
 import Issue from '../../Classes/Issue';
 import CardXFeed from '../../Classes/CardX/CardXFeed';
 import ComCard from '../../Classes/CardX/ComCard';
-import { Row,Col } from 'react-bootstrap';
 
 class Feed extends Component {
     constructor(props) {
@@ -37,13 +36,11 @@ class Feed extends Component {
 
         return (
             <div id="feedRoot">
-                <Row>
-                    <h1 id="myFeed"> My Feed </h1>
-                    <br/> 
+                <h1 id="myFeed"> My Feed </h1> <br/> 
                     {issues.map((issue, index) => <CardXFeed header={issue.complaintName} content={issue} parent={this} key={index} myIssues={true} /> )}
-                    <br/> 
-                </Row>
-                <Row>
+                     
+                
+                
                     <h1 id="myFeed"> Community Feed</h1>
                     <br/>
                     <div className="panel panel-default" id="panelMain">
@@ -58,13 +55,14 @@ class Feed extends Component {
                     </div>
                     <div className="panel panel-default" id="panel">
                         <div className="panel-heading">
-                        <h1 className="panel-title">Important Noted Feed</h1>
+                        <h1 className="panel-title"> Trendy Issues</h1>
+                        
                         </div>
-                        <div className="panel-body">Panel content…</div>
+                        <div className="panel-body"></div>
                     </div>
                     
                     </div>
-                </Row>
+               
             </div>
         );
     }
