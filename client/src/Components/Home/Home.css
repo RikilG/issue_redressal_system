@@ -1,7 +1,7 @@
 #headerPanel {
     color: greenyellow;
     background-color: rgba(17, 17, 17, 0.562);
-    border-radius: 0.5vw;
+    border-radius: 0.5em;
     padding: 1%;
     justify-content: center;
     margin: 1%;
@@ -28,7 +28,7 @@
     height: 25vw;
     padding: 1%;
     /* border: 1px dashed grey; */
-    border-radius: 0.5vw;
+    border-radius: 0.5em;
     background-color: rgba(17, 17, 17, 0.562);
     box-shadow: 0.5vw 0.5vw 1.3vw rgb(5, 5, 5);
 }
@@ -46,7 +46,7 @@
 #freelancersCount,
 #issuesCount {
     color: black;
-    border-radius: 1vw;
+    border-radius: 1em;
     padding: 4%;
     margin: 1.5%;
     width: 20%;

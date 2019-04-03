@@ -3,12 +3,12 @@
     justify-content: center;
     padding: 1%;
     background-color: rgba(24, 24, 24, 0.5);
-    border-radius: 0.5vw;
+    border-radius: 0.25em;
 }
 
 #issues {
     background-color: whitesmoke;
-    border-radius: 0.5vw;
+    border-radius: 0.25em;
     padding: 2vw;
     transition: all 0.4s;
 }

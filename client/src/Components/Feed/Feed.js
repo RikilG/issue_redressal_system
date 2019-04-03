@@ -23,7 +23,6 @@ class Feed extends Component {
             })
         }).then(res => res.json())
         .then(data => {
-            console.log(data);
             this.setState({
                 issues: data.myIssues.map((issue, index) => { return new Issue(issue); }),
                 comIssues: data.comIssues.map((issue, index) => { return new Issue(issue); })

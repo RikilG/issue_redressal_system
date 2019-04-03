@@ -1,7 +1,7 @@
 .cardxRoot {
     margin: 1vw;
     background-color: whitesmoke;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     margin-bottom: 1vh;
     margin-left: 5vw;
     margin-right: 5vw;
@@ -10,7 +10,7 @@
 
 .cardxRoot:hover {
     background-color: lightgreen;
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
 .cardxHeader {
@@ -50,7 +50,7 @@
     margin: 0.3em;
     padding: 0.3em;
     border: 1px solid black;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     cursor: pointer;
     font-size: 0.8em;
     transition: all 0.4s;
