@@ -31,6 +31,11 @@ class Feed extends Component {
         });
     }
 
+    onClickEdit = e => {
+      this.props.setData();
+      this.props.setView("EditIssue");
+    };
+
     render() {
         let { issues,comIssues } = this.state;
 
@@ -62,10 +67,8 @@ class Feed extends Component {
                     </div>
                     
                     </div>
-               
-            </div>
-        );
-    }
+    );
+  }
 }
 
 export default Feed;
