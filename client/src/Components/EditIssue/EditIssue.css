@@ -53,10 +53,3 @@
 #btnLogin:hover {
   transform: scale(1.1);
 }
-
-#tvEmail:focus,
-#tvPassword:focus {
-  /* transform: scale(1.05); */
-  transform: scale(1.05, 1.25);
-  border: 0.2vw solid rgb(228, 49, 49);
-}

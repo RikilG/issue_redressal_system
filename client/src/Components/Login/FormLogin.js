@@ -66,7 +66,7 @@ class FormLogin extends Component {
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
-              className="tvEmail"
+              id="tvEmail"
               type="email"
               placeholder="Enter email"
               onChange={this.onEmailChange}
@@ -75,7 +75,7 @@ class FormLogin extends Component {
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              className="tvPassword"
+              id="tvPassword"
               type="password"
               placeholder="Password"
               onChange={this.onPasswordChange}

@@ -96,23 +96,26 @@ class AdminHome extends Component {
                     <Nav.Link eventKey="organizationTab">Organizations</Nav.Link>
                   </Nav.Item>
                 </Nav>
+                <div id="adminStatistics">
+                  <h2>Statistics</h2>
+                </div>
               </Col>
               <Col sm={9}>
                 <Tab.Content>
                   <Tab.Pane eventKey="issueTab" id="issuesContainer">
-                    {/* {issues.map((issue, index) => <p id="element" key={index}>{issue.complaintName}</p> )} */}
+                    <h2>Posted Issues</h2>
                     {issues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />)}
                   </Tab.Pane>
                   <Tab.Pane eventKey="customerTab" id="usersContainer">
-                    {/* {users.map((user, index) => <p id="element" key={index}>{user.fname}</p> )} */}
+                    <h2>Registered Customers</h2>
                     {users.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />)}
                   </Tab.Pane>
                   <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
-                    {/* {freelancers.map((freelancer, index) => <p id="element" key={index}>{freelancer.fname}</p> )} */}
+                    <h2>Registered Freelancers</h2>
                     {freelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />)}
                   </Tab.Pane>
                   <Tab.Pane eventKey="organizationTab" id="orgContainer">
-                    {/* {organizations.map((organization, index) => <p id="element" key={index}>{organization.name}</p> )} */}
+                    <h2>Registered Organizations</h2>
                     {organizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />)}
                   </Tab.Pane>
                 </Tab.Content>
