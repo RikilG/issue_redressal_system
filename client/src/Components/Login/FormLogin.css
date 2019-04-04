@@ -13,7 +13,7 @@
 
 #tvEmail,
 #tvPassword {
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     background-color: transparent;
     border-bottom: 0.15em solid rgb(228, 49, 49);
 }

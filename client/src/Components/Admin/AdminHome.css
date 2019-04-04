@@ -39,3 +39,28 @@
 #adminStatistics {
     margin-top: 2em;
 }
+
+.loadingIcon {
+    width: 6em;
+    height: 6em;
+    padding: 0.5em;
+    margin: 1em;
+    /* position: absolute;
+    top: 50%;
+    left: 46%;
+    margin-left: -(6/2)u;
+    margin-top: -(6/2)u; */
+}
+
+.small {
+    border: none;
+    float: right;
+}
+
+hr {
+    border-width: 0.15em;
+}
+
+.vr {
+    border: 0.05em solid lightgray;
+}

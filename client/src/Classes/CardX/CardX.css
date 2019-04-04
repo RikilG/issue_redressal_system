@@ -1,10 +1,11 @@
 .cardxRoot {
-    margin: 1vw;
-    background-color: whitesmoke;
+    margin: 0.7em;
+    background-color: #66BB6A;
     border-radius: 0.25em;
     margin-bottom: 1vh;
     margin-left: 5vw;
     margin-right: 5vw;
+    /* box-shadow: 0.02em 0.04em 0.25em rgb(5, 5, 5); */
     transition: all 0.5s;
 }
 
@@ -33,6 +34,12 @@
 
 .cardxContent p {
     font-size: 1em;
+}
+
+.detailsTable th,
+.detailsTable td{
+    min-width: 10em;
+    padding: 0.1em;
 }
 
 .cardxBody {

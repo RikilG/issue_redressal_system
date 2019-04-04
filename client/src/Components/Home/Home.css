@@ -1,12 +1,12 @@
 #headerPanel {
     color: #1A237E;
     background-color: #42A5F5;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     padding: 1%;
     justify-content: center;
     margin: 1%;
     font-weight: bold;
-    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+    /* box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5); */
 }
 
 #infoLoginPanel {
@@ -29,9 +29,9 @@
     height: 25vw;
     padding: 1%;
     /* border: 1px dashed grey; */
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     background-color: rgba(17, 17, 17, 0.562);
-    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+    /* box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5); */
 }
 
 #statisicsPanel {
