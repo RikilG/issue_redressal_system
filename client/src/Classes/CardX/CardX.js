@@ -18,7 +18,7 @@ class CardX extends Component {
         if(this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                    <table className="detailsTable">
+                    <table className="detailsTable"><tbody>
                         <tr><th>Complaint Name:</th><td> {this.props.content.complaintName}</td></tr>
                         <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
                         <tr><th>Pay:           </th><td> {this.props.content.pay}</td></tr>
@@ -26,14 +26,14 @@ class CardX extends Component {
                         <tr><th>WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
                         <tr><th>Description:   </th><td> {this.props.content.description}</td></tr>
                         <tr><th>Status:        </th><td> {this.props.content.status}</td></tr>
-                    </table>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Customer') {
             cont = (
                 <div className='cardxContent' >
-                    <table className="detailsTable">
+                    <table className="detailsTable"><tbody>
                         <tr><th>First Name: </th><td> {this.props.content.fname} </td></tr>
                         <tr><th>Last Name:  </th><td> {this.props.content.lname} </td></tr>
                         <tr><th>Email:      </th><td> {this.props.content.email} </td></tr>
@@ -44,14 +44,14 @@ class CardX extends Component {
                         <tr><th>Pincode:    </th><td> {this.props.content.pincode} </td></tr>
                         <tr><th>Mobile:     </th><td> {this.props.content.mobile} </td></tr>
                         <tr><th>Aadhaar:    </th><td> {this.props.content.aadhaar} </td></tr>
-                    </table>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Freelancer') {
             cont = (
                 <div className='cardxContent' >
-                    <table className="detailsTable">
+                    <table className="detailsTable"><tbody>
                         <tr><th>First Name:    </th><td> {this.props.content.fname}</td></tr>
                         <tr><th>Last Namename: </th><td> {this.props.content.lname}</td></tr>
                         <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
@@ -62,21 +62,21 @@ class CardX extends Component {
                         <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
                         <tr><th>Aadhaar:       </th><td> {this.props.content.aadhaar}</td></tr>
                         <tr><th>Pincode:       </th><td> {this.props.content.pincode}</td></tr>
-                    </table>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Organization') {
             cont = (
                 <div className='cardxContent' >
-                    <table className="detailsTable">
+                    <table className="detailsTable"><tbody>
                         <tr><th>Name:          </th><td> {this.props.content.name}</td></tr>
                         <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
                         <tr><th>Password:      </th><td> {this.props.content.password}</td></tr>
                         <tr><th>Headquaters:   </th><td> {this.props.content.headquaters}</td></tr>
                         <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
                         <tr><th>Workforce:     </th><td> {this.props.content.workforce}</td></tr>
-                    </table>
+                    </tbody></table>
                 </div>
             )
         }

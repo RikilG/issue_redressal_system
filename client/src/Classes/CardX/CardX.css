@@ -36,10 +36,17 @@
     font-size: 1em;
 }
 
+.detailsTable {
+    margin-bottom: 0.5em;
+}
+
 .detailsTable th,
 .detailsTable td{
-    min-width: 10em;
+    vertical-align: top;
+    min-width: 12em;
     padding: 0.1em;
+    max-height: 2em;
+    overflow: hidden;
 }
 
 .cardxBody {

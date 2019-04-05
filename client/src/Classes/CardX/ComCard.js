@@ -3,7 +3,7 @@ import './ComCard.css';
 import '../Issue';
 
 
-class CardX extends Component {
+class ComCard extends Component {
     constructor(props) {
         super(props);
         let cont;
@@ -11,9 +11,11 @@ class CardX extends Component {
         if(this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                   <strong> Description:  </strong><br/> {this.props.content.description}<br/>
-                   <strong> WorkNature:  </strong>   {this.props.content.workNature}<br/>
-                   <strong> Status: </strong> {this.props.content.status}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th> Description:   </th><td> {this.props.content.description}</td></tr>
+                        <tr><th> WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th> Status:        </th><td> {this.props.content.status}</td></tr>
+                    </tbody></table>
                 </div>
             )
         }
@@ -62,4 +64,4 @@ class CardX extends Component {
     }
 }
 
-export default CardX;
+export default ComCard;
