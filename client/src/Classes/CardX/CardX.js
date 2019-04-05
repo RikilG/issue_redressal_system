@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import deleteIcon from '../../Assets/delete.png';
+import trackIcon from '../../Assets/track.png';
+import untrackIcon from '../../Assets/cross.png';
+import doneIcon from '../../Assets/done.png';
+import restartIcon from '../../Assets/restart.png';
 import './CardX.css';
 import '../Customer';
 import '../Freelancer';
@@ -20,6 +24,7 @@ class CardX extends Component {
                     Type: {this.props.content.type}<br/>
                     WorkNature: {this.props.content.workNature}<br/>
                     Description: {this.props.content.description}<br/>
+                    Status: {this.props.content.status}<br/>
                 </div>
             )
         }
@@ -79,11 +84,32 @@ class CardX extends Component {
 
         this.state = {
             showBody: false,
-            content: cont
+            content: cont,
+            inProgress: "In Progress",
+            pending: "Pending",
+            completed: "Completed"
         };
     }
 
     toggleBody = () => { this.setState({ showBody: !this.state.showBody }); }
+
+    trackItemHandler = (status) => {
+        fetch('/ombudTrack', {
+            method: "post",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: this.props.content.id,
+                newStatus: status
+            })
+        }).then(res => res.json())
+        .then(data => {
+            if(!data.errorStatus) {
+                //page reload
+                this.props.parent.componentDidMount();
+            }
+        });
+    }
+
     deleteItemHandler = () => {
         if(window.confirm("This operation is not reversible. Do you want to continue?")) {
             fetch('/adminDelete', {
@@ -108,10 +134,41 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
-                    {this.state.showBody && (
-                        <div id="controls">
-                            <img src={deleteIcon} alt='delete' onClick={this.deleteItemHandler} />
-                        </div>
+                    {this.state.showBody && this.props.isAdmin && (
+                        <span id="controls" onClick={this.deleteItemHandler}>
+                            <div className="control" >
+                                <img className="action" src={deleteIcon} alt='delete' />
+                                Delete
+                            </div>
+                        </span>
+                    )}
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Track") && (
+                        <span id="controls">
+                            <div className="control" onClick={() => this.trackItemHandler(this.state.inProgress)}>
+                                <img className="action" src={trackIcon} alt='track' />
+                                Track
+                            </div>
+                        </span>
+                    )}
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Control") && (
+                        <span id="controls">
+                            <div className="control" onClick={() => this.trackItemHandler(this.state.pending)}>
+                                <img className="action" src={untrackIcon} alt='track' />
+                                Untrack
+                            </div>
+                            <div className="control" onClick={() => this.trackItemHandler(this.state.completed)}>
+                                <img className="action" src={doneIcon} alt='done' />
+                                Done
+                            </div>
+                        </span>
+                    )}
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Restart") && (
+                        <span id="controls">
+                            <div className="control" onClick={() => this.trackItemHandler(this.state.pending)}>
+                                <img className="action" src={restartIcon} alt='restart' />
+                                Restart
+                            </div>
+                        </span>
                     )}
                 </div>
                 {this.state.showBody && (

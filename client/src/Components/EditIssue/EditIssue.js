@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import "./FillDetails.css";
+import { Button, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import { images } from "./images";
+import "./EditIssue.css";
+// import Customer from "../../Classes/Customer";
+// import Issue from "../../Classes/Issue";
+// import Freelancer from "../../Classes/Freelancer";
+// import Organization from "../../Classes/Organization";
+// import CardX from "../../Classes/CardX/CardX";
 
-class FillDetails extends Component {
+class EditIssue extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      issues: [],
       carousel: "",
       i: 0,
       complaintName: "",
       pay: "",
-      department: "Others",
+      department: "Choose...",
       description: "",
       other: "",
       type: "Household",
@@ -22,12 +26,28 @@ class FillDetails extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      this.setState({ i: this.state.i + 1 });
-      this.setState({ carousel: images[this.state.i % 10].ref });
-    }, 2000);
+    //console.log("huii");
   }
+  /* componentDidMount() {
 
+    fetch("/getIssue", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: this.props.email
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        let allIssues = data.allIss.map((issue, index) => {
+          return new Issue(issue);
+        });
+       
+        this.setState({
+          issues: allIssues,
+        });
+      });
+  }*/
   onOthersChange = input => {
     this.setState({ other: input.target.value });
   };
@@ -54,13 +74,14 @@ class FillDetails extends Component {
     this.setState({ type: input.target.value });
   };
 
-  handleSubmit = () => {
-    if (this.state.department === "Others")
+  handleSubmit = id => {
+    if (this.state.department === "Choose...")
       this.setState({ department: this.state.other });
-    fetch("/postIssue", {
+    fetch("/editIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        id: id,
         email: this.props.email,
         complaintName: this.state.complaintName,
         pay: this.state.pay,
@@ -71,18 +92,15 @@ class FillDetails extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        alert("Issue successfully submitted!!!");
+        alert("Issue Edited!!!");
         this.props.setView("Feed");
       });
   };
 
   render() {
     return (
-      <div className="fillDetails">
-        <img id="carousel" alt="mypic" src={this.state.carousel} />
-        <br />
-
-        <Form onSubmit={this.handleSubmit}>
+      <div className="editIssue">
+        <Form>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
@@ -90,7 +108,6 @@ class FillDetails extends Component {
                 type="text"
                 placeholder="Complaint Name"
                 onChange={this.onCmpNameChange}
-                required
               />
             </Form.Group>
           </Form.Row>
@@ -140,18 +157,14 @@ class FillDetails extends Component {
           <Form.Row>
             <Form.Group controlId="estimated pay">
               <Form.Label>Estimated pay</Form.Label>
-              <Form.Control
-                placeholder="Rs.1000"
-                onChange={this.onPayChange}
-                required
-              />
+              <Form.Control placeholder="Rs.1000" onChange={this.onPayChange} />
             </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
-              <Form.Control as="select" onChange={this.onDeptChange} required>
-                <option>Others</option>
+              <Form.Control as="select" onChange={this.onDeptChange}>
+                <option>Choose...</option>
                 <option>Carpentry</option>
                 <option>Electric</option>
                 <option>Civil</option>
@@ -163,10 +176,6 @@ class FillDetails extends Component {
               <Form.Control
                 placeholder="If others please specify"
                 onChange={this.onOthersChange}
-                disabled={
-                  this.state.department === "Others" ? null : "disabled"
-                }
-                required
               />
             </Form.Group>
           </Form.Row>
@@ -177,16 +186,14 @@ class FillDetails extends Component {
             rows="5"
             placeholder="Please enter a brief description of your problem"
             onChange={this.onDescriptionChange}
-            required
           />
           <Form.Group id="formGridCheckbox">
             <Form.Check
               type="checkbox"
               label="I Agree to the terms and conditions"
-              required
             />
           </Form.Group>
-          <Button type="submit" variant="primary">
+          <Button variant="primary" onClick={this.handleSubmit}>
             Submit
           </Button>
         </Form>
@@ -195,4 +202,4 @@ class FillDetails extends Component {
   }
 }
 
-export default FillDetails;
+export default EditIssue;
