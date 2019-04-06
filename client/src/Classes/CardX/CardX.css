@@ -1,16 +1,17 @@
 .cardxRoot {
-    margin: 1vw;
-    background-color: whitesmoke;
-    border-radius: 0.5em;
+    margin: 0.7em;
+    background-color: #66BB6A;
+    border-radius: 0.25em;
     margin-bottom: 1vh;
     margin-left: 5vw;
     margin-right: 5vw;
+    /* box-shadow: 0.02em 0.04em 0.25em rgb(5, 5, 5); */
     transition: all 0.5s;
 }
 
 .cardxRoot:hover {
     background-color: lightgreen;
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
 .cardxHeader {
@@ -35,6 +36,19 @@
     font-size: 1em;
 }
 
+.detailsTable {
+    margin-bottom: 0.5em;
+}
+
+.detailsTable th,
+.detailsTable td{
+    vertical-align: top;
+    min-width: 12em;
+    padding: 0.1em;
+    max-height: 2em;
+    overflow: hidden;
+}
+
 .cardxBody {
     padding-left: 2vw;
     padding-right: 1vw;
@@ -50,7 +64,7 @@
     margin: 0.3em;
     padding: 0.3em;
     border: 1px solid black;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     cursor: pointer;
     font-size: 0.8em;
     transition: all 0.4s;

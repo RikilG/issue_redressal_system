@@ -95,6 +95,7 @@ class FormRegister extends Component {
   render() {
     return (
       <div className="formregister">
+        <h2 id="heading">New Customer? register here</h2>
         <Form onSubmit={this.handleRegister}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridFName">

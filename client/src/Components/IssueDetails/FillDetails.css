@@ -6,7 +6,7 @@
   /* margin: 12% 10%; */
   margin: 5% auto;
   /* border: 1px dashed slateblue; */
-  border-radius: 1vw;
+  border-radius: 1em;
   padding: 2vw 3vw;
   box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5);
 }
@@ -16,7 +16,7 @@
   height: 20vw;
   border: 0.5vw solid blue;
   margin: 1vw auto;
-  border-radius: 2vw;
+  border-radius: 1.8em;
   transition: all 0.2s;
 }
 
@@ -30,7 +30,7 @@
 
 /* IMAGE STYLES */
 [type="radio"] + img {
-  border-radius: 2vw;
+  border-radius: 1.8em;
   cursor: pointer;
   padding: 1vw;
   width: 12vw;
@@ -62,11 +62,4 @@
 #btnRegister:hover,
 #btnLogin:hover {
   transform: scale(1.1);
-}
-
-#tvEmail:focus,
-#tvPassword:focus {
-  /* transform: scale(1.05); */
-  transform: scale(1.05, 1.25);
-  border: 0.2vw solid rgb(228, 49, 49);
 }
