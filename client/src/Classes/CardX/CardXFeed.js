@@ -57,7 +57,7 @@ class CardX extends Component {
     }
 
     redToEdit = () => {
-        console.log("entered");
+        this.props.storeData(this.props.content);
         this.props.setView("EditIssue");
     }
 

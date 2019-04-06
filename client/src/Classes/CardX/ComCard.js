@@ -35,55 +35,55 @@ class ComCard extends Component {
             downvote: 0,
         };
     }
-    //how is this call to /comcard connected to server?
-    handleUpvote = input => {
-        console.log("firstpart");
-        // this.setState({ upvote: this.state.upvote + 1 });
-        fetch("/comcard", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: this.props.email,
-                type: 'upvote'
-            })
-        })
-            .then(res => res.text())          // convert to plain text
-            .then(text => console.log(text))
-        /* .then(res => res.json())
-         .then(data => {
-             console.log("upvoted");
-         })
-     fetch("/comcard2", {
-         method: "post",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({
-             email: this.state.email,
-             type: 'upvote'
-         })
-     })
-         .then(res => res.json())
-         .then(data => {
-             this.setState({ upvote: data.nou });
-         })*/
-    }
-
-    handleDownvote = input => {
-        //this.setState({ downvote: this.state.downvote + 1 });
-        //this.setState({ upvoteStatus: true });store somewhere and map who downvoted
+    componentDidMount() {
         fetch("/comcard2", {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                email: this.state.email,
+                issueid: this.props.issueid
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ downvote: data.nod });
+                this.setState({ upvote: data.nou });
+            })
+    }
+    handleUpvote = input => {
+        fetch("/comcard", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                issueid: this.props.issueid,
+                email: this.props.email,
+                type: 'upvote'
+            })
+        })
+            .then(res => res.json())          // convert to plain text
+            .then(data => {
+                if (!data.errorStatus) {
+                    //page reload
+                    this.props.parent.componentDidMount();
+                }
+            });
+    }
+
+    handleDownvote = input => {
+        fetch("/comcard", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                issueid: this.props.issueid,
+                email: this.props.email,
                 type: 'downvote'
             })
         })
-            /*.then(res => res.json())
+            .then(res => res.json())          // convert to plain text
             .then(data => {
-                this.setState({ downvote: data.nod });
-            })*/
-            .then(res => res.text())          // convert to plain text
-            .then(text => console.log(text))
+                if (!data.errorStatus) {
+                    this.props.parent.componentDidMount();
+                }
+            });
     }
 
     render() {

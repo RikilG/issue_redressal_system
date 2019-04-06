@@ -15,39 +15,30 @@ class EditIssue extends Component {
       issues: [],
       carousel: "",
       i: 0,
-      complaintName: "",
-      pay: "",
-      department: "Choose...",
-      description: "",
-      other: "",
-      type: "Household",
-      householdChk: true
+      complaintName: this.props.storedData.complaintName,
+      pay: this.props.storedData.pay,
+      department: this.props.storedData.workNature,
+      description: this.props.storedData.description,
+      other: this.props.storedData.other,
+      type: this.props.storedData.type,
+      householdChk: true,
+      communityChk: false,
+      govtChk: false
     };
   }
 
   componentDidMount() {
-    //console.log("huii");
-  }
-  /* componentDidMount() {
+    if (this.props.storedData.type === 'Community') {
+      this.setState({ householdChk: false });
+      this.setState({ communityChk: true });
 
-    fetch("/getIssue", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.props.email
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        let allIssues = data.allIss.map((issue, index) => {
-          return new Issue(issue);
-        });
-       
-        this.setState({
-          issues: allIssues,
-        });
-      });
-  }*/
+    }
+    else if (this.props.storedData.type === 'Government') {
+      this.setState({ householdChk: false });
+      this.setState({ govtChk: true });
+    }
+  }
+
   onOthersChange = input => {
     this.setState({ other: input.target.value });
   };
@@ -74,15 +65,16 @@ class EditIssue extends Component {
     this.setState({ type: input.target.value });
   };
 
-  handleSubmit = id => {
-    if (this.state.department === "Choose...")
+  handleSubmit = () => {
+    if (this.state.department === "Others")
       this.setState({ department: this.state.other });
+
     fetch("/editIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: id,
-        email: this.props.email,
+        id: this.props.storedData.id,
+        email: this.props.storedData.email,
         complaintName: this.state.complaintName,
         pay: this.state.pay,
         workNature: this.state.department,
@@ -92,7 +84,7 @@ class EditIssue extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        alert("Issue Edited!!!");
+        alert("Issue successfully Edited!!!");
         this.props.setView("Feed");
       });
   };
@@ -106,8 +98,9 @@ class EditIssue extends Component {
               <Form.Label>Complaint Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Complaint Name"
+                value={this.state.complaintName}
                 onChange={this.onCmpNameChange}
+                required
               />
             </Form.Group>
           </Form.Row>
@@ -133,6 +126,7 @@ class EditIssue extends Component {
               name="test"
               value="Community"
               onChange={this.onIssueTypeChange}
+              checked={this.state.communityChk}
             />
             <img
               alt="Community Issue"
@@ -147,6 +141,7 @@ class EditIssue extends Component {
               name="test"
               value="Government"
               onChange={this.onIssueTypeChange}
+              checked={this.state.govtChk}
             />
             <img
               alt="Government issue"
@@ -157,14 +152,14 @@ class EditIssue extends Component {
           <Form.Row>
             <Form.Group controlId="estimated pay">
               <Form.Label>Estimated pay</Form.Label>
-              <Form.Control placeholder="Rs.1000" onChange={this.onPayChange} />
+              <Form.Control value={this.state.pay} onChange={this.onPayChange} required />
             </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
-              <Form.Control as="select" onChange={this.onDeptChange}>
-                <option>Choose...</option>
+              <Form.Control as="select" value={this.state.department} onChange={this.onDeptChange} required>
+                <option>Others</option>
                 <option>Carpentry</option>
                 <option>Electric</option>
                 <option>Civil</option>
@@ -176,6 +171,10 @@ class EditIssue extends Component {
               <Form.Control
                 placeholder="If others please specify"
                 onChange={this.onOthersChange}
+                disabled={
+                  this.state.department === "Others" ? null : "disabled"
+                }
+                required
               />
             </Form.Group>
           </Form.Row>
@@ -184,20 +183,22 @@ class EditIssue extends Component {
             name="myTextBox"
             cols="50"
             rows="5"
-            placeholder="Please enter a brief description of your problem"
+            value={this.state.description}
             onChange={this.onDescriptionChange}
+            required
           />
           <Form.Group id="formGridCheckbox">
             <Form.Check
               type="checkbox"
               label="I Agree to the terms and conditions"
+              required
             />
           </Form.Group>
           <Button variant="primary" onClick={this.handleSubmit}>
             Submit
           </Button>
         </Form>
-      </div>
+      </div >
     );
   }
 }

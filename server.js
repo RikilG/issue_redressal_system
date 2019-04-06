@@ -76,6 +76,7 @@ var organizationSchema = new mongo.Schema({
 var organization = new mongo.model('organization', organizationSchema);
 
 var voterSchema = new mongo.Schema({
+  issueid: String,
   email: String,
   type: String
 });
@@ -157,34 +158,26 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/comcard2", (req, res) => {
-  voter.count({ type: 'upvote' }, function (err, upv) {
-    if (upv == null) {
-      upv = 0;
-    }
-  });
-  voter.count({ type: 'downvote' }, function (err, downv) {
-    if (downv == null) {
-      downv = 0;
-    }
-  });
-  res.send({
-    nou: upv,
-    nod: downv
+  voter.countDocuments({ issueid: req.body.issueid, type: "upvote" }, function (err, count1) {
+    voter.countDocuments({ issueid: req.body.issueid, type: "downvote" }, function (err, count2) {
+      res.send({
+        nou: count1,
+        nod: count2
+      });
+    });
   });
 })
 
 app.post("/comcard", (req, res) => {
-  console.log("im here");
   var newvoter = new voter(req.body);
-  voter.findOne({ email: req.body.email }, function (err, data) {
+  voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
     if (data == null) {
       newvoter.save();
       res.json({
         accepted: true
       });
     } else {
-
-      voter.UpdateOne({ email: req.body.email }, { $set: { type: req.body.type } }, err => {
+      voter.findByIdAndUpdate(data._id, { "$set": { type: req.body.type } }, err => {
         if (err) res.json({ errorStatus: true });
         else res.json({ errorStatus: false });
       });
@@ -261,18 +254,12 @@ app.post('/feed', (req, res) => {
   })
 });
 
-/*app.post("/getIssue", function(req, res) {
-    var oldissue= new issue(req.body);
-    issue.find({email:req.body.email}, function(err, issues)) {
-        res.send(issues);
-    }
-});*/
-
-app.post("/editIssue", function (req, res) {
+app.post("/editIssue", (req, res) => {
   let editissue = new issue(req.body);
-  //why issue.?
-  issue.UpdateOne({ _id: req.body.id }, { $set: editissue }, err => {
-    if (err) res.json({ errorStatus: true });
+  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description } }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+    }
     else res.json({ errorStatus: false });
   });
 });
