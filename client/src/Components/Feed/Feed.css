@@ -26,16 +26,20 @@
 }
 
 #panelMain {
-    display: flex;
-    width: 100%;
-    overflow: hidden;
+    /* display: flex; */
+    /* width: 100%;
+    overflow: hidden; */
 }
 #panel {
-    flex: 25%;
+    /* flex: 25%; */
 }
 
 .panel-title {
     color:greenyellow;
     font-size: 2vw;
     text-align: center;
+}
+
+.vr {
+    border:1em solid green ;
 }
