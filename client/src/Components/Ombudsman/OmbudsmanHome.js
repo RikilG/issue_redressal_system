@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import './OmbudsmanHome.css';
+import loadingIcon from '../../Assets/loading.gif';
 import Issue from '../../Classes/Issue';
 import CardX from '../../Classes/CardX/CardX';
 
@@ -10,11 +11,13 @@ class OmbudsmanHome extends Component {
         this.state = {
             tracked: [],
             untracked: [],
-            completed: []
+            completed: [],
+            loading: false
         }
     }
 
     componentDidMount() {
+        this.setState({ loading: true });
         fetch('/Ombudsman', {
             method: "post",
             headers: { 'Content-Type': 'application/json' },
@@ -24,34 +27,37 @@ class OmbudsmanHome extends Component {
         }).then(res => res.json())
         .then(data => {
             this.setState({
-                tracked: data.trakedIssues.map((issue, index) => { return new Issue(issue); }),
-                untracked: data.untrackedIssues.map((issue, index) => { return new Issue(issue); }),
-                completed: data.completedIssues.map((issue, index) => { return new Issue(issue); }),
+                tracked: data.trakedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} controls="Control" isOmbudsman={true} />; }),
+                untracked: data.untrackedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} controls="Track" key={index} isOmbudsman={true} />; }),
+                completed: data.completedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} controls="Restart" key={index} isOmbudsman={true} />; }),
             });
-        });
+        }).then( () => {
+            this.setState({ loading: false });
+        } );
     }
     
     render() {
-        let { tracked,untracked,completed } = this.state;
+        let { tracked,untracked,completed,loading } = this.state;
         return(
             <Container id="ombudsmanRoot" fluid="true">
                 <Row>
                     {!this.props.completedIssues && (
                     <React.Fragment>
-                    <Col>
+                    <Col sm={5} lg>
                         <div id="headerPanel">
                             Tracked Issues
                         </div>
                         <div>
-                            {tracked.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} key={index} controls="Control" isOmbudsman={true} />)}
+                            {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:tracked}
                         </div>
                     </Col>
-                    <Col>
+                    <div className="vr" sm={1}></div>
+                    <Col sm={6} lg>
                         <div id="headerPanel">
                             New Government Issues
                         </div>
                         <div>
-                            {untracked.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} controls="Track" key={index} isOmbudsman={true} />)}
+                            {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:untracked}
                         </div>
                     </Col>
                     </React.Fragment>
@@ -62,7 +68,7 @@ class OmbudsmanHome extends Component {
                             Completed Issues
                         </div>
                         <div>
-                            {completed.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} controls="Restart" key={index} isOmbudsman={true} />)}
+                            {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:completed}
                         </div>
                     </Col>
                     )}

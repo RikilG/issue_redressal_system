@@ -47,9 +47,15 @@ class FormLogin extends Component {
           this.props.setOmbudsman(true);
           this.props.setAdmin(false); //to remove post issue from navbar
         }
-        else if (data.validUser) {
+        else if (data.isCustomer) {
           this.props.setSigninStatus(true, this.state.email);
           this.props.setView("Feed");
+          this.props.setAdmin(false);
+          this.props.setOmbudsman(false);
+        }
+        else if(data.isSP) {
+          this.props.setSigninStatus(true, this.state.email);
+          this.props.setView("SPFeed");
           this.props.setAdmin(false);
           this.props.setOmbudsman(false);
         }
@@ -65,32 +71,18 @@ class FormLogin extends Component {
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control
-              className="tvEmail"
-              type="email"
-              placeholder="Enter email"
-              onChange={this.onEmailChange}
-            />
+            <Form.Control id="tvEmail" type="email" placeholder="Enter email" onChange={this.onEmailChange} />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              className="tvPassword"
-              type="password"
-              placeholder="Password"
-              onChange={this.onPasswordChange}
-            />
+            <Form.Control id="tvPassword" type="password" placeholder="Password" onChange={this.onPasswordChange} />
           </Form.Group>
           <Button id="btnLogin" variant="primary" onClick={this.postRequest}>
             Login
           </Button>
           <br />
           <br />
-          <Button
-            id="btnRegister"
-            variant="secondary"
-            onClick={this.onClickRegister}
-          >
+          <Button id="btnRegister" variant="secondary" onClick={this.onClickRegister} >
             Not a user? Register here
           </Button>
         </Form>

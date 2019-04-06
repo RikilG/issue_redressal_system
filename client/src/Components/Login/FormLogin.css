@@ -1,31 +1,36 @@
 .formlogin  {
-    background-color: rgba(17, 17, 17, 0.562);
+    /* background-color: rgba(17, 17, 17, 0.562); */
+    /* color: rgb(255, 141, 96); */
+    background-color: #DCEDC8;
     text-align: center;
-    color: rgb(255, 141, 96);
+    color: ;
     width: 30vw;
-    /* margin: 12% 10%; */
     margin: 5% auto;
-    /* border: 1px dashed slateblue; */
-    border-radius: 0.5vw;
-    padding: 2vw 3vw;
-    box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5);
+    border-radius: 0.15em;
+    padding: 5vh 3vw;
+    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+}
+
+#tvEmail,
+#tvPassword {
+    border-radius: 0.25em;
+    background-color: transparent;
+    border-bottom: 0.15em solid rgb(228, 49, 49);
 }
 
 #btnRegister,
 #btnLogin,
 #tvEmail,
 #tvPassword {
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 #btnRegister:hover,
 #btnLogin:hover {
-    transform: scale(1.1);
+    transform: scale(1.01);
 }
 
 #tvEmail:focus,
 #tvPassword:focus {
-    /* transform: scale(1.05); */
-    transform: scale(1.05, 1.25);
-    border: 0.2vw solid rgb(228, 49, 49);
+    border-bottom: 0.2em solid rgb(49, 141, 228);
 }

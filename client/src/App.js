@@ -5,6 +5,7 @@ import './index.css';
 import TopBar from './Components/NavBar/TopBar';
 import Home from './Components/Home/Home';
 import Feed from './Components/Feed/Feed';
+import SPFeed from './Components/Feed/SPFeed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
 import OmbudsmanHome from './Components/Ombudsman/OmbudsmanHome';
@@ -62,6 +63,7 @@ class App extends Component {
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} />); break;
+      case "SPFeed" :   view = <SPFeed />;break;
       default: alert("No Page To Load (case:default:App.js)");
     }
 

@@ -11,12 +11,14 @@ class CardX extends Component {
         if(this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                    Complaint Name: {this.props.content.complaintName}<br/>
-                    Description:  <br/> {this.props.content.description}<br/>
-                    Pay: {this.props.content.pay}<br/>
-                    Type: {this.props.content.type}<br/>
-                    WorkNature: {this.props.content.workNature}<br/>
-                    Status: {this.props.content.status}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th>Complaint Name: </th><td> {this.props.content.complaintName} </td></tr>
+                        <tr><th>Description:    </th><td> {this.props.content.description} </td></tr>
+                        <tr><th>Pay:            </th><td> {this.props.content.pay} </td></tr>
+                        <tr><th>Type:           </th><td> {this.props.content.type} </td></tr>
+                        <tr><th>WorkNature:     </th><td> {this.props.content.workNature} </td></tr>
+                        <tr><th>Status:         </th><td> {this.props.content.status} </td></tr>
+                    </tbody></table>
                 </div>
             )
         }

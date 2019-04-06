@@ -2,12 +2,12 @@
     text-align: center;
     color: lime;
     /* height: 30vh; */
-    margin: 8% auto;
+    margin: 1% auto;
     /* border: 1px dashed slateblue; */
-    border-radius: 0.5vw;
-    padding: 2vw 3vw;
+    border-radius: 0.25em;
+    padding: 2.2vh 2.2vw;
 }
 
 .skills {
-    margin:1vw;
+    margin: 0.5em;
 }

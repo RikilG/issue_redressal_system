@@ -6,6 +6,8 @@ import Issue from "../../Classes/Issue";
 import Freelancer from "../../Classes/Freelancer";
 import Organization from "../../Classes/Organization";
 import CardX from "../../Classes/CardX/CardX";
+import loadingIcon from '../../Assets/loading.gif';
+import restartIcon from '../../Assets/restart.png';
 
 class AdminHome extends Component {
   constructor(props) {
@@ -14,7 +16,8 @@ class AdminHome extends Component {
       issues: [],
       users: [],
       freelancers: [],
-      organizations: []
+      organizations: [],
+      loading: false
     };
   }
 
@@ -42,11 +45,14 @@ class AdminHome extends Component {
           return new Organization(organization);
         });
         this.setState({
-          issues: allIssues,
-          users: allCustomers,
-          freelancers: allFreelancers,
-          organizations: allOrganizations
+          issuesDisplay: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
+          usersDisplay: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
+          freelancerDisplay: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
+          organizationDisplay: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
         });
+      })
+      .then( () => {
+        this.setState({ loading: false });
       });
   }
 
@@ -61,8 +67,11 @@ class AdminHome extends Component {
       });
   };
 
+  refershHandler = () => this.componentDidMount();
+
   render() {
-    let { issues, users, freelancers, organizations } = this.state;
+    let { issuesDisplay, usersDisplay, freelancerDisplay, organizationDisplay, loading } = this.state;
+
     return (
       // <div id="adminHomeRoot">
       //     <div id="issuesContainer">
@@ -81,7 +90,8 @@ class AdminHome extends Component {
         <div id="adminTabs">
           <Tab.Container defaultActiveKey="issueTab">
             <Row>
-              <Col sm={3}>
+              <Col sm={2}>
+                <h2>Category</h2><hr />
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
                     <Nav.Link eventKey="issueTab">Issues</Nav.Link>
@@ -96,24 +106,29 @@ class AdminHome extends Component {
                     <Nav.Link eventKey="organizationTab">Organizations</Nav.Link>
                   </Nav.Item>
                 </Nav>
+                <div id="adminStatistics">
+                  <h2>Statistics</h2><hr />
+                  <div className="controls"><div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />Reload Data</div></div>
+                </div>
               </Col>
-              <Col sm={9}>
+              <div className="vr" xs></div>
+              <Col sm={9} lg>
                 <Tab.Content>
                   <Tab.Pane eventKey="issueTab" id="issuesContainer">
-                    {/* {issues.map((issue, index) => <p id="element" key={index}>{issue.complaintName}</p> )} */}
-                    {issues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />)}
+                    <h2>Posted Issues</h2><hr />
+                    {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:issuesDisplay}
                   </Tab.Pane>
                   <Tab.Pane eventKey="customerTab" id="usersContainer">
-                    {/* {users.map((user, index) => <p id="element" key={index}>{user.fname}</p> )} */}
-                    {users.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />)}
+                    <h2>Registered Customers</h2><hr />
+                    {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:usersDisplay}
                   </Tab.Pane>
                   <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
-                    {/* {freelancers.map((freelancer, index) => <p id="element" key={index}>{freelancer.fname}</p> )} */}
-                    {freelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />)}
+                    <h2>Registered Freelancers</h2><hr />
+                    {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:freelancerDisplay}
                   </Tab.Pane>
                   <Tab.Pane eventKey="organizationTab" id="orgContainer">
-                    {/* {organizations.map((organization, index) => <p id="element" key={index}>{organization.name}</p> )} */}
-                    {organizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />)}
+                    <h2>Registered Organizations</h2><hr />
+                    {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:organizationDisplay}
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
