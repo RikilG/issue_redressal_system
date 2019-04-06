@@ -57,7 +57,7 @@ class App extends Component {
       case "Profile": view = <Profile />; break;
       case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} />; break;
       case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} />; break;
-      case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
+      case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} setView />; break;
       case "FillDetails": view = <FillDetails email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome email={this.state.email} />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
