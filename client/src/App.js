@@ -30,6 +30,7 @@ class App extends Component {
   }
 
   setView = viewName => {
+    console.log("setview");
     this.setState({ currentView: viewName });
     this.forceUpdate();
   };

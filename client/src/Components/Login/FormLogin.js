@@ -25,6 +25,7 @@ class FormLogin extends Component {
   };
 
   postRequest = () => {
+    console.log("loggin");
     fetch("/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },

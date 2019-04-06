@@ -74,6 +74,13 @@ var organizationSchema = new mongo.Schema({
   workforce: Number,
 });
 var organization = new mongo.model('organization', organizationSchema);
+
+var voterSchema = new mongo.Schema({
+  email: String,
+  type: String
+});
+var voter = new mongo.model('voter', voterSchema);
+
 //serve react static files.
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
@@ -93,7 +100,7 @@ app.get("/logs", (req, res) => {
   res.sendFile(path.join(__dirname + "/ServerLog.txt"));
 });
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
     res.json({
       isAdmin: true,
@@ -108,6 +115,7 @@ app.post('/login', (req, res) => {
     });
   }
   else {
+    console.log("valid?");
     customer.findOne({ email: req.body.email }, function (err, data) {
       if (data === null) {
         res.json({
@@ -131,6 +139,42 @@ app.post('/login', (req, res) => {
       }
     });
   }
+})
+
+app.post("/comcard2", (req, res) => {
+  voter.count({ type: 'upvote' }, function (err, upv) {
+    if (upv == null) {
+      upv = 0;
+    }
+  });
+  voter.count({ type: 'downvote' }, function (err, downv) {
+    if (downv == null) {
+      downv = 0;
+    }
+  });
+  res.send({
+    nou: upv,
+    nod: downv
+  });
+})
+
+app.post("/comcard", (req, res) => {
+  console.log("im here");
+  var newvoter = new voter(req.body);
+  voter.findOne({ email: req.body.email }, function (err, data) {
+    if (data == null) {
+      newvoter.save();
+      res.json({
+        accepted: true
+      });
+    } else {
+
+      voter.UpdateOne({ email: req.body.email }, { $set: { type: req.body.type } }, err => {
+        if (err) res.json({ errorStatus: true });
+        else res.json({ errorStatus: false });
+      });
+    }
+  })
 })
 
 app.post("/register", function (req, res) {

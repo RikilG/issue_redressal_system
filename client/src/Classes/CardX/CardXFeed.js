@@ -7,16 +7,16 @@ class CardX extends Component {
     constructor(props) {
         super(props);
         let cont;
-        
-        if(this.props.content.className === 'Issue') {
+
+        if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                    Complaint Name: {this.props.content.complaintName}<br/>
-                    Description:  <br/> {this.props.content.description}<br/>
-                    Pay: {this.props.content.pay}<br/>
-                    Type: {this.props.content.type}<br/>
-                    WorkNature: {this.props.content.workNature}<br/>
-                    Status: {this.props.content.status}<br/>
+                    Complaint Name: {this.props.content.complaintName}<br />
+                    Description:  <br /> {this.props.content.description}<br />
+                    Pay: {this.props.content.pay}<br />
+                    Type: {this.props.content.type}<br />
+                    WorkNature: {this.props.content.workNature}<br />
+                    Status: {this.props.content.status}<br />
                 </div>
             )
         }
@@ -26,7 +26,7 @@ class CardX extends Component {
                     Unable to resolve classname. Check site console for details and contact site admin.
                 </div>
             )
-            console.log('unresolved class name: '+this.props.content.className);
+            console.log('unresolved class name: ' + this.props.content.className);
             console.log(this.props.content);
         }
 
@@ -46,12 +46,17 @@ class CardX extends Component {
                 id: this.props.content.id,
             })
         }).then(res => res.json())
-        .then(data => {
-            if(!data.errorStatus) {
-                //page reload
-                this.props.parent.componentDidMount();
-            }
-        });
+            .then(data => {
+                if (!data.errorStatus) {
+                    //page reload
+                    this.props.parent.componentDidMount();
+                }
+            });
+    }
+
+    redToEdit = () => {
+        console.log("entered");
+        this.props.setView("EditIssue");
     }
 
     render() {
@@ -59,11 +64,14 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
-                    {this.state.showBody && this.props.myIssues && !(this.props.content.type==="Government") && (
+                    {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                         <span id="controls">
                             <div className="control" onClick={this.redToGovt}>
                                 <img className="action" src={govtIcon} alt='govt' />
                                 Redirect to Govt
+                            </div>
+                            <div className="control" onClick={this.redToEdit}>
+                                EdIt
                             </div>
                         </span>
                     )}
