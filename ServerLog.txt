@@ -10,3 +10,4 @@ FUNCTION WE USE because we cannot see console.log from heroku
 fs.appendFile("/ServerLog.txt", "Hey there!");
 
 >>>>>LOG<<<<
+Fri Apr 05 2019 19:05:43 GMT+0530 (India Standard Time) Connected to mongoDB atlas

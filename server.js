@@ -132,7 +132,6 @@ app.post('/login', (req, res) => {
     });
   }
 })
-
 app.post('/register',function(req,res){
     var newcustm=new customer(req.body);
     customer.findOne({email:req.body.email},function(err,data){
