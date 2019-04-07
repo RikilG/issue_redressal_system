@@ -2,6 +2,7 @@ import React, { Component } from "react";
 //import logo from './logo.svg';
 import './App.css';
 import './index.css';
+import ErrorBoundary from './Classes/ErrorBoundary';
 import TopBar from './Components/NavBar/TopBar';
 import Home from './Components/Home/Home';
 import Feed from './Components/Feed/Feed';
@@ -24,6 +25,7 @@ class App extends Component {
       signinStatus: false,
       isAdmin: false,
       isOmbudsman: false,
+      isCustomer: false,
       completedIssues: false,
       email: "",
       storedData: null
@@ -41,13 +43,14 @@ class App extends Component {
 
   setSigninStatus = (boolValue, userEmail) => {
     if (boolValue === false) {
-      this.setState({ isAdmin: false, isOmbudsman: false });
+      this.setState({ isAdmin: false, isOmbudsman: false, isCustomer: false });
     }
     this.setState({ signinStatus: boolValue, email: userEmail });
   }
   setAdmin = (boolValue) => this.setState({ isAdmin: boolValue });
   setCompletedIssues = (boolValue) => this.setState({ completedIssues: boolValue });
   setOmbudsman = (boolValue) => this.setState({ isOmbudsman: boolValue });
+  setCustomer = (boolValue) => this.setState({ isCustomer: boolValue });
 
   render() {
     let view;
@@ -55,8 +58,8 @@ class App extends Component {
     switch (currentView) {
       case "Register": view = <FormRegister setView={this.setView} />; break;
       case "Profile": view = <Profile />; break;
-      case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} />; break;
-      case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} />; break;
+      case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
+      case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
       case "FillDetails": view = <FillDetails email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome email={this.state.email} />; break;
@@ -68,11 +71,13 @@ class App extends Component {
     }
 
     return (
+      <ErrorBoundary>
       <div className="App">
-        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
-        {view}
+        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
+          {view}
         {/* <footer id="footer"><Footer /></footer> */}
       </div>
+      </ErrorBoundary>
     );
   }
 }
