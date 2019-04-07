@@ -87,7 +87,7 @@ class ComCard extends Component {
     }
 
     render() {
-        let { upvote, downvote, uStatus, dStatus } = this.state;
+        let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
         return (
             <div className="cardxRoot">
                 <div className="cardxHeader" >

@@ -243,6 +243,16 @@ app.post("/postIssue", function (req, res) {
   res.json({});
 });
 
+app.post("/acceptIssue", (req, res) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer" }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+      console.log(err);
+    }
+    else res.json({ errorStatus: false });
+  });
+})
+
 app.post('/feed', (req, res) => {
   issue.find({ email: req.body.email }, function (err, issues) {
     issue.find({ type: "Community" }, function (err, communityIssues) {
