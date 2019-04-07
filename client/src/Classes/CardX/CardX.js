@@ -18,57 +18,65 @@ class CardX extends Component {
         if(this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
-                    Complaint Name: {this.props.content.complaintName}<br/>
-                    Email: {this.props.content.email}<br/>
-                    Pay: {this.props.content.pay}<br/>
-                    Type: {this.props.content.type}<br/>
-                    WorkNature: {this.props.content.workNature}<br/>
-                    Description: {this.props.content.description}<br/>
-                    Status: {this.props.content.status}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th>Complaint Name:</th><td> {this.props.content.complaintName}</td></tr>
+                        <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
+                        <tr><th>Pay:           </th><td> {this.props.content.pay}</td></tr>
+                        <tr><th>Type:          </th><td> {this.props.content.type}</td></tr>
+                        <tr><th>WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th>Description:   </th><td> {this.props.content.description}</td></tr>
+                        <tr><th>Status:        </th><td> {this.props.content.status}</td></tr>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Customer') {
             cont = (
                 <div className='cardxContent' >
-                    First Name: {this.props.content.fname}<br/>
-                    Last Name: {this.props.content.lname}<br/>
-                    Email: {this.props.content.email}<br/>
-                    Password: {this.props.content.password}<br/>
-                    Address: {this.props.content.address}<br/>
-                    City: {this.props.content.city}<br/>
-                    State: {this.props.content.state}<br/>
-                    Pincode: {this.props.content.pincode}<br/>
-                    Mobile: {this.props.content.mobile}<br/>
-                    Aadhaar: {this.props.content.aadhaar}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th>First Name: </th><td> {this.props.content.fname} </td></tr>
+                        <tr><th>Last Name:  </th><td> {this.props.content.lname} </td></tr>
+                        <tr><th>Email:      </th><td> {this.props.content.email} </td></tr>
+                        <tr><th>Password:   </th><td> {this.props.content.password} </td></tr>
+                        <tr><th>Address:    </th><td> {this.props.content.address} </td></tr>
+                        <tr><th>City:       </th><td> {this.props.content.city} </td></tr>
+                        <tr><th>State:      </th><td> {this.props.content.state} </td></tr>
+                        <tr><th>Pincode:    </th><td> {this.props.content.pincode} </td></tr>
+                        <tr><th>Mobile:     </th><td> {this.props.content.mobile} </td></tr>
+                        <tr><th>Aadhaar:    </th><td> {this.props.content.aadhaar} </td></tr>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Freelancer') {
             cont = (
                 <div className='cardxContent' >
-                    First Name: {this.props.content.fname}<br/>
-                    Last Namename: {this.props.content.lname}<br/>
-                    Email: {this.props.content.email}<br/>
-                    Password: {this.props.content.password}<br/>
-                    Address: {this.props.content.address}<br/>
-                    City: {this.props.content.city}<br/>
-                    State: {this.props.content.state}<br/>
-                    Mobile: {this.props.content.mobile}<br/>
-                    Aadhaar: {this.props.content.aadhaar}<br/>
-                    Pincode: {this.props.content.pincode}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th>First Name:    </th><td> {this.props.content.fname}</td></tr>
+                        <tr><th>Last Namename: </th><td> {this.props.content.lname}</td></tr>
+                        <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
+                        <tr><th>Password:      </th><td> {this.props.content.password}</td></tr>
+                        <tr><th>Address:       </th><td> {this.props.content.address}</td></tr>
+                        <tr><th>City:          </th><td> {this.props.content.city}</td></tr>
+                        <tr><th>State:         </th><td> {this.props.content.state}</td></tr>
+                        <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
+                        <tr><th>Aadhaar:       </th><td> {this.props.content.aadhaar}</td></tr>
+                        <tr><th>Pincode:       </th><td> {this.props.content.pincode}</td></tr>
+                    </tbody></table>
                 </div>
             )
         }
         else if(this.props.content.className === 'Organization') {
             cont = (
                 <div className='cardxContent' >
-                    Name: {this.props.content.name}<br/>
-                    Email: {this.props.content.email}<br/>
-                    Password: {this.props.content.password}<br/>
-                    Headquaters: {this.props.content.headquaters}<br/>
-                    Mobile: {this.props.content.mobile}<br/>
-                    Workforce: {this.props.content.workforce}<br/>
+                    <table className="detailsTable"><tbody>
+                        <tr><th>Name:          </th><td> {this.props.content.name}</td></tr>
+                        <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
+                        <tr><th>Password:      </th><td> {this.props.content.password}</td></tr>
+                        <tr><th>Headquaters:   </th><td> {this.props.content.headquaters}</td></tr>
+                        <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
+                        <tr><th>Workforce:     </th><td> {this.props.content.workforce}</td></tr>
+                    </tbody></table>
                 </div>
             )
         }

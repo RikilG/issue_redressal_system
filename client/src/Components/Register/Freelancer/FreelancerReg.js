@@ -16,6 +16,7 @@ class FreelancerReg extends Component {
             pincode: "",
             mobile: "",
             aadhaar: "",
+            department:"",
             iAgree: false,
             chkElectrician: false,
             chkPlumber: false,
@@ -38,6 +39,27 @@ class FreelancerReg extends Component {
     onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
 
     handleRegister = () => {
+        if(!this.chkElectrician){
+            if(!this.chkCarpenter){
+                if(!this.chkCivil){
+                    if(!this.chkPlumber){
+                        this.department=this.otherWork;
+                    }
+                    else{
+                        this.department="Plumber"
+                    }
+                }
+                else{
+                    this.department="Civil"
+                }
+            }
+            else{
+                this.department="Carpenter"
+            }
+        }
+        else{
+            this.department="Electrician"
+        }
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
             return;
@@ -52,6 +74,7 @@ class FreelancerReg extends Component {
                 password: this.state.password,
                 address: this.state.address,
                 city: this.state.city,
+                department:this.state.department,
                 state: this.state.state,
                 mobile: this.state.mobile,
                 aadhaar: this.state.aadhaar,

@@ -8,6 +8,7 @@ class Freelancer {
         this.address = jsonObject.address;
         this.city = jsonObject.city;
         this.state = jsonObject.state;
+        this.department=jsonObject.department;
         this.mobile = jsonObject.mobile;
         this.aadhaar = jsonObject.aadhaar;
         this.pincode = jsonObject.pincode;

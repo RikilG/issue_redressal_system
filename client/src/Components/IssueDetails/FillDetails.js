@@ -66,11 +66,13 @@ class FillDetails extends Component {
         pay: this.state.pay,
         workNature: this.state.department,
         description: this.state.description,
-        type: this.state.type
+        type: this.state.type,
+        status: "Pending"
       })
     })
       .then(res => res.json())
       .then(data => {
+    //  console.log("jhf");
         alert("Issue successfully submitted!!!");
         this.props.setView("Feed");
       });

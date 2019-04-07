@@ -6,7 +6,12 @@
     /* height: 30vh; */
     margin: 8% auto;
     /* border: 1px dashed slateblue; */
-    border-radius: 0.5vw;
-    padding: 2vw 3vw;
+    border-radius: 0.25em;
+    padding: 3vh 2.5vw;
     box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5);
+}
+
+#heading {
+    margin: 3%;
+    margin-top: 0;
 }

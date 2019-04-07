@@ -58,6 +58,7 @@ var freelancerSchema = new mongo.Schema({
   password: String,
   address: String,
   city: String,
+  department: String,
   state: String,
   mobile: Number,
   aadhaar: Number,
@@ -108,26 +109,42 @@ app.post('/login', (req, res) => {
     });
   }
   else {
-    customer.findOne({ email: req.body.email }, function (err, data) {
-      if (data === null) {
-        res.json({
-          validUser: false,
-          isAdmin: false
-        });
+    customer.findOne({ email: req.body.email, password: req.body.password }, function (err, data1) {
+      if(data1===null) {
+        freelancer.findOne({ email: req.body.email, password: req.body.password }, function (err, data2) {
+          if(data2===null) {
+            organization.findOne({ email: req.body.email, password: req.body.password }, function (err, data3) {
+              if(data3===null) {
+                res.json({
+                  isCustomer: false,
+                  isAdmin: false,
+                  isSP: false
+                });
+              }
+              else {
+                res.json({
+                  isCustomer: false,
+                  isAdmin: false,
+                  isSP: true
+                });
+              }
+            })
+          }
+          else {
+            res.json({
+              isCustomer: false,
+              isAdmin: false,
+              isSP: true
+            });
+          }
+        })
       }
       else {
-        if (data.password === req.body.password) {
-          res.json({
-            validUser: true,
-            isAdmin: false
-          });
-        }
-        else {
-          res.json({
-            validUser: false,
-            isAdmin: false
-          });
-        }
+        res.json({
+          isCustomer: true,
+          isAdmin: false,
+          isSP: false
+        });
       }
     });
   }
@@ -305,10 +322,13 @@ app.post('/ombudTrack', (req, res) => {
   });
 })
 
+app.post('/spp',function(req,res){
+
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
-
 app.listen(port, () => {
   console.log(`server running on : "http://localhost:${port}"`);
 });
