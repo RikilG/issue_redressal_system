@@ -80,7 +80,7 @@ class FillDetails extends Component {
 
   render() {
     return (
-      <div className="fillDetails">
+      <div className="fillDetails form">
         <img id="carousel" alt="mypic" src={this.state.carousel} />
         <br />
 
