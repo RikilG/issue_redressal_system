@@ -65,8 +65,8 @@ class App extends Component {
       case "AdminHome": view = <AdminHome email={this.state.email} />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
-      case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} />); break;
-      case "SPFeed" :   view = <SPFeed />;break;
+      case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
+      case "SPFeed": view = <SPFeed />; break;
       default: alert("No Page To Load (case:default:App.js)");
     }
 
