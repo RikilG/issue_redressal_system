@@ -21,7 +21,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentView: "PostIssue",
+      currentView: "Home",
       signinStatus: false,
       isAdmin: false,
       isOmbudsman: false,

@@ -3,6 +3,7 @@ import "./PostIssue.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import TimeWrapper from "../../Classes/TimeWrapper/TimeWrapper";
 import { images } from "./images";
 
 class PostIssue extends Component {
@@ -21,12 +22,12 @@ class PostIssue extends Component {
     };
   }
 
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({ i: this.state.i + 1 });
-      this.setState({ carousel: images[this.state.i % 10].ref });
-    }, 2000);
-  }
+  // componentDidMount() {
+  //   setInterval(() => {
+  //     this.setState({ i: this.state.i + 1 });
+  //     this.setState({ carousel: images[this.state.i % 10].ref });
+  //   }, 2000);
+  // }
 
   onOthersChange = input => {
     this.setState({ other: input.target.value });
@@ -80,7 +81,8 @@ class PostIssue extends Component {
   render() {
     return (
       <div className="postIssue form">
-        <img id="carousel" alt="mypic" src={this.state.carousel} />
+        {/* <img id="carousel" alt="mypic" src={this.state.carousel} /> */}
+        <h2>Post your issue here</h2>
         <br />
 
         <Form onSubmit={this.handleSubmit}>
@@ -139,14 +141,29 @@ class PostIssue extends Component {
             <p>Government Issue</p>
           </label>
           <Form.Row>
-            <Form.Group controlId="estimated pay">
-              <Form.Label>Estimated pay</Form.Label>
-              <Form.Control
-                placeholder="Rs.1000"
-                onChange={this.onPayChange}
-                required
-              />
-            </Form.Group>
+            <Col>
+              <Form.Group controlId="estimated pay">
+                <Form.Label>Estimated pay</Form.Label>
+                <Form.Control
+                  placeholder="Rs.1000"
+                  onChange={this.onPayChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Row><Col>
+                <Form.Label>Specify available time</Form.Label>
+              </Col></Form.Row>
+              <Form.Row>
+                <Col>
+                  <TimeWrapper displayTime='09:00' />
+                </Col>
+                <Col>
+                  <TimeWrapper displayTime='17:00' />
+                </Col>
+              </Form.Row>
+            </Col>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
