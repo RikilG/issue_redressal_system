@@ -4,7 +4,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import TimeWrapper from "../../Classes/TimeWrapper/TimeWrapper";
+import ModalAlert from "../../Classes/Modals/ModalAlert";
 import { images } from "./images";
+import axios from 'axios';
 
 class PostIssue extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class PostIssue extends Component {
     this.state = {
       carousel: "",
       i: 0,
+      showModal: false,
       complaintName: "",
       pay: "",
       department: "Others",
@@ -28,6 +31,11 @@ class PostIssue extends Component {
   //     this.setState({ carousel: images[this.state.i % 10].ref });
   //   }, 2000);
   // }
+
+  handleModalHide = () => {
+    setTimeout(() => this.setState({ showModal: false }), 500);
+    this.props.setView("Feed");
+  }
 
   onOthersChange = input => {
     this.setState({ other: input.target.value });
@@ -71,11 +79,28 @@ class PostIssue extends Component {
         status: "Pending"
       })
     })
-      .then(res => res.json())
+    .then(res => {console.log(res); return res})
+      .then(res => {console.log(res); return res.json()})
       .then(data => {
-        alert("Issue successfully submitted!!!");
-        this.props.setView("Feed");
-      });
+        this.setState({ showModal: true });
+      })
+      .catch(error => alert(error));
+    // console.log("Posting issue using axios");
+    // axios.post("/postIssue", {
+    //   email: this.props.email,
+    //   complaintName: this.state.complaintName,
+    //   pay: this.state.pay,
+    //   workNature: this.state.department,
+    //   description: this.state.description,
+    //   type: this.state.type,
+    //   status: "Pending"
+    // }).then(res => {console.log(res); return res})
+    //   .then(res => res.data)
+    //   .then(data => {
+    //     console.log(data);
+    //     this.setState({ showModal: true });
+    //   })
+    //   .catch(error => alert(error));
   };
 
   render() {
@@ -84,7 +109,7 @@ class PostIssue extends Component {
         {/* <img id="carousel" alt="mypic" src={this.state.carousel} /> */}
         <h2>Post your issue here</h2>
         <br />
-
+        {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
         <Form onSubmit={this.handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">

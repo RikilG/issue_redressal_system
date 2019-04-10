@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./EditIssue.css";
+import ModalAlert from "../../Classes/Modals/ModalAlert";
 // import Customer from "../../Classes/Customer";
 // import Issue from "../../Classes/Issue";
 // import Freelancer from "../../Classes/Freelancer";
@@ -23,7 +24,8 @@ class EditIssue extends Component {
       type: this.props.storedData.type,
       householdChk: true,
       communityChk: false,
-      govtChk: false
+      govtChk: false,
+      showModal:false
     };
   }
 
@@ -84,14 +86,18 @@ class EditIssue extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        alert("Issue successfully Edited!!!");
-        this.props.setView("Feed");
+        this.setState({ showModal: true });
       });
   };
+
+  handleModalHide = () => {
+    setTimeout(() => this.props.setView("Feed"), 500);
+  }
 
   render() {
     return (
       <div className="editIssue">
+        {(this.state.showModal)?<ModalAlert show={this.state.showModal} head="Issue successfully edited!" body="press close to continue..." onHide={this.handleModalHide} />:null}
         <Form>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">

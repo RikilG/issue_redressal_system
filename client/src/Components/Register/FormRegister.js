@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./FormRegister.css";
 import { Form, Button, Col } from "react-bootstrap";
+import ModalAlert from "../../Classes/Modals/ModalAlert";
 
 class FormRegister extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ class FormRegister extends Component {
       pincode: "",
       mobile: "",
       aadhaar: "",
-      iAgree: false
+      iAgree: false,
+      alert: { head: null, body: null },
+      showModal: false
     };
   }
 
@@ -58,11 +61,11 @@ class FormRegister extends Component {
     this.setState({ iAgree: !this.state.iAgree });
   };
 
+  handleModalHide = () => {
+    this.setState({ showModal: false });
+  }
+
   handleRegister = () => {
-    if (!this.state.iAgree) {
-      alert("Please agree to T&C to continue.");
-      return;
-    }
     fetch("/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -82,10 +85,16 @@ class FormRegister extends Component {
       .then(res => res.json())
       .then(data => {
         if (data.accepted) {
-          alert("Successfully registered!!!, login to continue.");
+          this.setState({ showModal: true });
+          this.setState({ alert: {head:"Successfully Registered!", body:"Login to continue." } });
           this.props.setView("Home");
-        } else alert("User already existing, login to continue.");
-      });
+        }
+        else {
+          this.setState({ showModal: true });
+          this.setState({ alert: {head:"User already existing", body:"Given email already exists. Please use another or login to continue" } });
+        }
+      })
+      .catch(error => console.log(error));
   };
 
   handleServiceRegister = () => {
@@ -95,6 +104,7 @@ class FormRegister extends Component {
   render() {
     return (
       <div className="formregister form">
+        {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head={this.state.alert.head} body={this.state.alert.body} />:null}
         <h2 id="heading">New Customer? register here</h2>
         <Form onSubmit={this.handleRegister}>
           <Form.Row>
@@ -218,7 +228,7 @@ class FormRegister extends Component {
             Submit
           </Button>
         </Form>
-        <p>
+        <div>
           <br />
           <h5>
             Trying to help the society?{" "}
@@ -227,7 +237,7 @@ class FormRegister extends Component {
             </a>
             .
           </h5>
-        </p>
+        </div>
       </div>
     );
   }
