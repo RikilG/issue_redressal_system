@@ -10,7 +10,7 @@ import SPFeed from './Components/Feed/SPFeed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
 import OmbudsmanHome from './Components/Ombudsman/OmbudsmanHome';
-import FillDetails from './Components/IssueDetails/FillDetails';
+import PostIssue from './Components/PostIssue/PostIssue';
 import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
@@ -21,7 +21,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentView: "Home",
+      currentView: "PostIssue",
       signinStatus: false,
       isAdmin: false,
       isOmbudsman: false,
@@ -61,7 +61,7 @@ class App extends Component {
       case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
-      case "FillDetails": view = <FillDetails email={this.state.email} setView={this.setView} />; break;
+      case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome email={this.state.email} />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import "./FillDetails.css";
+import "./PostIssue.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import { images } from "./images";
 
-class FillDetails extends Component {
+class PostIssue extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,7 +79,7 @@ class FillDetails extends Component {
 
   render() {
     return (
-      <div className="fillDetails form">
+      <div className="postIssue form">
         <img id="carousel" alt="mypic" src={this.state.carousel} />
         <br />
 
@@ -196,4 +196,4 @@ class FillDetails extends Component {
   }
 }
 
-export default FillDetails;
+export default PostIssue;

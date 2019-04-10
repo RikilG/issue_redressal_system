@@ -7,7 +7,7 @@ class TopBar extends Component {
 
   handleLoginLink     = () => { this.props.setView("Login"); };
   handleRegisterLink  = () => { this.props.setView("Register"); };
-  handleDetailsLink   = () => { this.props.setView("FillDetails"); };
+  handleDetailsLink   = () => { this.props.setView("PostIssue"); };
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
 
