@@ -14,8 +14,8 @@ class CardX extends Component {
     constructor(props) {
         super(props);
         let cont;
-        
-        if(this.props.content.className === 'Issue') {
+
+        if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
@@ -30,7 +30,7 @@ class CardX extends Component {
                 </div>
             )
         }
-        else if(this.props.content.className === 'Customer') {
+        else if (this.props.content.className === 'Customer') {
             cont = (
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
@@ -48,7 +48,7 @@ class CardX extends Component {
                 </div>
             )
         }
-        else if(this.props.content.className === 'Freelancer') {
+        else if (this.props.content.className === 'Freelancer') {
             cont = (
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
@@ -66,7 +66,7 @@ class CardX extends Component {
                 </div>
             )
         }
-        else if(this.props.content.className === 'Organization') {
+        else if (this.props.content.className === 'Organization') {
             cont = (
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
@@ -86,7 +86,7 @@ class CardX extends Component {
                     Unable to resolve classname. Check site console for details and contact site admin.
                 </div>
             )
-            console.log('unresolved class name: '+this.props.content.className);
+            console.log('unresolved class name: ' + this.props.content.className);
             console.log(this.props.content);
         }
 
@@ -110,16 +110,16 @@ class CardX extends Component {
                 newStatus: status
             })
         }).then(res => res.json())
-        .then(data => {
-            if(!data.errorStatus) {
-                //page reload
-                this.props.parent.componentDidMount();
-            }
-        });
+            .then(data => {
+                if (!data.errorStatus) {
+                    //page reload
+                    this.props.parent.componentDidMount();
+                }
+            });
     }
 
     deleteItemHandler = () => {
-        if(window.confirm("This operation is not reversible. Do you want to continue?")) {
+        if (window.confirm("This operation is not reversible. Do you want to continue?")) {
             fetch('/adminDelete', {
                 method: "post",
                 headers: { 'Content-Type': 'application/json' },
@@ -128,12 +128,12 @@ class CardX extends Component {
                     id: this.props.content.id
                 })
             }).then(res => res.json())
-            .then(data => {
-                if(!data.errorStatus) {
-                    //page reload
-                    this.props.parent.componentDidMount();
-                }
-            });
+                .then(data => {
+                    if (!data.errorStatus) {
+                        //page reload
+                        this.props.parent.componentDidMount();
+                    }
+                });
         }
     }
 
@@ -150,7 +150,7 @@ class CardX extends Component {
                             </div>
                         </span>
                     )}
-                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Track") && (
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls === "Track") && (
                         <span id="controls">
                             <div className="control" onClick={() => this.trackItemHandler(this.state.inProgress)}>
                                 <img className="action" src={trackIcon} alt='track' />
@@ -158,7 +158,7 @@ class CardX extends Component {
                             </div>
                         </span>
                     )}
-                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Control") && (
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls === "Control") && (
                         <span id="controls">
                             <div className="control" onClick={() => this.trackItemHandler(this.state.pending)}>
                                 <img className="action" src={untrackIcon} alt='track' />
@@ -170,7 +170,7 @@ class CardX extends Component {
                             </div>
                         </span>
                     )}
-                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls==="Restart") && (
+                    {this.props.isOmbudsman && this.state.showBody && (this.props.controls === "Restart") && (
                         <span id="controls">
                             <div className="control" onClick={() => this.trackItemHandler(this.state.pending)}>
                                 <img className="action" src={restartIcon} alt='restart' />

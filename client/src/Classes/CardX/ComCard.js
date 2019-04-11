@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './ComCard.css';
 import '../Issue';
+import thumbsupIcon from '../../Assets/thumbsup.png';
+import thumbsdownIcon from '../../Assets/thumbsdown.png'
 
 
 class ComCard extends Component {
@@ -99,11 +101,11 @@ class ComCard extends Component {
                     {
                         <span id="comControls">
                             <div className="control" onClick={this.handleUpvote}>
-                                {<img className="action" src={"https://static.thenounproject.com/png/344539-200.png"} alt='govt' />}
+                                {<img className="action" src={thumbsupIcon} alt='govt' />}
                                 {upvote}
                             </div>
                             <div className="control" onClick={this.handleDownvote}>
-                                {<img className="action" src={"https://static.thenounproject.com/png/781493-200.png"} alt='govt' />}
+                                {<img className="action" src={thumbsdownIcon} alt='govt' />}
                                 {downvote}
                             </div>
                         </span>

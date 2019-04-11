@@ -4,6 +4,13 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import { images } from "./images";
+import householdimg from '../../Assets/household.jpg';
+import communityimg from '../../Assets/community.jpg';
+import governmentimg from '../../Assets/government.png';
+import carousal1 from '../../Assets/carousal1.jpg';
+import carousal2 from '../../Assets/carousal2.jpg';
+import carousal3 from '../../Assets/carousal3.png';
+import carousal4 from '../../Assets/carousal4.png';
 
 class FillDetails extends Component {
   constructor(props) {
@@ -24,7 +31,14 @@ class FillDetails extends Component {
   componentDidMount() {
     setInterval(() => {
       this.setState({ i: this.state.i + 1 });
-      this.setState({ carousel: images[this.state.i % 10].ref });
+      if (this.state.i === 1 || this.state.i === 5 || this.state.i === 9)
+        this.setState({ carousal: carousal3 });
+      if (this.state.i === 2 || this.state.i === 8)
+        this.setState({ carousal: carousal2 });
+      if (this.state.i === 3 || this.state.i === 6 || this.state.i === 0)
+        this.setState({ carousal: carousal3 });
+      if (this.state.i === 4 || this.state.i === 7)
+        this.setState({ carousal: carousal4 });
     }, 2000);
   }
 
@@ -80,7 +94,7 @@ class FillDetails extends Component {
   render() {
     return (
       <div className="fillDetails">
-        <img id="carousel" alt="mypic" src={this.state.carousel} />
+        <img id="carousel" alt="mypic" src={this.state.carousal} />
         <br />
 
         <Form onSubmit={this.handleSubmit}>
@@ -106,7 +120,7 @@ class FillDetails extends Component {
             />
             <img
               alt="Household"
-              src="https://thumbs.dreamstime.com/b/construction-worker-drilling-hole-wall-new-house-47018944.jpg"
+              src={householdimg}
             />
             <p>Household Issue</p>
           </label>
@@ -120,7 +134,7 @@ class FillDetails extends Component {
             />
             <img
               alt="Community Issue"
-              src="https://i.cbc.ca/1.4649312.1525464898!/fileImage/httpImage/image.jpg_gen/derivatives/original_780/tree-down.jpg"
+              src={communityimg}
             />
             <p>Community Issue</p>
           </label>
@@ -134,7 +148,7 @@ class FillDetails extends Component {
             />
             <img
               alt="Government issue"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/220px-Emblem_of_India.svg.png"
+              src={governmentimg}
             />
             <p>Government Issue</p>
           </label>

@@ -61,6 +61,24 @@ class CardX extends Component {
         this.props.setView("EditIssue");
     }
 
+    redToDelete = () => {
+        if (window.confirm("This operation is not reversible. Do you want to continue?")) {
+            fetch('/feedDelete', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: this.props.content.id
+                })
+            }).then(res => res.json())
+                .then(data => {
+                    if (!data.errorStatus) {
+                        //page reload
+                        this.props.parent.componentDidMount();
+                    }
+                });
+        }
+    }
+
     render() {
         return (
             <div className="cardxRoot">
@@ -74,6 +92,9 @@ class CardX extends Component {
                             </div>
                             <div className="control" onClick={this.redToEdit}>
                                 EdIt
+                            </div>
+                            <div className="control" onClick={this.redToDelete}>
+                                DeLeTe
                             </div>
                         </span>
                     )}

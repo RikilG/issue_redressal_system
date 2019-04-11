@@ -325,6 +325,13 @@ app.post("/adminDelete", (req, res) => {
   }
 });
 
+app.post('/feedDelete', (req, res) => {
+  issue.deleteOne({ _id: req.body.id }, err => {
+    if (err) res.json({ errorStatus: true });
+    else res.json({ errorStatus: false });
+  });
+});
+
 app.post('/Ombudsman', (req, res) => {
   if (req.body.email === "ombudsman@issueredressal") {
     issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
@@ -340,6 +347,8 @@ app.post('/Ombudsman', (req, res) => {
     });
   }
 })
+
+
 
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {

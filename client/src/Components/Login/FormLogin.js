@@ -25,7 +25,6 @@ class FormLogin extends Component {
   };
 
   postRequest = () => {
-    console.log("loggin");
     fetch("/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -54,7 +53,7 @@ class FormLogin extends Component {
           this.props.setAdmin(false);
           this.props.setOmbudsman(false);
         }
-        else if(data.isSP) {
+        else if (data.isSP) {
           this.props.setSigninStatus(true, this.state.email);
           this.props.setView("SPFeed");
           this.props.setAdmin(false);
