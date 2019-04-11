@@ -3,8 +3,10 @@ import "./PostIssue.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
-import TimeWrapper from "../../Classes/TimeWrapper/TimeWrapper";
 import ModalAlert from "../../Classes/Modals/ModalAlert";
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+import moment from 'moment';
 import { images } from "./images";
 import axios from 'axios';
 
@@ -21,7 +23,10 @@ class PostIssue extends Component {
       description: "",
       other: "",
       type: "Household",
-      householdChk: true
+      householdChk: true,
+      format: 'h:mm a',
+      tstart: moment().hour(9).minute(0),
+      tend: moment().hour(18).minute(0)
     };
   }
 
@@ -62,11 +67,18 @@ class PostIssue extends Component {
     console.log(input.target.value);
     this.setState({ type: input.target.value });
   };
+  onTime1Change = (value) => {
+    // console.log(value.utc().format());
+    this.setState({ tstart: value });
+  }
+  onTime2Change = (value) => {
+    this.setState({ tend: value });
+  }
 
   handleSubmit = () => {
     if (this.state.department === "Others")
       this.setState({ department: this.state.other });
-    fetch("/postIssue", {
+    fetch("http://localhost:5000/postIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -76,6 +88,8 @@ class PostIssue extends Component {
         workNature: this.state.department,
         description: this.state.description,
         type: this.state.type,
+        tstart: this.state.tstart,
+        tend: this.state.tend,
         status: "Pending"
       })
     })
@@ -102,6 +116,8 @@ class PostIssue extends Component {
     //   })
     //   .catch(error => alert(error));
   };
+
+  disabledHours = () => { return [0, 1, 2, 3, 4, 5, 6, 7, 22, 23]; }
 
   render() {
     return (
@@ -178,14 +194,34 @@ class PostIssue extends Component {
             </Col>
             <Col>
               <Form.Row><Col>
-                <Form.Label>Specify available time</Form.Label>
+                <Form.Label>Specify available time(start and end)</Form.Label>
               </Col></Form.Row>
               <Form.Row>
                 <Col>
-                  <TimeWrapper displayTime='09:00' />
+                  <TimePicker
+                    showSecond={false}
+                    allowEmpty={false}
+                    defaultValue={this.state.tstart}
+                    className="xxx timeSelect"
+                    onChange={this.onTime1Change}
+                    format={this.state.format}
+                    disabledHours={this.disabledHours}
+                    use12Hours
+                    inputReadOnly
+                    />
                 </Col>
                 <Col>
-                  <TimeWrapper displayTime='17:00' />
+                  <TimePicker
+                    showSecond={false}
+                    allowEmpty={false}
+                    defaultValue={this.state.tend}
+                    className="xxx timeSelect"
+                    onChange={this.onTime2Change}
+                    format={this.state.format}
+                    disabledHours={this.disabledHours}
+                    use12Hours
+                    inputReadOnly
+                    />
                 </Col>
               </Form.Row>
             </Col>

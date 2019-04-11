@@ -17,6 +17,8 @@ class CardX extends Component {
                         <tr><th>Pay:            </th><td> {this.props.content.pay} </td></tr>
                         <tr><th>Type:           </th><td> {this.props.content.type} </td></tr>
                         <tr><th>WorkNature:     </th><td> {this.props.content.workNature} </td></tr>
+                        <tr><th>Open time:      </th><td> {this.props.content.tstart.format('h:mm a')} </td></tr>
+                        <tr><th>Close time:     </th><td> {this.props.content.tend.format('h:mm a')} </td></tr>
                         <tr><th>Status:         </th><td> {this.props.content.status} </td></tr>
                     </tbody></table>
                 </div>

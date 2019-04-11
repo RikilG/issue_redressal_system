@@ -47,6 +47,8 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  tstart: Date,
+  tend: Date,
   status: String
 });
 var issue = new mongo.model('issue', issueSchema);
@@ -266,7 +268,7 @@ app.post('/feed', (req, res) => {
 
 app.post("/editIssue", (req, res) => {
   let editissue = new issue(req.body);
-  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description } }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description, tstart: editissue.tstart, tend: editissue.tend } }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
     }
