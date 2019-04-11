@@ -40,6 +40,20 @@ class SPFeed extends Component {
     handleAcceptIssue = () => {
         if(window.confirm("Do you want to accept this issue?")) {
             //issue accepted.
+            fetch('/acceptIssue', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: "admin@issueredressal",
+                    id: this.state.modalData.issue.id
+                })
+            }).then(res => res.json())
+            .then(data => {
+                if (!data.errorStatus) {
+                    window.alert("Issue taken up Successfully");
+                    this.componentDidMount();
+                }
+            });
         }
         this.handleClose();
     }

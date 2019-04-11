@@ -52,6 +52,13 @@ class FormLogin extends Component {
           this.props.setView("Feed");
           this.props.setAdmin(false);
           this.props.setOmbudsman(false);
+          this.props.setCustomer(true);
+        }
+        else if(data.isSP) {
+          this.props.setSigninStatus(true, this.state.email);
+          this.props.setView("SPFeed");
+          this.props.setAdmin(false);
+          this.props.setOmbudsman(false);
         }
         else if (data.isSP) {
           this.props.setSigninStatus(true, this.state.email);
@@ -67,7 +74,7 @@ class FormLogin extends Component {
 
   render() {
     return (
-      <div className="formlogin">
+      <div className="formlogin form">
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>

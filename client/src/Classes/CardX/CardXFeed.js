@@ -84,20 +84,24 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
-                    {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
-                        <span id="controls">
+                    <span id="controls">
+                        {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                             <div className="control" onClick={this.redToGovt}>
                                 <img className="action" src={govtIcon} alt='govt' />
                                 Redirect to Govt
                             </div>
-                            <div className="control" onClick={this.redToEdit}>
-                                EdIt
-                            </div>
+                        )}
+                        {this.state.showBody && (
                             <div className="control" onClick={this.redToDelete}>
                                 DeLeTe
                             </div>
-                        </span>
-                    )}
+                        )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToEdit}>
+                                Edit
+                            </div>
+                        )}
+                    </span>
                 </div>
                 {this.state.showBody && (
                     <div className="cardxBody" onClick={this.toggleBody} >

@@ -73,7 +73,7 @@ class TopBar extends Component {
               Home
             </Nav.Link>
             {/* add features and pricing here */}
-            {(this.props.signinStatus && !this.props.isAdmin && !this.props.isOmbudsman)?
+            {(this.props.signinStatus && this.props.isCustomer)?
             <React.Fragment>
             <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
             <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>
