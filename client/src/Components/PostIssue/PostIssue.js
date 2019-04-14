@@ -7,7 +7,7 @@ import ModalAlert from "../../Classes/Modals/ModalAlert";
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
-import { images } from "./images";
+// import { images } from "./images";
 // import axios from 'axios';
 import householdimg from '../../Assets/household.jpg';
 import communityimg from '../../Assets/community.jpg';
@@ -39,16 +39,17 @@ class PostIssue extends Component {
 
   componentDidMount() {
     setInterval(() => {
-      this.setState({ i: this.state.i + 1 });
-      if (this.state.i === 1 || this.state.i === 5 || this.state.i === 9)
-        this.setState({ carousal: carousal3 });
-      if (this.state.i === 2 || this.state.i === 8)
-        this.setState({ carousal: carousal2 });
-      if (this.state.i === 3 || this.state.i === 6 || this.state.i === 0)
-        this.setState({ carousal: carousal3 });
-      if (this.state.i === 4 || this.state.i === 7)
-        this.setState({ carousal: carousal4 });
-    }, 2000);
+      this.setState({ i: this.state.i + 1 }, () => {
+        if (this.state.i%10 === 1 || this.state.i%10 === 5 || this.state.i%10 === 9)
+          this.setState({ carousel: carousal1 });
+        else if (this.state.i%10 === 2 || this.state.i%10 === 8)
+          this.setState({ carousel: carousal2 });
+        else if (this.state.i%10 === 3 || this.state.i%10 === 6 || this.state.i%10 === 0)
+          this.setState({ carousel: carousal3 });
+        else if (this.state.i%10 === 4 || this.state.i%10 === 7)
+          this.setState({ carousel: carousal4 });
+      });
+    }, 3500);
   }
 
   handleModalHide = () => {
@@ -134,9 +135,10 @@ class PostIssue extends Component {
   disabledHours = () => { return [0, 1, 2, 3, 4, 5, 6, 7, 22, 23]; }
 
   render() {
+    let { carousel } = this.state;
     return (
       <div className="postIssue form">
-        {/* <img id="carousel" alt="mypic" src={this.state.carousel} /> */}
+        <img id="carousel" alt="mypic" src={carousel} />
         <h2>Post your issue here</h2>
         <br />
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
