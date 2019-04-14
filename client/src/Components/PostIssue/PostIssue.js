@@ -73,12 +73,10 @@ class PostIssue extends Component {
     this.setState({ pay: input.target.value });
   };
   onIssueTypeChange = input => {
-    if (
-      input.target.value === "Community" ||
-      input.target.value === "Government"
-    )
+    if ( input.target.value === "Community" || input.target.value === "Government" )
       this.setState({ householdChk: false });
-    else this.setState({ householdChk: true });
+    else 
+      this.setState({ householdChk: true });
     console.log(input.target.value);
     this.setState({ type: input.target.value });
   };
@@ -146,66 +144,29 @@ class PostIssue extends Component {
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Complaint Name"
-                onChange={this.onCmpNameChange}
-                required
-              />
+              <Form.Control type="text" placeholder="Complaint Name" onChange={this.onCmpNameChange} required />
             </Form.Group>
           </Form.Row>
           <label>
-            <input
-              id="hi"
-              type="radio"
-              name="test"
-              value="Household"
-              onChange={this.onIssueTypeChange}
-              checked={this.state.householdChk}
-            />
-            <img
-              alt="Household"
-              src={householdimg}
-            />
+            <input id="hi" type="radio" name="test" value="Household" onChange={this.onIssueTypeChange} checked={this.state.householdChk} />
+            <img alt="Household" src={householdimg} />
             <p>Household Issue</p>
           </label>
           <label>
-            <input
-              id="ci"
-              type="radio"
-              name="test"
-              value="Community"
-              onChange={this.onIssueTypeChange}
-            />
-            <img
-              alt="Community Issue"
-              src={communityimg}
-            />
+            <input id="ci" type="radio" name="test" value="Community" onChange={this.onIssueTypeChange} />
+            <img alt="Community Issue" src={communityimg} />
             <p>Community Issue</p>
           </label>
           <label>
-            <input
-              id="di"
-              type="radio"
-              name="test"
-              value="Government"
-              onChange={this.onIssueTypeChange}
-            />
-            <img
-              alt="Government issue"
-              src={governmentimg}
-            />
+            <input id="di" type="radio" name="test" value="Government" onChange={this.onIssueTypeChange} />
+            <img alt="Government issue" src={governmentimg} />
             <p>Government Issue</p>
           </label>
-          <Form.Row>
+          {(this.state.type === "Household")?<Form.Row>
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
-                <Form.Control
-                  placeholder="Rs.1000"
-                  onChange={this.onPayChange}
-                  required
-                />
+                <Form.Control placeholder="Rs.1000" onChange={this.onPayChange} required />
               </Form.Group>
             </Col>
             <Col>
@@ -214,34 +175,18 @@ class PostIssue extends Component {
               </Col></Form.Row>
               <Form.Row>
                 <Col>
-                  <TimePicker
-                    showSecond={false}
-                    allowEmpty={false}
-                    defaultValue={this.state.tstart}
-                    className="xxx timeSelect"
-                    onChange={this.onTime1Change}
-                    format={this.state.format}
-                    disabledHours={this.disabledHours}
-                    use12Hours
-                    inputReadOnly
-                    />
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tstart} 
+                    className="xxx timeSelect" onChange={this.onTime1Change} format={this.state.format} 
+                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
                 <Col>
-                  <TimePicker
-                    showSecond={false}
-                    allowEmpty={false}
-                    defaultValue={this.state.tend}
-                    className="xxx timeSelect"
-                    onChange={this.onTime2Change}
-                    format={this.state.format}
-                    disabledHours={this.disabledHours}
-                    use12Hours
-                    inputReadOnly
-                    />
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tend} 
+                  className="xxx timeSelect" onChange={this.onTime2Change} format={this.state.format} 
+                  disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
               </Form.Row>
             </Col>
-          </Form.Row>
+          </Form.Row>:null}
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
@@ -255,31 +200,12 @@ class PostIssue extends Component {
             </Form.Group>
             <Form.Group as={Col} controlId="others">
               <Form.Label>others</Form.Label>
-              <Form.Control
-                placeholder="If others please specify"
-                onChange={this.onOthersChange}
-                disabled={
-                  this.state.department === "Others" ? null : "disabled"
-                }
-                required
-              />
+              <Form.Control placeholder="If others please specify" onChange={this.onOthersChange} disabled={ this.state.department === "Others" ? null : "disabled" } required />
             </Form.Group>
           </Form.Row>
-          <textarea
-            id="textbox"
-            name="myTextBox"
-            cols="50"
-            rows="5"
-            placeholder="Please enter a brief description of your problem"
-            onChange={this.onDescriptionChange}
-            required
-          />
+          <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
           <Form.Group id="formGridCheckbox">
-            <Form.Check
-              type="checkbox"
-              label="I Agree to the terms and conditions"
-              required
-            />
+            <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
           <Button type="submit" variant="primary">
             Submit
