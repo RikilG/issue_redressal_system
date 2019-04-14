@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Tab, Row, Col, Nav } from "react-bootstrap";
+import { Button, Tab, Row, Col, Nav, FormControl } from "react-bootstrap";
 import "./AdminHome.css";
 import Customer from "../../Classes/Customer";
 import Issue from "../../Classes/Issue";
@@ -17,7 +17,12 @@ class AdminHome extends Component {
       users: [],
       freelancers: [],
       organizations: [],
-      loading: false
+      issuesDisplay: [],
+      usersDisplay: [],
+      freelancerDisplay: [],
+      organizationDisplay: [],
+      loading: false,
+      searchValue: ""
     };
   }
 
@@ -45,10 +50,18 @@ class AdminHome extends Component {
           return new Organization(organization);
         });
         this.setState({
-          issuesDisplay: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
-          usersDisplay: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
-          freelancerDisplay: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
-          organizationDisplay: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
+          issues: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
+          users: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
+          freelancers: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
+          organizations: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
+        });
+      })
+      .then( () => {
+        this.setState({
+          issuesDisplay: this.state.issues,
+          usersDisplay: this.state.users,
+          freelancerDisplay: this.state.freelancers,
+          organizationDisplay: this.state.organizations
         });
       })
       .then( () => {
@@ -68,6 +81,18 @@ class AdminHome extends Component {
   };
 
   refershHandler = () => this.componentDidMount();
+
+  searchinput = async (input) => {
+    let { issues, users, freelancers, organizations } = this.state;
+    this.setState({ searchValue: input.target.value }, () => {
+      let inputValue = this.state.searchValue.trim().toLowerCase();
+      let inputLength = inputValue.length;
+      this.setState({ issuesDisplay:      (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ usersDisplay:       (inputLength === 0) ? users : users.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ freelancerDisplay:  (inputLength === 0) ? freelancers : freelancers.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ organizationDisplay:(inputLength === 0) ? organizations : organizations.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+    });
+  }
 
   render() {
     let { issuesDisplay, usersDisplay, freelancerDisplay, organizationDisplay, loading } = this.state;
@@ -113,6 +138,7 @@ class AdminHome extends Component {
               </Col>
               <div className="vr" xs="true"></div>
               <Col sm={9} lg>
+                <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
                 <Tab.Content>
                   <Tab.Pane eventKey="issueTab" id="issuesContainer">
                     <h2>Posted Issues</h2><hr />
