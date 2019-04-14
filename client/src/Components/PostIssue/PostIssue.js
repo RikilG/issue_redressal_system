@@ -166,7 +166,7 @@ class PostIssue extends Component {
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
-                <Form.Control placeholder="Rs.1000" onChange={this.onPayChange} required />
+                <Form.Control type="number" value="300" placeholder="Rs.1000" onChange={this.onPayChange} required />
               </Form.Group>
             </Col>
             <Col>
