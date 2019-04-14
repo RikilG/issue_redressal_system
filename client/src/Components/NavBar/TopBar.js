@@ -22,7 +22,7 @@ class TopBar extends Component {
 
   handleLogoutLink = () => {
     this.props.setSigninStatus(false,"");
-    this.props.setView("Login");
+    this.props.setView("Home");
   };
 
   handleOmbudsmanPosts = () => {
