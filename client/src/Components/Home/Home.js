@@ -69,7 +69,7 @@ class Home extends Component {
             <div id="statisicsPanel">
                 <span id="usersCount">
                     <h2>{users}</h2>
-                    <h3>Total Users</h3>
+                    <h3>Users</h3>
                 </span>
                 <span id="organizationsCount">
                     <h2>{organizations}</h2>
@@ -77,7 +77,7 @@ class Home extends Component {
                 </span>
                 <span id="freelancersCount">
                     <h2>{freelancers}</h2>
-                    <h3>FreeLancers</h3>
+                    <h3>Freelancers</h3>
                 </span>
                 <span id="issuesCount">
                     <h2>{issues}</h2>
