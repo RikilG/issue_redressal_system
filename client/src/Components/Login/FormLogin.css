@@ -1,6 +1,8 @@
 .form {
-    background-color: #DCEDC8;
-    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+    /* background-color: #DCEDC8; */
+    /* background-color: rgb(228, 233, 238); */
+    background-color: rgb(1, 87, 155);
+    box-shadow: 0.08em 0.2em 0.5em rgb(90, 90, 90);
     text-align: center;
     justify-content: center;
 }
@@ -11,14 +13,15 @@
     width: 24em;
     margin: 5% auto;
     border-radius: 0.15em;
-    padding: 5vh 3vw;
+    padding: 2em 3em;
 }
 
 #tvEmail,
 #tvPassword {
-    border-radius: 0.25em;
+    border-radius: 0.3em;
     background-color: transparent;
-    border-bottom: 0.15em solid rgb(228, 49, 49);
+    border: 0.15em solid #F9FBE7;
+    padding: 1.3em;
 }
 
 #btnRegister,
@@ -36,4 +39,18 @@
 #tvEmail:focus,
 #tvPassword:focus {
     border-bottom: 0.2em solid rgb(49, 141, 228);
+}
+
+.test {
+    background-color: rgb(1, 87, 155);
+    color: #F9FBE7;
+    padding: 0em 0.4em;
+    position: absolute;
+    transform: scale(0.84);
+    transform-origin: -50em -4em;
+    display: inline;
+}
+
+input::placeholder {
+    color: #F9FBE7;
 }

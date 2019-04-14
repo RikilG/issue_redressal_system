@@ -55,15 +55,16 @@
 #organizationsCount,
 #freelancersCount,
 #issuesCount {
+    background-color: rgb(243, 230, 188);
     border-radius: 0.3em;
     padding: 2em;
     margin: 2%;
     min-height: 10em;
     width: 15em;
-    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+    box-shadow: 0.08em 0.2em 0.5em rgb(95, 95, 95);
 }
 
-#usersCount {
+/* #usersCount {
     background-color: #e21818;
 }
 
@@ -77,4 +78,4 @@
 
 #issuesCount {
     background-color: #00C853;
-}
+} */
