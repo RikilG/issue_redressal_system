@@ -49,6 +49,7 @@ class PostIssue extends Component {
       if (this.state.i === 4 || this.state.i === 7)
         this.setState({ carousal: carousal4 });
     }, 2000);
+  }
 
   handleModalHide = () => {
     setTimeout(() => this.setState({ showModal: false }), 500);

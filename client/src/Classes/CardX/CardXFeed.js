@@ -95,7 +95,7 @@ class CardX extends Component {
                         )}
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToDelete}>
-                                DeLeTe
+                                Delete
                             </div>
                         )}
                         {this.state.showBody && (
