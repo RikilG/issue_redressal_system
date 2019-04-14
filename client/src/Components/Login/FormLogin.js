@@ -62,7 +62,7 @@ class FormLogin extends Component {
           this.props.setAdmin(false);
           this.props.setOmbudsman(false);
         }
-        else if(data.isSP) {
+        else if (data.isSP) {
           this.props.setSigninStatus(true, this.state.email);
           this.props.setView("SPFeed");
           this.props.setAdmin(false);

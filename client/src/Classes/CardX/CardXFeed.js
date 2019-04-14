@@ -63,23 +63,46 @@ class CardX extends Component {
         this.props.setView("EditIssue");
     }
 
+    redToDelete = () => {
+        if (window.confirm("This operation is not reversible. Do you want to continue?")) {
+            fetch('/feedDelete', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: this.props.content.id
+                })
+            }).then(res => res.json())
+                .then(data => {
+                    if (!data.errorStatus) {
+                        //page reload
+                        this.props.parent.componentDidMount();
+                    }
+                });
+        }
+    }
+
     render() {
         return (
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
                     <span id="controls">
-                    {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
+                        {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                             <div className="control" onClick={this.redToGovt}>
                                 <img className="action" src={govtIcon} alt='govt' />
                                 Redirect to Govt
                             </div>
-                    )}
-                    {this.state.showBody && (
+                        )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToDelete}>
+                                DeLeTe
+                            </div>
+                        )}
+                        {this.state.showBody && (
                             <div className="control" onClick={this.redToEdit}>
                                 Edit
                             </div>
-                    )}
+                        )}
                     </span>
                 </div>
                 {this.state.showBody && (

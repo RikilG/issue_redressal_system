@@ -36,34 +36,34 @@ class Feed extends Component {
   };
 
 
-    render() {
-        let { issues,comIssues,loading } = this.state;
+  render() {
+    let { issues, comIssues, loading } = this.state;
 
-        return (
-            <div id="feedRoot">
-                <h1 id="myFeed"> My Feed </h1> <br/> 
-                {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:issues}
-                <br />
-                <h1 id="myFeed"> Community Feed</h1>
-                <br/>
-                <div className="panel panel-default" id="panelMain">
-                    <div className="panel panel-default" id="panel">
-                        <div className="panel-heading">
-                            <h1 className="panel-title">Daily Feed</h1>
-                        </div>
-                        <div className="panel-body">
-                            {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:comIssues}
-                        </div>
-                    </div>
-                    <div className="vr"></div>
-                    <div className="panel panel-default" id="panel">
-                        <div className="panel-heading">
-                            <h1 className="panel-title"> Trendy Issues</h1>
-                        </div>
-                        <div className="panel-body"></div>
-                    </div>
-                </div>
-            </div>        
+    return (
+      <div id="feedRoot">
+        <h1 id="myFeed"> My Feed </h1> <br />
+        {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}
+        <br />
+        <h1 id="myFeed"> Community Feed</h1>
+        <br />
+        <div className="panel panel-default" id="panelMain">
+          <div className="panel panel-default" id="panel">
+            <div className="panel-heading">
+              <h1 className="panel-title">Daily Feed</h1>
+            </div>
+            <div className="panel-body">
+              {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : comIssues}
+            </div>
+          </div>
+          <div className="vr"></div>
+          <div className="panel panel-default" id="panel">
+            <div className="panel-heading">
+              <h1 className="panel-title"> Trendy Issues</h1>
+            </div>
+            <div className="panel-body"></div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
