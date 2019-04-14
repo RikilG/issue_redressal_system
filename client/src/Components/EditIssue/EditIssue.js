@@ -115,6 +115,7 @@ class EditIssue extends Component {
   render() {
     return (
       <div className="editIssue">
+        <h2>Edit your issue</h2>
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} head="Issue successfully edited!" body="press close to continue..." onHide={this.handleModalHide} />:null}
         <Form>
           <Form.Row>
@@ -138,7 +139,7 @@ class EditIssue extends Component {
             <img alt="Government issue" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/220px-Emblem_of_India.svg.png" />
             <p>Government Issue</p>
           </label>
-          <Form.Row>
+          {(this.state.type === "Household")?<Form.Row>
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
@@ -153,34 +154,19 @@ class EditIssue extends Component {
               </Form.Row>
               <Form.Row>
                 <Col>
-                  <TimePicker
-                    showSecond={false}
-                    allowEmpty={false}
-                    defaultValue={this.state.tstart}
-                    className="xxx timeSelect"
-                    onChange={this.onTime1Change}
-                    format={this.state.format}
-                    disabledHours={this.disabledHours}
-                    use12Hours
-                    inputReadOnly
-                    />
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tstart} 
+                    className="xxx timeSelect" onChange={this.onTime1Change} format={this.state.format} 
+                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
                 <Col>
-                  <TimePicker
-                    showSecond={false}
-                    allowEmpty={false}
-                    defaultValue={this.state.tend}
-                    className="xxx timeSelect"
-                    onChange={this.onTime2Change}
-                    format={this.state.format}
-                    disabledHours={this.disabledHours}
-                    use12Hours
-                    inputReadOnly
-                    />
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tend} 
+                    className="xxx timeSelect" onChange={this.onTime2Change} format={this.state.format} 
+                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
               </Form.Row>
             </Col>
           </Form.Row>
+          :null}
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
