@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import profileIcon from '../../Assets/user.png';
+import './TopBar.css';
 
 class TopBar extends Component {
 
@@ -32,22 +33,13 @@ class TopBar extends Component {
     let loginLink, logoutLink, registerLink;
     if (this.props.signinStatus) {
       logoutLink = (
-        // <React.Fragment>
-        // <Nav.Link eventKey={3} href="#profile" onSelect={this.handleProfileLink}> 
-        //   Profile
-        // </Nav.Link>
-        // <Nav.Link href="#home" onSelect={this.handleLogoutLink}>
-        //   Logout
-        // </Nav.Link>
-        // </React.Fragment>
-
         <NavDropdown title={
-              <span className="pull-right dropdown-menu-right">
-                {/* {user.username} */}
-                Welcome User
-                <img className="thumbnail-image" src={profileIcon} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em" }} />
-              </span>
-            } id="collasible-nav-dropdown">
+          <span className="pull-right dropdown-menu-right">
+            {/* {user.username} */}
+            Welcome User
+            <img className="thumbnail-image" src={profileIcon} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em" }} />
+          </span>
+          } id="collasible-nav-dropdown">
            <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
              Profile
            </NavDropdown.Item>
@@ -65,24 +57,14 @@ class TopBar extends Component {
         </Nav.Link>
       );
       registerLink = (
-        <Nav.Link
-          eventKey={2}
-          href="#register"
-          onSelect={this.handleRegisterLink}
-        >
+        <Nav.Link eventKey={2} href="#register" onSelect={this.handleRegisterLink} >
           Register
         </Nav.Link>
       );
     }
 
     return (
-      <Navbar
-        collapseOnSelect
-        expand="lg"
-        bg="dark"
-        variant="dark"
-        sticky="top"
-      >
+      <Navbar collapseOnSelect expand="lg" /*bg="dark"*/ variant="dark" sticky="top" id="navbar" >
         <Navbar.Brand href="#home" onClick={this.handleHomeLink}>
           Issue Redressal
         </Navbar.Brand>
