@@ -1,14 +1,12 @@
 .formregister  {
-    background-color: rgba(17, 17, 17, 0.562);
     text-align: center;
-    color: lime;
+    /* color: lime; */
     width: 40vw;
     /* height: 30vh; */
     margin: 8% auto;
     /* border: 1px dashed slateblue; */
     border-radius: 0.25em;
     padding: 3vh 2.5vw;
-    box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5);
 }
 
 #heading {

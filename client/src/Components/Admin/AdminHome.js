@@ -111,7 +111,7 @@ class AdminHome extends Component {
                   <div className="controls"><div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />Reload Data</div></div>
                 </div>
               </Col>
-              <div className="vr" xs></div>
+              <div className="vr" xs="true"></div>
               <Col sm={9} lg>
                 <Tab.Content>
                   <Tab.Pane eventKey="issueTab" id="issuesContainer">

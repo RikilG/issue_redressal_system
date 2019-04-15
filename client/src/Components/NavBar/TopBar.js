@@ -7,7 +7,7 @@ class TopBar extends Component {
 
   handleLoginLink     = () => { this.props.setView("Login"); };
   handleRegisterLink  = () => { this.props.setView("Register"); };
-  handleDetailsLink   = () => { this.props.setView("FillDetails"); };
+  handleDetailsLink   = () => { this.props.setView("PostIssue"); };
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
 
@@ -73,7 +73,7 @@ class TopBar extends Component {
               Home
             </Nav.Link>
             {/* add features and pricing here */}
-            {(this.props.signinStatus && !this.props.isAdmin && !this.props.isOmbudsman)?
+            {(this.props.signinStatus && this.props.isCustomer)?
             <React.Fragment>
             <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
             <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>

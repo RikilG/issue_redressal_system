@@ -11,7 +11,7 @@ class ModalMiddle extends Component {
         }
 
         return (
-            <Modal {...this.props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+            <Modal show={this.props.show} onHide={this.props.onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Header closeButton style={{"padding": "1.8em", "paddingBottom": "0.5em"}}>
                     <Modal.Title id="contained-modal-title-vcenter">
                     {this.props.content.head}
