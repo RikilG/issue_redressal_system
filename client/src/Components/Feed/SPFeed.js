@@ -3,7 +3,7 @@ import './SPFeed.css';
 import Issue from '../../Classes/Issue';
 import loadingIcon from '../../Assets/loading.gif';
 import SPCard from '../../Classes/CardX/SPCard';
-import ModalMiddle from '../../Classes/ModalMiddle/ModalMiddle';
+import ModalMiddle from '../../Classes/Modals/ModalMiddle';
 
 class SPFeed extends Component {
     constructor(props) {
@@ -40,6 +40,20 @@ class SPFeed extends Component {
     handleAcceptIssue = () => {
         if(window.confirm("Do you want to accept this issue?")) {
             //issue accepted.
+            fetch('/acceptIssue', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: "admin@issueredressal",
+                    id: this.state.modalData.issue.id
+                })
+            }).then(res => res.json())
+            .then(data => {
+                if (!data.errorStatus) {
+                    window.alert("Issue taken up Successfully");
+                    this.componentDidMount();
+                }
+            });
         }
         this.handleClose();
     }

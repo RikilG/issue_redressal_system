@@ -7,8 +7,8 @@ class CardX extends Component {
     constructor(props) {
         super(props);
         let cont;
-        
-        if(this.props.content.className === 'Issue') {
+
+        if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
@@ -17,6 +17,8 @@ class CardX extends Component {
                         <tr><th>Pay:            </th><td> {this.props.content.pay} </td></tr>
                         <tr><th>Type:           </th><td> {this.props.content.type} </td></tr>
                         <tr><th>WorkNature:     </th><td> {this.props.content.workNature} </td></tr>
+                        <tr><th>Open time:      </th><td> {this.props.content.tstart.format('h:mm a')} </td></tr>
+                        <tr><th>Close time:     </th><td> {this.props.content.tend.format('h:mm a')} </td></tr>
                         <tr><th>Status:         </th><td> {this.props.content.status} </td></tr>
                     </tbody></table>
                 </div>
@@ -28,7 +30,7 @@ class CardX extends Component {
                     Unable to resolve classname. Check site console for details and contact site admin.
                 </div>
             )
-            console.log('unresolved class name: '+this.props.content.className);
+            console.log('unresolved class name: ' + this.props.content.className);
             console.log(this.props.content);
         }
 
@@ -48,12 +50,35 @@ class CardX extends Component {
                 id: this.props.content.id,
             })
         }).then(res => res.json())
-        .then(data => {
-            if(!data.errorStatus) {
-                //page reload
-                this.props.parent.componentDidMount();
-            }
-        });
+            .then(data => {
+                if (!data.errorStatus) {
+                    //page reload
+                    this.props.parent.componentDidMount();
+                }
+            });
+    }
+
+    redToEdit = () => {
+        this.props.storeData(this.props.content);
+        this.props.setView("EditIssue");
+    }
+
+    redToDelete = () => {
+        if (window.confirm("This operation is not reversible. Do you want to continue?")) {
+            fetch('/feedDelete', {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: this.props.content.id
+                })
+            }).then(res => res.json())
+                .then(data => {
+                    if (!data.errorStatus) {
+                        //page reload
+                        this.props.parent.componentDidMount();
+                    }
+                });
+        }
     }
 
     render() {
@@ -61,14 +86,24 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
-                    {this.state.showBody && this.props.myIssues && !(this.props.content.type==="Government") && (
-                        <span id="controls">
+                    <span id="controls">
+                        {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                             <div className="control" onClick={this.redToGovt}>
                                 <img className="action" src={govtIcon} alt='govt' />
                                 Redirect to Govt
                             </div>
-                        </span>
-                    )}
+                        )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToDelete}>
+                                Delete
+                            </div>
+                        )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToEdit}>
+                                Edit
+                            </div>
+                        )}
+                    </span>
                 </div>
                 {this.state.showBody && (
                     <div className="cardxBody" onClick={this.toggleBody} >

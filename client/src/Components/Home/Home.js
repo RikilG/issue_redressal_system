@@ -22,7 +22,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.count();
-    this.setState({ loginSection: (this.props.signinStatus)?null:<FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} setOmbudsman={this.props.setOmbudsman} /> });
+    this.setState({ loginSection: (this.props.signinStatus)?null:<FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} setOmbudsman={this.props.setOmbudsman} setCustomer={this.props.setCustomer} /> });
   }
 
   counter = () => {
@@ -51,7 +51,7 @@ class Home extends Component {
     return (
         <div id="home">
             <div id="headerPanel">
-                <h1>Household Issue Redressal System</h1>
+                <h1>Issue Redressal System</h1>
             </div>
             <div id="infoLoginPanel" >
                 <div id="infoSection" >Generally it is observed in case of Metropolitan cities, where the citizens are not so much acquainted with the service providers in their locality because of the non-permanent nature of their jobs, they find it difficult to contact service providers to address their  problems like improper water supply, bad sanitation and electricity failures.<br />

@@ -7,7 +7,7 @@ import {Tabs, Tab} from 'react-bootstrap';
 class ServiceProvider extends Component {
     render() {
         return (
-            <div id="serviceRegRoot">
+            <div id="serviceRegRoot" className="form" >
                 <Tabs defaultActiveKey="freelancerReg" id="uncontrolled-tab-example">
                     <Tab eventKey="freelancerReg" title="Freelancer">
                         <FreelancerReg setView={this.props.setView} />

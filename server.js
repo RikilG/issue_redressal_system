@@ -47,6 +47,8 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  tstart: Date,
+  tend: Date,
   status: String
 });
 var issue = new mongo.model('issue', issueSchema);
@@ -74,6 +76,14 @@ var organizationSchema = new mongo.Schema({
   workforce: Number,
 });
 var organization = new mongo.model('organization', organizationSchema);
+
+var voterSchema = new mongo.Schema({
+  issueid: String,
+  email: String,
+  type: String
+});
+var voter = new mongo.model('voter', voterSchema);
+
 //serve react static files.
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
@@ -93,7 +103,7 @@ app.get("/logs", (req, res) => {
   res.sendFile(path.join(__dirname + "/ServerLog.txt"));
 });
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
     res.json({
       isAdmin: true,
@@ -109,11 +119,11 @@ app.post('/login', (req, res) => {
   }
   else {
     customer.findOne({ email: req.body.email, password: req.body.password }, function (err, data1) {
-      if(data1===null) {
+      if (data1 === null) {
         freelancer.findOne({ email: req.body.email, password: req.body.password }, function (err, data2) {
-          if(data2===null) {
+          if (data2 === null) {
             organization.findOne({ email: req.body.email, password: req.body.password }, function (err, data3) {
-              if(data3===null) {
+              if (data3 === null) {
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
@@ -147,6 +157,34 @@ app.post('/login', (req, res) => {
       }
     });
   }
+})
+
+app.post("/comcard2", (req, res) => {
+  voter.countDocuments({ issueid: req.body.issueid, type: "upvote" }, function (err, count1) {
+    voter.countDocuments({ issueid: req.body.issueid, type: "downvote" }, function (err, count2) {
+      res.send({
+        nou: count1,
+        nod: count2
+      });
+    });
+  });
+})
+
+app.post("/comcard", (req, res) => {
+  var newvoter = new voter(req.body);
+  voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
+    if (data == null) {
+      newvoter.save();
+      res.json({
+        accepted: true
+      });
+    } else {
+      voter.findByIdAndUpdate(data._id, { "$set": { type: req.body.type } }, err => {
+        if (err) res.json({ errorStatus: true });
+        else res.json({ errorStatus: false });
+      });
+    }
+  })
 })
 
 app.post("/register", function (req, res) {
@@ -207,29 +245,33 @@ app.post("/postIssue", function (req, res) {
   res.json({});
 });
 
-app.post('/feed',(req,res) => {
-    issue.find({email:req.body.email},function(err,issues){
-        issue.find({type: "Community"},function(err,communityIssues){
-            res.send({
-                myIssues: issues,
-                comIssues: communityIssues
-            });
-        })
+app.post("/acceptIssue", (req, res) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer" }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+      console.log(err);
+    }
+    else res.json({ errorStatus: false });
+  });
+})
+
+app.post('/feed', (req, res) => {
+  issue.find({ email: req.body.email }, function (err, issues) {
+    issue.find({ type: "Community" }, function (err, communityIssues) {
+      res.send({
+        myIssues: issues,
+        comIssues: communityIssues
+      });
     })
+  })
 });
 
-/*app.post("/getIssue", function(req, res) {
-    var oldissue= new issue(req.body);
-    issue.find({email:req.body.email}, function(err, issues)) {
-        res.send(issues);
-    }
-});*/
-
-app.post("/editIssue", function (req, res) {
+app.post("/editIssue", (req, res) => {
   let editissue = new issue(req.body);
-  //why issue.?
-  issue.UpdateOne({ _id: req.body.id }, { $set: editissue }, err => {
-    if (err) res.json({ errorStatus: true });
+  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description, tstart: editissue.tstart, tend: editissue.tend } }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+    }
     else res.json({ errorStatus: false });
   });
 });
@@ -295,6 +337,13 @@ app.post("/adminDelete", (req, res) => {
   }
 });
 
+app.post('/feedDelete', (req, res) => {
+  issue.deleteOne({ _id: req.body.id }, err => {
+    if (err) res.json({ errorStatus: true });
+    else res.json({ errorStatus: false });
+  });
+});
+
 app.post('/Ombudsman', (req, res) => {
   if (req.body.email === "ombudsman@issueredressal") {
     issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
@@ -310,6 +359,8 @@ app.post('/Ombudsman', (req, res) => {
     });
   }
 })
+
+
 
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
