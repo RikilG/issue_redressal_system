@@ -20,7 +20,7 @@ class ModalDonate extends Component {
                     <Form>
                         <Form.Group>
                             <Form.Label>Amount</Form.Label>
-                            <Form.Control type="number" value="500" />
+                            <Form.Control type="number" /*value="500"*/ min="200" />
                         </Form.Group>
                     </Form>
                     {this.state.body}

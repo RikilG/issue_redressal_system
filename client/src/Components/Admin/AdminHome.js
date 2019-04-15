@@ -132,13 +132,13 @@ class AdminHome extends Component {
                   </Nav.Item>
                 </Nav>
                 <div id="adminStatistics">
-                  <h2>Statistics</h2><hr />
+                  <h2>Controls</h2><hr />
                   <div className="controls"><div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />Reload Data</div></div>
+                  <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
                 </div>
               </Col>
               <div className="vr" xs="true"></div>
               <Col sm={9} lg>
-                <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
                 <Tab.Content>
                   <Tab.Pane eventKey="issueTab" id="issuesContainer">
                     <h2>Posted Issues</h2><hr />
