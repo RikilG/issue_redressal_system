@@ -1,6 +1,7 @@
 .spCardRoot {
     margin: 0.7em;
-    background-color: #66BB6A;
+    /* background-color: #66BB6A; */
+    background-color: rgb(133, 168, 212);
     border-radius: 0.25em;
     margin-bottom: 1vh;
     cursor: pointer;
@@ -9,7 +10,9 @@
 }
 
 .spCardRoot:hover {
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
+    background-color: rgb(76, 130, 206);
+    color: white;
     transform: scale(1.01);
 }
 
