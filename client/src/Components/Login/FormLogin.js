@@ -81,14 +81,15 @@ class FormLogin extends Component {
   render() {
     return (
       <div className="formlogin form">
+        <h2 style={{ color: "#F9FBE7" }}>Login</h2>
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Invalid Credidentials" body="Incorrect username or password is provided. Please try again." />:null}
         <Form>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control id="tvEmail" type="email" placeholder="Enter email" onChange={this.onEmailChange} />
+            <Form.Label className="test">Email</Form.Label>
+            <Form.Control id="tvEmail" type="email" placeholder="Email" onChange={this.onEmailChange} />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label className="test">Password</Form.Label>
             <Form.Control id="tvPassword" type="password" placeholder="Password" onChange={this.onPasswordChange} />
           </Form.Group>
           <Button id="btnLogin" variant="primary" onClick={this.postRequest}>
