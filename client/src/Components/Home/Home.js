@@ -51,17 +51,25 @@ class Home extends Component {
     return (
         <div id="home">
             <div id="headerPanel">
-                <h1>Issue Redressal System</h1>
+                <h1 style={{paddingTop: "0.2em"}}>Issue Redressal System</h1>
             </div>
             <div id="infoLoginPanel" >
-                <div id="infoSection" >Generally it is observed in case of Metropolitan cities, where the citizens are not so much acquainted with the service providers in their locality because of the non-permanent nature of their jobs, they find it difficult to contact service providers to address their  problems like improper water supply, bad sanitation and electricity failures.<br />
-                    Welcome to a one-stop portal where the you can fix your issues by contacting freelancing electricians, plumbers, etc to serve your needs.Have a Problem? why wait?Login and lodge a complaint to avail the service. We will monitor the status of the grievance until its fixation.</div>
+                <div id="infoSection" >
+                  <h1 id="quoteTop">&ldquo;For the People,</h1><h1 id="quoteBottom">By the People&rdquo;</h1>
+                  <br />
+                  <p style={{paddingLeft: "8em", textAlign: "left"}}>
+                  Trying to fix a leakage?, Problem with Power Supply?, Have a Roadblock?, You have come to the right place. We have proffessional service providers 
+                  whom you can employ to resolve your issue.
+                  </p>
+                  {/* Generally it is observed in case of Metropolitan cities, where the citizens are not so much acquainted with the service providers in their locality because of the non-permanent nature of their jobs, they find it difficult to contact service providers to address their  problems like improper water supply, bad sanitation and electricity failures.<br />
+                  Welcome to a one-stop portal where the you can fix your issues by contacting freelancing electricians, plumbers, etc to serve your needs.Have a Problem? why wait?Login and lodge a complaint to avail the service. We will monitor the status of the grievance until its fixation. */}
+                </div>
                 <span id="loginSection">{this.state.loginSection}</span>
             </div>
             <div id="statisicsPanel">
                 <span id="usersCount">
                     <h2>{users}</h2>
-                    <h3>Total Users</h3>
+                    <h3>Users</h3>
                 </span>
                 <span id="organizationsCount">
                     <h2>{organizations}</h2>
@@ -69,7 +77,7 @@ class Home extends Component {
                 </span>
                 <span id="freelancersCount">
                     <h2>{freelancers}</h2>
-                    <h3>FreeLancers</h3>
+                    <h3>Freelancers</h3>
                 </span>
                 <span id="issuesCount">
                     <h2>{issues}</h2>
