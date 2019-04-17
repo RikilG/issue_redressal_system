@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './ComCard.css';
 import '../Issue';
-
+import thumbsupIcon from '../../Assets/thumbsup.png';
+import thumbsdownIcon from '../../Assets/thumbsdown.png';
+import donationIcon from '../../Assets/donation.png';
 
 class ComCard extends Component {
     constructor(props) {
@@ -35,6 +37,7 @@ class ComCard extends Component {
             downvote: 0,
         };
     }
+
     componentDidMount() {
         fetch("/comcard2", {
             method: "post",
@@ -49,6 +52,7 @@ class ComCard extends Component {
                 this.setState({ upvote: data.nou });
             })
     }
+
     handleUpvote = input => {
         fetch("/comcard", {
             method: "post",
@@ -96,19 +100,22 @@ class ComCard extends Component {
                 </div>
                 <div className="cardxBody">
                     {this.state.content}
-                    {
-                        <span id="comControls">
-                            <div className="control" onClick={this.handleUpvote}>
-                                {<img className="action" src={"https://static.thenounproject.com/png/344539-200.png"} alt='govt' />}
-                                {upvote}
-                            </div>
-                            <div className="control" onClick={this.handleDownvote}>
-                                {<img className="action" src={"https://static.thenounproject.com/png/781493-200.png"} alt='govt' />}
-                                {downvote}
-                            </div>
-                        </span>
-                    }
-
+                    <span id="comControls">
+                        <div className="control" onClick={this.handleUpvote}>
+                            {<img className="action" src={thumbsupIcon} alt='upvote' />}
+                            {upvote}
+                        </div>
+                        <div className="control" onClick={this.handleDownvote}>
+                            {<img className="action" src={thumbsdownIcon} alt='downvote' />}
+                            {downvote}
+                        </div>
+                        {(this.props.content.type === "Community")?
+                        <div className="control" onClick={this.props.handleDonate}>
+                            {<img className="action" src={donationIcon} alt='donate' />}
+                            <strong>Donate</strong>
+                        </div>
+                        :null}
+                    </span>
                 </div>
             </div>
         );

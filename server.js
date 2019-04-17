@@ -47,6 +47,8 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  tstart: Date,
+  tend: Date,
   status: String
 });
 var issue = new mongo.model('issue', issueSchema);
@@ -118,11 +120,11 @@ app.post("/login", (req, res) => {
   }
   else {
     customer.findOne({ email: req.body.email, password: req.body.password }, function (err, data1) {
-      if(data1 === null) {
+      if (data1 === null) {
         freelancer.findOne({ email: req.body.email, password: req.body.password }, function (err, data2) {
-          if(data2 === null) {
+          if (data2 === null) {
             organization.findOne({ email: req.body.email, password: req.body.password }, function (err, data3) {
-              if(data3 === null) {
+              if (data3 === null) {
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
@@ -267,7 +269,7 @@ app.post('/feed', (req, res) => {
 
 app.post("/editIssue", (req, res) => {
   let editissue = new issue(req.body);
-  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description } }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description, tstart: editissue.tstart, tend: editissue.tend } }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
     }
@@ -336,6 +338,13 @@ app.post("/adminDelete", (req, res) => {
   }
 });
 
+app.post('/feedDelete', (req, res) => {
+  issue.deleteOne({ _id: req.body.id }, err => {
+    if (err) res.json({ errorStatus: true });
+    else res.json({ errorStatus: false });
+  });
+});
+
 app.post('/Ombudsman', (req, res) => {
   if (req.body.email === "ombudsman@issueredressal") {
     issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
@@ -351,6 +360,8 @@ app.post('/Ombudsman', (req, res) => {
     });
   }
 })
+
+
 
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {

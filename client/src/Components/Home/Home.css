@@ -1,8 +1,8 @@
 #headerPanel {
     color: #1A237E;
-    background-color: #42A5F5;
+    /* background-color: #42A5F5; */
     border-radius: 0.25em;
-    padding: 1%;
+    /* padding: 1%; */
     justify-content: center;
     margin: 1%;
     font-weight: bold;
@@ -23,20 +23,29 @@
     margin: 1%;
 }
 
+#quoteTop {
+    transform: translate(-0.7em);
+}
+
+#quoteBottom {
+    transform: translate(0.5em);
+}
+
 #infoSection {
-    color: wheat;
-    width: 60%;
+    width: 40%;
     height: 25vw;
     padding: 1%;
     /* border: 1px dashed grey; */
     border-radius: 0.25em;
-    background-color: rgba(17, 17, 17, 0.562);
+    /* background-color: rgba(17, 17, 17, 0.562); */
+    background-color: transparent;
     /* box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5); */
 }
 
 #statisicsPanel {
     display: flex;
     flex-wrap: wrap;
+    flex-flow: wrap;
     padding: 0.5%;
     justify-content: center;
     align-items: center;
@@ -46,16 +55,16 @@
 #organizationsCount,
 #freelancersCount,
 #issuesCount {
-    color: black;
+    background-color: rgb(223, 217, 195);
     border-radius: 0.3em;
-    padding: 4%;
-    margin: 1.5%;
-    width: 20%;
-    justify-content: center;
-    box-shadow: 0.08em 0.2em 0.5em rgb(5, 5, 5);
+    padding: 2em;
+    margin: 2%;
+    min-height: 10em;
+    width: 15em;
+    box-shadow: 0.08em 0.2em 0.5em rgb(95, 95, 95);
 }
 
-#usersCount {
+/* #usersCount {
     background-color: #e21818;
 }
 
@@ -69,4 +78,4 @@
 
 #issuesCount {
     background-color: #00C853;
-}
+} */

@@ -3,7 +3,7 @@ import './SPFeed.css';
 import Issue from '../../Classes/Issue';
 import loadingIcon from '../../Assets/loading.gif';
 import SPCard from '../../Classes/CardX/SPCard';
-import ModalMiddle from '../../Classes/ModalMiddle/ModalMiddle';
+import ModalMiddle from '../../Classes/Modals/ModalMiddle';
 
 class SPFeed extends Component {
     constructor(props) {
