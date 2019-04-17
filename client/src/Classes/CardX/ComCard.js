@@ -11,7 +11,6 @@ class ComCard extends Component {
     constructor(props) {
         super(props);
         let cont;
-
         if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
@@ -55,6 +54,18 @@ class ComCard extends Component {
                 this.setState({ downvote: data.nod });
                 this.setState({ upvote: data.nou });
             })
+            fetch("/loadcomments", {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    issueid: this.props.issueid
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ comments: data.comments });
+                    
+                })
     }
 
     handleUpvote = input => {
@@ -94,11 +105,11 @@ class ComCard extends Component {
             });
     }
 
-    addComment = (comment) => {
+    addComment = (comment,callback) => {
         this.setState({
           loading: false,
-          comments: [comment, ...this.state.comments]
-        });
+          comments: [comment, ...this.state.comments],
+        },()=>callback());
     }
 
     render() {
@@ -131,9 +142,9 @@ class ComCard extends Component {
                     }
                     {/* <div className="vr"></div>  */} <br/>
                     <div id='mainCommentPanel'>
-                        <div id='panelOne'> <CommentForm addComment={this.addComment} />  </div>
+                        <div id='panelOne'> <CommentForm addComment={this.addComment} comments={this.state.comments} issueid={this.props.issueid} email={this.props.email}/>  </div>
                         
-                        <div id='panelTwo'> <CommentList comments={this.state.comments}/> </div>
+                        <div id='panelTwo'> <CommentList comments={this.state.comments} /> </div>
                     </div>
                     
                    

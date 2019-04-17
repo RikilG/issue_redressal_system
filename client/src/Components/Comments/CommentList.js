@@ -7,7 +7,7 @@ class CommentList extends React.Component {
     render() {
         return (
             <div className="commentList">
-                <h5 className="text-muted mb-4">
+                <h5 className="text-muted ">
                     <span className="badge badge-success">{this.props.comments.length}</span>{" "}
                     Comment{this.props.comments.length > 0 ? "s" : ""}
                 </h5>

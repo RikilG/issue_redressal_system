@@ -10,7 +10,8 @@ export default class CommentForm extends Component {
 
       comment: {
         name: "",
-        message: ""
+        message: "",
+        time: ""
       }
     };
 
@@ -45,10 +46,13 @@ export default class CommentForm extends Component {
 
     // persist the comments on server
     let { comment } = this.state;
-    this.props.addComment(comment);
-    fetch("/Comments", {
-      method: "commentMethod",
-      body: JSON.stringify(comment)
+    comment.name=this.props.email;
+    comment.time=new Date().toString();
+    // sleep(5000);
+    this.props.addComment(comment,()=>{ console.log(this.props.comments);fetch("/postcomment", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({id:this.props.issueid,comments:this.props.comments})
     })
       .then(res => res.json())
       .then(res => {
@@ -57,7 +61,7 @@ export default class CommentForm extends Component {
         } else {
           // add time return from api and push comment to parent state
           comment.time = res.time;
-          this.props.addComment(comment);
+       //   this.props.addComment(comment);
 
           // clear the message box
           this.setState({
@@ -72,19 +76,20 @@ export default class CommentForm extends Component {
           loading: false
         });
       });
-    
+    });
+    console.log(this.props.comments);
   }
 
   renderError() {
     return this.state.error ? (
-      <div className="alert alert-danger">{this.state.error}</div>
+      <div className="">{this.state.error}</div>
     ) : null;
   }
 
   render() {
     return (
       <React.Fragment>
-        <form className="form-group-comments" method="commentMethod" onSubmit={this.onSubmit}>
+        <form className="form-group-comments" method="post" onSubmit={this.onSubmit}>
           <div className="form-group-comments-one">
             <input
               onChange={this.handleFieldChange}

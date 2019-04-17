@@ -19,10 +19,12 @@
 }
 
 .adorableimage {
+    margin: 0.5em;
     /* flex: 10%; */
 }
 
 .messageClass {
+    margin : 0.5em;
     /* flex: 90%; */
 }
 
