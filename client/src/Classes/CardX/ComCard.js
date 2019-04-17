@@ -106,6 +106,7 @@ class ComCard extends Component {
     }
 
     addComment = (comment,callback) => {
+        console.log(comment);
         this.setState({
           loading: false,
           comments: [comment, ...this.state.comments],

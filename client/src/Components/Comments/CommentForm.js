@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import './Comments.css';
+import { Promise } from "mongoose";
 
 export default class CommentForm extends Component {
   constructor(props) {
@@ -34,7 +35,6 @@ export default class CommentForm extends Component {
       }
     });
   };
-
   /**
    * Form submit handler
    */
@@ -47,37 +47,43 @@ export default class CommentForm extends Component {
     // persist the comments on server
     let { comment } = this.state;
     comment.name=this.props.email;
-    comment.time=new Date().toString();
-    // sleep(5000);
-    this.props.addComment(comment,()=>{ console.log(this.props.comments);fetch("/postcomment", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({id:this.props.issueid,comments:this.props.comments})
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          this.setState({ loading: false, error: res.error });
-        } else {
-          // add time return from api and push comment to parent state
-          comment.time = res.time;
-       //   this.props.addComment(comment);
-
-          // clear the message box
-          this.setState({
-            loading: false,
-            comment: { ...comment, message: "" }
-          });
-        }
-      })
-      .catch(err => {
-        this.setState({
-          error: "Something went wrong while submitting form.",
-          loading: false
-        });
-      });
+    let promise = new Promise(function(resolve, reject) {
+      comment.time=new Date().toString();
+      resolve(comment);
     });
-    console.log(this.props.comments);
+    promise.then(
+      comment => this.props.addComment(comment,()=>{  fetch("/postcomment", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id:this.props.issueid,comments:this.props.comments})
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.error) {
+            this.setState({ loading: false, error: res.error });
+          } else {
+            // add time return from api and push comment to parent state
+            comment.time = res.time;
+         //   this.props.addComment(comment);
+  
+            // clear the message box
+            this.setState({
+              loading: false,
+              comment: { ...comment, message: "" }
+            });
+          }
+        })
+        .catch(err => {
+          this.setState({
+            error: "Something went wrong while submitting form.",
+            loading: false
+          });
+        });
+      })
+    );
+   // console.log(this.props.comments);
+    // console.log(comment);
+    // sleep(5000);
   }
 
   renderError() {
