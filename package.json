@@ -7,7 +7,8 @@
     "start": "node server.js",
     "test": "nodemon server.js",
     "heroku-postbuild": "cd client && npm install && npm run build",
-    "sqlstart": "node sqlServer.js"
+    "sqlstart": "node sqlServer.js",
+    "sqltest": "nodemon sqlServer.js"
   },
   "author": "",
   "license": "MIT",

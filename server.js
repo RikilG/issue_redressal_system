@@ -7,6 +7,14 @@ const mongo = require("mongoose");
 const app = express();
 const port = process.env.PORT || 5000;
 
+const sitelog = (message) => {
+  var datetime = new Date(Date.now() + 5.5);
+  fs.appendFile("ServerLog.txt", "> " + datetime.toString() + ":\n\t" + message +"\n", err => {
+      if (err) console.log(err);
+    }
+  );
+}
+
 mongo.connect(
   "mongodb://raj:raj1@cluster0-shard-00-00-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-01-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-02-ojo88.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
   { useNewUrlParser: true },
@@ -15,13 +23,7 @@ mongo.connect(
     else {
       var datetime = new Date(Date.now() + 5.5); //offset for IST
       console.log(datetime.toString() + " : connected");
-      fs.appendFile(
-        "ServerLog.txt",
-        datetime.toString() + " Connected to mongoDB atlas\n",
-        err => {
-          if (err) console.log(err);
-        }
-      );
+      sitelog("\t\tConnected to mongoDB atlas");
     }
   }
 );
@@ -96,21 +98,20 @@ app.get("/", (req, res) => {
 
 app.get("/logs", (req, res) => {
   console.log("log req received");
-  // console.log(req);
-  fs.appendFile("/ServerLog.txt", "Log Accessed\n", err => {
-    if (err) console.log(err);
-  });
+  sitelog("log access requested");
   res.sendFile(path.join(__dirname + "/ServerLog.txt"));
 });
 
 app.post("/login", (req, res) => {
   if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
+    sitelog("Admin logged in");
     res.json({
       isAdmin: true,
       validUser: true
     });
   }
   else if (req.body.email === "ombudsman@issueredressal" && req.body.password === "ombud@123") {
+    sitelog("Ombudsman logged in");
     res.json({
       isAdmin: false,
       isOmbudsman: true,
@@ -124,6 +125,7 @@ app.post("/login", (req, res) => {
           if (data2 === null) {
             organization.findOne({ email: req.body.email, password: req.body.password }, function (err, data3) {
               if (data3 === null) {
+                sitelog("Invalid sigin details { email: " + req.body.email + " }");
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
@@ -192,6 +194,7 @@ app.post("/register", function (req, res) {
   customer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newcustm.save();
+      sitelog("New Customer: { email: " + req.body.email + " }");
       res.json({
         accepted: true
       });
@@ -206,16 +209,13 @@ app.post("/regFreelancer", function (req, res) {
   freelancer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newFreelancer.save();
+      sitelog("New Freelancer: { email: " + req.body.email + " }");
       res.json({
         accepted: true
       });
     } else {
       res.json({ accepted: false });
-      //console.log("Freelancer Rejected : "+req.body.email);
-      fs.appendFile(
-        "/ServerLog.txt",
-        "Freelancer Rejected : " + req.body.email + "\n"
-      );
+      sitelog("Freelancer register rejected : { email: " +req.body.email+ " }");
     }
   });
 });
@@ -230,11 +230,7 @@ app.post("/regOrganization", function (req, res) {
       });
     } else {
       res.json({ accepted: false });
-      //console.log("Organization Rejected : "+req.body.email);
-      fs.appendFile(
-        "/ServerLog.txt",
-        "Organization Rejected : " + req.body.email + "\n"
-      );
+      sitelog("Organization register rejected : { email: "+req.body.email+" }");
     }
   });
 });
@@ -389,8 +385,6 @@ app.post('/Ombudsman', (req, res) => {
     });
   }
 })
-
-
 
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {

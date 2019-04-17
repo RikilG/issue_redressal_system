@@ -19,7 +19,15 @@ con.connect(function(err) {
     console.log("Connected!");
 });
 
-con.query('select * from members;', function (err, result) {
-    if (err) throw err;
-    console.log("Result: " + result[0].name);
+app.use(express.static(path.join(__dirname, "client/build")));
+app.use(bodyParser.json());
+app.use(cors())
+
+// con.query('select * from members;', function (err, result) {
+//     if (err) throw err;
+//     console.log(result);
+// });
+
+app.listen(port, () => {
+  console.log(`server running on : "http://localhost:${port}"`);
 });
