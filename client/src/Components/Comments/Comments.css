@@ -1,0 +1,30 @@
+.form-group-comments {
+    display: flex; 
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-group-comments-one {
+    flex: 75%;
+}
+
+.form-group-comments-two {
+    flex: 25%;
+}
+
+.commentSection {
+    display: flex; 
+    width: 100%;
+    overflow: hidden;
+}
+
+.adorableimage {
+    margin: 0.5em;
+    /* flex: 10%; */
+}
+
+.messageClass {
+    margin : 0.5em;
+    /* flex: 90%; */
+}
+

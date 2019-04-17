@@ -51,7 +51,12 @@ var issueSchema = new mongo.Schema({
   description: String,
   tstart: Date,
   tend: Date,
-  status: String
+  status: String,
+ comments:[ {
+    name: String,
+    message: String,
+    time: String
+  }]
 });
 var issue = new mongo.model('issue', issueSchema);
 
@@ -217,6 +222,26 @@ app.post("/regFreelancer", function (req, res) {
       res.json({ accepted: false });
       sitelog("Freelancer register rejected : { email: " +req.body.email+ " }");
     }
+  });
+});
+
+app.post('/postcomment',function(req,res){
+ // console.log(req.body.id);
+  issue.findByIdAndUpdate(req.body.id,{comments:req.body.comments},function(err,data){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.json({res:"successful"});
+    }
+  });
+});
+
+app.post('/loadcomments',function(req,res){
+//  console.log(req.body.issueid);
+  issue.findOne({_id:req.body.issueid},function(err,data){
+  //  console.log(data.comments);
+    res.json({comments:data.comments});
   });
 });
 

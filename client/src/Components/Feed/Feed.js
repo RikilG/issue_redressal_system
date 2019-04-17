@@ -61,7 +61,7 @@ class Feed extends Component {
             </div>
           </div>
           <div className="vr"></div>
-          <div className="panel panel-default" id="panel">
+          <div className="panel panel-default" id="panel2">
             <div className="panel-heading">
               <h1 className="panel-title"> Trendy Issues</h1>
             </div>
