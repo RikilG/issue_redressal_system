@@ -4,6 +4,8 @@ import '../Issue';
 import thumbsupIcon from '../../Assets/thumbsup.png';
 import thumbsdownIcon from '../../Assets/thumbsdown.png';
 import donationIcon from '../../Assets/donation.png';
+import CommentList from '../../Components/Comments/CommentList';
+import CommentForm from '../../Components/Comments/CommentForm';
 
 class ComCard extends Component {
     constructor(props) {
@@ -35,6 +37,8 @@ class ComCard extends Component {
             content: cont,
             upvote: 0,
             downvote: 0,
+            comments: [],
+            loading: false,
         };
     }
 
@@ -90,6 +94,13 @@ class ComCard extends Component {
             });
     }
 
+    addComment = (comment) => {
+        this.setState({
+          loading: false,
+          comments: [comment, ...this.state.comments]
+        });
+    }
+
     render() {
         let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
         return (
@@ -116,6 +127,16 @@ class ComCard extends Component {
                         </div>
                         :null}
                     </span>
+                    {/* <Comments comments={[{ name:"name", message:'message', time:'time' }]} addComment={this.addComment}/> */
+                    }
+                    {/* <div className="vr"></div>  */} <br/>
+                    <div id='mainCommentPanel'>
+                        <div id='panelOne'> <CommentForm addComment={this.addComment} />  </div>
+                        
+                        <div id='panelTwo'> <CommentList comments={this.state.comments}/> </div>
+                    </div>
+                    
+                   
                 </div>
             </div>
         );
