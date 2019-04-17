@@ -84,8 +84,8 @@ class EditIssue extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        alert("Issue successfully Edited!!!");
-        this.props.setView("Feed");
+        this.props.storeData(this.state);
+        this.props.setView("SPP");
       });
   };
 

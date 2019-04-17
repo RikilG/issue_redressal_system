@@ -22,10 +22,10 @@ class FillDetails extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      this.setState({ i: this.state.i + 1 });
-      this.setState({ carousel: images[this.state.i % 10].ref });
-    }, 2000);
+    // setInterval(() => {
+    //   this.setState({ i: this.state.i + 1 });
+    //   this.setState({ carousel: images[this.state.i % 10].ref });
+    // }, 2000);
   }
 
   onOthersChange = input => {
@@ -70,10 +70,9 @@ class FillDetails extends Component {
         status: "Pending"
       })
     })
-      .then(res => res.json())
+      .then(res => {console.log("log1");console.log("log2");return res.json();})
       .then(data => {
-    //  console.log("jhf");
-        alert("Issue successfully submitted!!!");
+        window.alert("Issue successfully submitted!!!");
         this.props.setView("Feed");
       });
   };

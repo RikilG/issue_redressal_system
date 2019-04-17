@@ -15,6 +15,8 @@ import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import EditIssue from "./Components/EditIssue/EditIssue";
+import SPP from './Components/SPPreferences';
+
 // import Footer from './Components/Footer/Footer';
 
 class App extends Component {
@@ -65,8 +67,9 @@ class App extends Component {
       case "AdminHome": view = <AdminHome email={this.state.email} />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
-      case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
+      case "EditIssue": view = (<EditIssue setView={this.setView} storeData={this.storeData} storedData={this.state.storedData} parent={this} />); break;
       case "SPFeed": view = <SPFeed />; break;
+      case "SPP": view = <SPP setView={this.setView} content={this.state.storedData} />; break;
       default: alert("No Page To Load (case:default:App.js)");
     }
 

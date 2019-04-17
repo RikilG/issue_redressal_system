@@ -64,6 +64,7 @@ class FreelancerReg extends Component {
             alert("Please agree to T&C to continue.")
             return;
         }
+        console.log(this.department);
         fetch("/regFreelancer", {
             method: "post",
             headers: {'Content-Type': 'application/json'},

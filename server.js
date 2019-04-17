@@ -363,7 +363,9 @@ app.post('/ombudTrack', (req, res) => {
 })
 
 app.post('/spp',function(req,res){
-
+    freelancer.find({department:req.body.dept},function(err,fls){
+        res.json({sps:fls.email});
+    })
 });
 
 app.get('*', (req, res) => {
