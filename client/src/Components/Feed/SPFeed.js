@@ -31,6 +31,7 @@ class SPFeed extends Component {
             .then(data => {
                 this.setState({
                     issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                    acceptedIssues: data.acptdIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
                 });
             }).then( () => {
                 this.setState({ loading:false });
@@ -46,7 +47,7 @@ class SPFeed extends Component {
                 method: "post",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    email: "admin@issueredressal",
+                    email: this.props.email,
                     id: this.state.modalData.issue.id
                 })
             }).then(res => res.json())
@@ -74,7 +75,7 @@ class SPFeed extends Component {
 
         return (
             <React.Fragment>
-            {(acceptedIssues.length)?null:ai}
+            {(acceptedIssues.length!=0)?ai:null}
             <h2 id="spFeedHeading">Available Issues</h2>
             <div id="spFeedRoot">
                 {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}

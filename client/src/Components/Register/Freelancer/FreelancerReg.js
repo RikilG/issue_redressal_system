@@ -21,6 +21,7 @@ class FreelancerReg extends Component {
             chkPlumber: false,
             chkCarpenter: false,
             chkCivil: false,
+            skills: [],
             otherWork: ""
         }
     }
@@ -38,11 +39,20 @@ class FreelancerReg extends Component {
     onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
 
     handleRegister = () => {
+        if(this.state.chkElectrician)this.state.skills.push("Electrical");
+        if(this.state.chkPlumber)   this.state.skills.push("Plumbing");
+        if(this.state.chkCarpenter) this.state.skills.push("Carpentry");
+        if(this.state.chkCivil)     this.state.skills.push("Civil");
+        if(this.state.otherWork.length>0) {
+            let others = this.state.otherWork.split(",")
+            others = others.map((work,index) => {return work.trim()});
+            this.state.skills = this.state.skills.concat(others);
+        }
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
             return;
         }
-        fetch("/regFreelancer", {
+        fetch("http://localhost:5000/regFreelancer", {
             method: "post",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -55,7 +65,8 @@ class FreelancerReg extends Component {
                 state: this.state.state,
                 mobile: this.state.mobile,
                 aadhaar: this.state.aadhaar,
-                pincode: this.state.pincode
+                pincode: this.state.pincode,
+                skills: this.state.skills
             })
           })
           .then(res => res.json())
@@ -64,9 +75,10 @@ class FreelancerReg extends Component {
                 alert("Successfully registered!!!, login to continue.");
                 this.props.setView("Home");
               }
-                else
-                alert("Freelancer email already existing, login to continue.");
-
+                else {
+                    alert("Freelancer email already existing, login to continue.");
+                    this.state.skills = [];
+                }
           })
     }
 
@@ -142,7 +154,7 @@ class FreelancerReg extends Component {
                     <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber:!this.state.chkPlumber })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil:!this.state.chkCivil })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter:!this.state.chkCarpenter })} />
-                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
+                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills(seperate by ,)" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
                 </Form.Row>
                 <Form.Group id="formGridCheckbox">
                     <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />

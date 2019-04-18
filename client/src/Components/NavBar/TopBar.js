@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import profileIcon from '../../Assets/user.png';
+// import profileIcon from '../../Assets/user.png';
 import './TopBar.css';
 
 class TopBar extends Component {

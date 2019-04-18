@@ -52,7 +52,8 @@ var issueSchema = new mongo.Schema({
   tstart: Date,
   tend: Date,
   status: String,
- comments:[ {
+  acceptedBy: String,
+  comments:[{
     name: String,
     message: String,
     time: String
@@ -70,7 +71,8 @@ var freelancerSchema = new mongo.Schema({
   state: String,
   mobile: Number,
   aadhaar: Number,
-  pincode: Number
+  pincode: Number,
+  skills:[String]
 });
 var freelancer = new mongo.model('freelancer', freelancerSchema);
 
@@ -81,6 +83,7 @@ var organizationSchema = new mongo.Schema({
   headquaters: String,
   mobile: Number,
   workforce: Number,
+  skills:[String]
 });
 var organization = new mongo.model('organization', organizationSchema);
 
@@ -267,7 +270,7 @@ app.post("/postIssue", function (req, res) {
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer" }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -289,8 +292,11 @@ app.post('/feed', (req, res) => {
 
 app.post('/spfeed', (req, res) => {
   issue.find({ status: "Pending", type: {$ne: "Government"} }, (err, issues) => {
-    res.json({
-      allIss: issues
+    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+      res.json({
+        allIss: issues,
+        acptdIss: ai
+      });
     });
   });
 });
