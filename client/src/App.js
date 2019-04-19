@@ -15,6 +15,7 @@ import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import EditIssue from "./Components/EditIssue/EditIssue";
+import RatingPage from "./Components/RatingPage/RatingPage";
 // import Footer from './Components/Footer/Footer';
 
 class App extends Component {
@@ -67,16 +68,17 @@ class App extends Component {
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
       case "SPFeed": view = <SPFeed />; break;
+      case "RatingPage": view = <RatingPage setView={this.setView} storedData={this.state.storedData} />; break;
       default: alert("No Page To Load (case:default:App.js)");
     }
 
     return (
       <ErrorBoundary>
-      <div className="App">
-        <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
+        <div className="App">
+          <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
           {view}
-        {/* <footer id="footer"><Footer /></footer> */}
-      </div>
+          {/* <footer id="footer"><Footer /></footer> */}
+        </div>
       </ErrorBoundary>
     );
   }

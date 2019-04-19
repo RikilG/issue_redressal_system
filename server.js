@@ -82,6 +82,15 @@ var voterSchema = new mongo.Schema({
 });
 var voter = new mongo.model('voter', voterSchema);
 
+var ratingSchema = new mongo.Schema({
+  issueid: String,
+  cusid: String,
+  SPid: String,
+  rating: Number,
+  review: String
+});
+var rating = new mongo.model('rating', ratingSchema);
+
 //serve react static files.
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
@@ -184,6 +193,24 @@ app.post("/comcard", (req, res) => {
     }
   })
 })
+
+app.post("/rating", (req, res) => {
+  var newrating = new rating(req.body);
+  rating.findOne({ issueid: req.body.issueid }, function (err, data) {
+    if (data == null) {
+      newrating.save();
+      res.json({
+        accepted: true
+      });
+    } else {
+      newrating.findByIdAndUpdate(data._id, { "$set": { rating: req.body.rating, review: req.body.review } }, err => {
+        if (err) res.json({ errorStatus: true });
+        else res.json({ errorStatus: false });
+      });
+    }
+  })
+})
+
 
 app.post("/register", function (req, res) {
   var newcustm = new customer(req.body);

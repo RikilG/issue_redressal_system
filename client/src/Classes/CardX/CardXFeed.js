@@ -61,6 +61,12 @@ class CardX extends Component {
         this.props.setView("EditIssue");
     }
 
+    redToRating = () => {
+        console.log("Ratin");
+        this.props.storeData(this.props.content);
+        this.props.setView("RatingPage");
+    }
+
     redToDelete = () => {
         if (window.confirm("This operation is not reversible. Do you want to continue?")) {
             fetch('/feedDelete', {
@@ -78,6 +84,7 @@ class CardX extends Component {
                 });
         }
     }
+
 
     render() {
         return (
@@ -99,6 +106,11 @@ class CardX extends Component {
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToEdit}>
                                 Edit
+                            </div>
+                        )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToRating}>
+                                Rate
                             </div>
                         )}
                     </span>
