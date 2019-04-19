@@ -4,12 +4,13 @@ import '../Issue';
 import thumbsupIcon from '../../Assets/thumbsup.png';
 import thumbsdownIcon from '../../Assets/thumbsdown.png';
 import donationIcon from '../../Assets/donation.png';
+import CommentList from '../../Components/Comments/CommentList';
+import CommentForm from '../../Components/Comments/CommentForm';
 
 class ComCard extends Component {
     constructor(props) {
         super(props);
         let cont;
-
         if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
@@ -35,6 +36,8 @@ class ComCard extends Component {
             content: cont,
             upvote: 0,
             downvote: 0,
+            comments: [],
+            loading: false,
         };
     }
 
@@ -51,6 +54,18 @@ class ComCard extends Component {
                 this.setState({ downvote: data.nod });
                 this.setState({ upvote: data.nou });
             })
+            fetch("/loadcomments", {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    issueid: this.props.issueid
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ comments: data.comments });
+                    
+                })
     }
 
     handleUpvote = input => {
@@ -90,6 +105,14 @@ class ComCard extends Component {
             });
     }
 
+    addComment = (comment,callback) => {
+        console.log(comment);
+        this.setState({
+          loading: false,
+          comments: [comment, ...this.state.comments],
+        },()=>callback());
+    }
+
     render() {
         let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
         return (
@@ -116,6 +139,16 @@ class ComCard extends Component {
                         </div>
                         :null}
                     </span>
+                    {/* <Comments comments={[{ name:"name", message:'message', time:'time' }]} addComment={this.addComment}/> */
+                    }
+                    {/* <div className="vr"></div>  */} <br/>
+                    <div id='mainCommentPanel'>
+                        <div id='panelOne'> <CommentForm addComment={this.addComment} comments={this.state.comments} issueid={this.props.issueid} email={this.props.email}/>  </div>
+                        
+                        <div id='panelTwo'> <CommentList comments={this.state.comments} /> </div>
+                    </div>
+                    
+                   
                 </div>
             </div>
         );

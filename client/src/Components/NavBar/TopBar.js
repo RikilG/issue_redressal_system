@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import profileIcon from '../../Assets/user.png';
+// import profileIcon from '../../Assets/user.png';
 import './TopBar.css';
 
 class TopBar extends Component {
@@ -10,6 +10,7 @@ class TopBar extends Component {
   handleDetailsLink   = () => { this.props.setView("PostIssue"); };
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
+  handleDashLink      = () => { this.props.setView("Dashboard"); };
 
   handleHomeLink      = () => {
     if(this.props.isAdmin)
@@ -22,7 +23,7 @@ class TopBar extends Component {
 
   handleLogoutLink = () => {
     this.props.setSigninStatus(false,"");
-    this.props.setView("Home");
+    this.props.setView("Login");
   };
 
   handleOmbudsmanPosts = () => {
@@ -37,7 +38,7 @@ class TopBar extends Component {
           <span className="pull-right dropdown-menu-right">
             {/* {user.username} */}
             Welcome User
-            <img className="thumbnail-image" src={profileIcon} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em" }} />
+            <img className="thumbnail-image" src={"https://api.adorable.io/avatars/112/"+this.props.user+".png"} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em", borderRadius: "0.5em" }} />
           </span>
           } id="collasible-nav-dropdown">
            <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
@@ -71,10 +72,10 @@ class TopBar extends Component {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home" onSelect={this.handleHomeLink}>
-              Home
-            </Nav.Link>
-            {/* add features and pricing here */}
+            <Nav.Link href="#home" onSelect={this.handleHomeLink}>Home</Nav.Link>
+            {(this.props.signinStatus && this.props.isAdmin)?
+            <Nav.Link href="#dash" onSelect={this.handleDashLink}>Dashboard</Nav.Link>
+            :null}
             {(this.props.signinStatus && this.props.isCustomer)?
             <React.Fragment>
             <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>

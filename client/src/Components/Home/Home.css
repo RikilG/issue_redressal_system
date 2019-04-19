@@ -51,10 +51,7 @@
     align-items: center;
 }
 
-#usersCount,
-#organizationsCount,
-#freelancersCount,
-#issuesCount {
+.homeCard {
     background-color: rgb(223, 217, 195);
     border-radius: 0.3em;
     padding: 2em;
@@ -63,19 +60,3 @@
     width: 15em;
     box-shadow: 0.08em 0.2em 0.5em rgb(95, 95, 95);
 }
-
-/* #usersCount {
-    background-color: #e21818;
-}
-
-#organizationsCount {
-    background-color: #6200EA;
-}
-
-#freelancersCount {
-    background-color: #FFD600;
-}
-
-#issuesCount {
-    background-color: #00C853;
-} */

@@ -7,6 +7,14 @@ const mongo = require("mongoose");
 const app = express();
 const port = process.env.PORT || 5000;
 
+const sitelog = (message) => {
+  var datetime = new Date(Date.now() + 5.5);
+  fs.appendFile("ServerLog.txt", "> " + datetime.toString() + ":\n\t" + message +"\n", err => {
+      if (err) console.log(err);
+    }
+  );
+}
+
 mongo.connect(
   "mongodb://raj:raj1@cluster0-shard-00-00-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-01-ojo88.gcp.mongodb.net:27017,cluster0-shard-00-02-ojo88.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
   { useNewUrlParser: true },
@@ -15,13 +23,7 @@ mongo.connect(
     else {
       var datetime = new Date(Date.now() + 5.5); //offset for IST
       console.log(datetime.toString() + " : connected");
-      fs.appendFile(
-        "ServerLog.txt",
-        datetime.toString() + " Connected to mongoDB atlas\n",
-        err => {
-          if (err) console.log(err);
-        }
-      );
+      sitelog("\t\tConnected to mongoDB atlas");
     }
   }
 );
@@ -49,7 +51,13 @@ var issueSchema = new mongo.Schema({
   description: String,
   tstart: Date,
   tend: Date,
-  status: String
+  status: String,
+  acceptedBy: String,
+  comments:[{
+    name: String,
+    message: String,
+    time: String
+  }]
 });
 var issue = new mongo.model('issue', issueSchema);
 
@@ -63,7 +71,8 @@ var freelancerSchema = new mongo.Schema({
   state: String,
   mobile: Number,
   aadhaar: Number,
-  pincode: Number
+  pincode: Number,
+  skills:[String]
 });
 var freelancer = new mongo.model('freelancer', freelancerSchema);
 
@@ -74,6 +83,7 @@ var organizationSchema = new mongo.Schema({
   headquaters: String,
   mobile: Number,
   workforce: Number,
+  skills:[String]
 });
 var organization = new mongo.model('organization', organizationSchema);
 
@@ -96,21 +106,20 @@ app.get("/", (req, res) => {
 
 app.get("/logs", (req, res) => {
   console.log("log req received");
-  // console.log(req);
-  fs.appendFile("/ServerLog.txt", "Log Accessed\n", err => {
-    if (err) console.log(err);
-  });
+  sitelog("log access requested");
   res.sendFile(path.join(__dirname + "/ServerLog.txt"));
 });
 
 app.post("/login", (req, res) => {
   if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
+    sitelog("Admin logged in");
     res.json({
       isAdmin: true,
       validUser: true
     });
   }
   else if (req.body.email === "ombudsman@issueredressal" && req.body.password === "ombud@123") {
+    sitelog("Ombudsman logged in");
     res.json({
       isAdmin: false,
       isOmbudsman: true,
@@ -124,6 +133,7 @@ app.post("/login", (req, res) => {
           if (data2 === null) {
             organization.findOne({ email: req.body.email, password: req.body.password }, function (err, data3) {
               if (data3 === null) {
+                sitelog("Invalid sigin details { email: " + req.body.email + " }");
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
@@ -192,6 +202,7 @@ app.post("/register", function (req, res) {
   customer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newcustm.save();
+      sitelog("New Customer: { email: " + req.body.email + " }");
       res.json({
         accepted: true
       });
@@ -206,17 +217,34 @@ app.post("/regFreelancer", function (req, res) {
   freelancer.findOne({ email: req.body.email }, function (err, data) {
     if (data == null) {
       newFreelancer.save();
+      sitelog("New Freelancer: { email: " + req.body.email + " }");
       res.json({
         accepted: true
       });
     } else {
       res.json({ accepted: false });
-      //console.log("Freelancer Rejected : "+req.body.email);
-      fs.appendFile(
-        "/ServerLog.txt",
-        "Freelancer Rejected : " + req.body.email + "\n"
-      );
+      sitelog("Freelancer register rejected : { email: " +req.body.email+ " }");
     }
+  });
+});
+
+app.post('/postcomment',function(req,res){
+ // console.log(req.body.id);
+  issue.findByIdAndUpdate(req.body.id,{comments:req.body.comments},function(err,data){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.json({res:"successful"});
+    }
+  });
+});
+
+app.post('/loadcomments',function(req,res){
+//  console.log(req.body.issueid);
+  issue.findOne({_id:req.body.issueid},function(err,data){
+  //  console.log(data.comments);
+    res.json({comments:data.comments});
   });
 });
 
@@ -230,11 +258,7 @@ app.post("/regOrganization", function (req, res) {
       });
     } else {
       res.json({ accepted: false });
-      //console.log("Organization Rejected : "+req.body.email);
-      fs.appendFile(
-        "/ServerLog.txt",
-        "Organization Rejected : " + req.body.email + "\n"
-      );
+      sitelog("Organization register rejected : { email: "+req.body.email+" }");
     }
   });
 });
@@ -246,7 +270,7 @@ app.post("/postIssue", function (req, res) {
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer" }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -264,6 +288,17 @@ app.post('/feed', (req, res) => {
       });
     })
   })
+});
+
+app.post('/spfeed', (req, res) => {
+  issue.find({ status: "Pending", type: {$ne: "Government"} }, (err, issues) => {
+    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+      res.json({
+        allIss: issues,
+        acptdIss: ai
+      });
+    });
+  });
 });
 
 app.post("/editIssue", (req, res) => {
@@ -297,6 +332,28 @@ app.post('/admin', (req, res) => {
               allIss: issues,
               allFreelan: freelancers,
               allOrgs: organizations
+            });
+          });
+        });
+      });
+    });
+  }
+  else {
+    res.json({});
+  }
+});
+
+app.post('/dashboard', (req, res) => {
+  if (req.body.email === "admin@issueredressal") {
+    customer.countDocuments({}, function (err, customers) {
+      issue.countDocuments({}, function (er, issues) {
+        freelancer.countDocuments({}, function (err, freelancers) {
+          organization.countDocuments({}, function (err, organizations) {
+            res.json({
+              noc: customers,
+              noi: issues,
+              nof: freelancers,
+              noo: organizations
             });
           });
         });
@@ -359,8 +416,6 @@ app.post('/Ombudsman', (req, res) => {
     });
   }
 })
-
-
 
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Home.css";
 import FormLogin from "../Login/FormLogin";
+import ModalAlert from '../../Classes/Modals/ModalAlert';
 
 class Home extends Component {
   constructor(props) {
@@ -14,15 +15,23 @@ class Home extends Component {
       usersEnd: 574,
       organizationsEnd: 27,
       freelancersEnd: 263,
-      issuesEnd: 498
+      issuesEnd: 498,
+      showModal: false,
     };
     // this.counter = this.counter.bind(this);
     // this.count = this.count.bind(this);
   }
 
+  handleModalHide = () => { this.setState({ showModal: false }); }
+  handleModalShow = () => { this.setState({ showModal: true }); }
+
   componentDidMount() {
     this.count();
-    this.setState({ loginSection: (this.props.signinStatus)?null:<FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} setOmbudsman={this.props.setOmbudsman} setCustomer={this.props.setCustomer} /> });
+    this.setState({
+      loginSection: (this.props.signinStatus)?null:
+        <FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} 
+          setOmbudsman={this.props.setOmbudsman} setCustomer={this.props.setCustomer} parent={this}  /> 
+    });
   }
 
   counter = () => {
@@ -50,6 +59,7 @@ class Home extends Component {
 
     return (
         <div id="home">
+            {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Invalid Credidentials" body="Incorrect username or password is provided. Please try again." />:null}
             <div id="headerPanel">
                 <h1 style={{paddingTop: "0.2em"}}>Issue Redressal System</h1>
             </div>
@@ -67,19 +77,19 @@ class Home extends Component {
                 <span id="loginSection">{this.state.loginSection}</span>
             </div>
             <div id="statisicsPanel">
-                <span id="usersCount">
+                <span className="homeCard">
                     <h2>{users}</h2>
                     <h3>Users</h3>
                 </span>
-                <span id="organizationsCount">
+                <span className="homeCard">
                     <h2>{organizations}</h2>
                     <h3>Organizations</h3>
                 </span>
-                <span id="freelancersCount">
+                <span className="homeCard">
                     <h2>{freelancers}</h2>
                     <h3>Freelancers</h3>
                 </span>
-                <span id="issuesCount">
+                <span className="homeCard">
                     <h2>{issues}</h2>
                     <h3>Issues</h3>
                 </span>

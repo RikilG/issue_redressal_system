@@ -69,14 +69,13 @@ class FormLogin extends Component {
           this.props.setOmbudsman(false);
         }
         else {
-          this.setState({ showModal: true });
+          this.handleModalShow();
         }
       })
   }
 
-  handleModalHide = () => {
-    setTimeout(() => this.setState({ showModal: false }), 500);
-  }
+  handleModalHide = () => { (this.props.parent)?this.props.parent.handleModalHide():this.setState({ showModal: false }); }
+  handleModalShow = () => { (this.props.parent)?this.props.parent.handleModalShow():this.setState({ showModal: true }); }
 
   render() {
     return (
