@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-// import NavDropdown from "react-bootstrap/NavDropdown";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+// import profileIcon from '../../Assets/user.png';
+import './TopBar.css';
 
 class TopBar extends Component {
 
   handleLoginLink     = () => { this.props.setView("Login"); };
   handleRegisterLink  = () => { this.props.setView("Register"); };
-  handleDetailsLink   = () => { this.props.setView("FillDetails"); };
+  handleDetailsLink   = () => { this.props.setView("PostIssue"); };
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
+  handleDashLink      = () => { this.props.setView("Dashboard"); };
 
   handleHomeLink      = () => {
     if(this.props.isAdmin)
@@ -33,9 +34,21 @@ class TopBar extends Component {
     let loginLink, logoutLink, registerLink;
     if (this.props.signinStatus) {
       logoutLink = (
-        <Nav.Link href="#home" onSelect={this.handleLogoutLink}>
-          Logout
-        </Nav.Link>
+        <NavDropdown title={
+          <span className="pull-right dropdown-menu-right">
+            {/* {user.username} */}
+            Welcome User
+            <img className="thumbnail-image" src={"https://api.adorable.io/avatars/112/"+this.props.user+".png"} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em", borderRadius: "0.5em" }} />
+          </span>
+          } id="collasible-nav-dropdown">
+           <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
+             Profile
+           </NavDropdown.Item>
+           <NavDropdown.Divider />
+           <NavDropdown.Item href="#home" onSelect={this.handleLogoutLink}>
+             Logout
+           </NavDropdown.Item>
+        </NavDropdown>
       );
     }
     else {
@@ -45,34 +58,24 @@ class TopBar extends Component {
         </Nav.Link>
       );
       registerLink = (
-        <Nav.Link
-          eventKey={2}
-          href="#register"
-          onSelect={this.handleRegisterLink}
-        >
+        <Nav.Link eventKey={2} href="#register" onSelect={this.handleRegisterLink} >
           Register
         </Nav.Link>
       );
     }
 
     return (
-      <Navbar
-        collapseOnSelect
-        expand="lg"
-        bg="dark"
-        variant="dark"
-        sticky="top"
-      >
+      <Navbar collapseOnSelect expand="lg" /*bg="dark"*/ variant="dark" sticky="top" id="navbar" >
         <Navbar.Brand href="#home" onClick={this.handleHomeLink}>
           Issue Redressal
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home" onSelect={this.handleHomeLink}>
-              Home
-            </Nav.Link>
-            {/* add features and pricing here */}
+            <Nav.Link href="#home" onSelect={this.handleHomeLink}>Home</Nav.Link>
+            {(this.props.signinStatus && this.props.isAdmin)?
+            <Nav.Link href="#dash" onSelect={this.handleDashLink}>Dashboard</Nav.Link>
+            :null}
             {(this.props.signinStatus && this.props.isCustomer)?
             <React.Fragment>
             <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
@@ -82,25 +85,8 @@ class TopBar extends Component {
             {(this.props.isOmbudsman)?
             <Nav.Link href="#prevPosts" onSelect={this.handleOmbudsmanPosts} >Completed Issues</Nav.Link>
             :null}
-            {/* {(this.props.signinStatus && !this.props.isAdmin)?<NavDropdown title="Services" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1" onSelect={this.handleDetailsLink}>
-                Submit Issue
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4" onSelect={this.handleFeedLink} >
-                Feed
-              </NavDropdown.Item>
-            </NavDropdown>:null} */}
           </Nav>
           <Nav>
-            {(this.props.signinStatus)?
-              <Nav.Link
-                eventKey={3}
-                href="#profile"
-                onSelect={this.handleProfileLink}>
-                Profile
-              </Nav.Link>
-            :null}
             {registerLink}
             {loginLink}
             {logoutLink}

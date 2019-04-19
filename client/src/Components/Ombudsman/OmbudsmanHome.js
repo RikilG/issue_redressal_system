@@ -67,7 +67,7 @@ class OmbudsmanHome extends Component {
                         <div id="headerPanel">
                             Completed Issues
                         </div>
-                        <div>
+                        <div id="completedContainer">
                             {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:completed}
                         </div>
                     </Col>

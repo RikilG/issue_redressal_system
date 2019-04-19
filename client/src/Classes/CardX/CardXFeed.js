@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import govtIcon from '../../Assets/govt.png';
+import editIcon from '../../Assets/edit.png';
+import deleteIcon from '../../Assets/delete.png';
 import '../CardX/CardX.css';
 import '../Issue';
 
@@ -17,6 +19,11 @@ class CardX extends Component {
                         <tr><th>Pay:            </th><td> {this.props.content.pay} </td></tr>
                         <tr><th>Type:           </th><td> {this.props.content.type} </td></tr>
                         <tr><th>WorkNature:     </th><td> {this.props.content.workNature} </td></tr>
+                        {(this.props.content.type === "Household") ?
+                            <React.Fragment>
+                                <tr><th>Open time:      </th><td> {this.props.content.tstart.format('h:mm a')} </td></tr>
+                                <tr><th>Close time:     </th><td> {this.props.content.tend.format('h:mm a')} </td></tr>
+                            </React.Fragment> : null}
                         <tr><th>Status:         </th><td> {this.props.content.status} </td></tr>
                     </tbody></table>
                 </div>
@@ -85,7 +92,6 @@ class CardX extends Component {
         }
     }
 
-
     render() {
         return (
             <div className="cardxRoot">
@@ -100,11 +106,13 @@ class CardX extends Component {
                         )}
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToDelete}>
-                                DeLeTe
+                                <img className="action" src={deleteIcon} alt='delete' />
+                                Delete
                             </div>
                         )}
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToEdit}>
+                                <img className="action" src={editIcon} alt='edit' />
                                 Edit
                             </div>
                         )}
@@ -115,12 +123,14 @@ class CardX extends Component {
                         )}
                     </span>
                 </div>
-                {this.state.showBody && (
-                    <div className="cardxBody" onClick={this.toggleBody} >
-                        {this.state.content}
-                    </div>
-                )}
-            </div>
+                {
+                    this.state.showBody && (
+                        <div className="cardxBody" onClick={this.toggleBody} >
+                            {this.state.content}
+                        </div>
+                    )
+                }
+            </div >
         );
     }
 }

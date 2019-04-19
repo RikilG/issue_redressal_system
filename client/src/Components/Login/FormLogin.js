@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./FormLogin.css";
+import ModalAlert from "../../Classes/Modals/ModalAlert";
 
 class FormLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      showModal: false
     };
   }
 
@@ -67,21 +69,26 @@ class FormLogin extends Component {
           this.props.setOmbudsman(false);
         }
         else {
-          alert("Invalid credentials");
+          this.handleModalShow();
         }
       })
   }
 
+  handleModalHide = () => { (this.props.parent)?this.props.parent.handleModalHide():this.setState({ showModal: false }); }
+  handleModalShow = () => { (this.props.parent)?this.props.parent.handleModalShow():this.setState({ showModal: true }); }
+
   render() {
     return (
       <div className="formlogin form">
+        <h2 style={{ color: "#F9FBE7" }}>Login</h2>
+        {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Invalid Credidentials" body="Incorrect username or password is provided. Please try again." />:null}
         <Form>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control id="tvEmail" type="email" placeholder="Enter email" onChange={this.onEmailChange} />
+            <Form.Label className="test">Email</Form.Label>
+            <Form.Control id="tvEmail" type="email" placeholder="Email" onChange={this.onEmailChange} />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label className="test">Password</Form.Label>
             <Form.Control id="tvPassword" type="password" placeholder="Password" onChange={this.onPasswordChange} />
           </Form.Group>
           <Button id="btnLogin" variant="primary" onClick={this.postRequest}>

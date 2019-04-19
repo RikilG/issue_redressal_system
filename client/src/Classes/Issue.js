@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 class Issue {
     constructor(jsonObject) {
         this.id = jsonObject._id;
@@ -7,7 +9,10 @@ class Issue {
         this.type = jsonObject.type;
         this.workNature = jsonObject.workNature;
         this.description = jsonObject.description;
+        this.tstart = moment(jsonObject.tstart);
+        this.tend = moment(jsonObject.tend);
         this.status = jsonObject.status;
+        this.acceptedBy = jsonObject.acceptedBy;
         this.className = "Issue";
     }
 }

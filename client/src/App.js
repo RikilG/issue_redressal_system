@@ -9,13 +9,15 @@ import Feed from './Components/Feed/Feed';
 import SPFeed from './Components/Feed/SPFeed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
+import Dashboard from './Components/Dashboard/Dashboard';
 import OmbudsmanHome from './Components/Ombudsman/OmbudsmanHome';
-import FillDetails from './Components/IssueDetails/FillDetails';
+import PostIssue from './Components/PostIssue/PostIssue';
 import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import EditIssue from "./Components/EditIssue/EditIssue";
 import RatingPage from "./Components/RatingPage/RatingPage";
+import ModalAlert from "./Classes/Modals/ModalAlert";
 // import Footer from './Components/Footer/Footer';
 
 class App extends Component {
@@ -62,8 +64,9 @@ class App extends Component {
       case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
-      case "FillDetails": view = <FillDetails email={this.state.email} setView={this.setView} />; break;
-      case "AdminHome": view = <AdminHome email={this.state.email} />; break;
+      case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
+      case "AdminHome": view = <AdminHome setView={this.setView} email={this.state.email} />; break;
+      case "Dashboard": view = <Dashboard />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
@@ -75,7 +78,7 @@ class App extends Component {
     return (
       <ErrorBoundary>
         <div className="App">
-          <TopBar setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
+          <TopBar setView={this.setView} user={this.state.email} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
           {view}
           {/* <footer id="footer"><Footer /></footer> */}
         </div>

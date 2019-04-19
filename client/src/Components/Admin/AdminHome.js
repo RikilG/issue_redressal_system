@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Tab, Row, Col, Nav } from "react-bootstrap";
+import { Button, Tab, Row, Col, Nav, FormControl } from "react-bootstrap";
 import "./AdminHome.css";
 import Customer from "../../Classes/Customer";
 import Issue from "../../Classes/Issue";
@@ -17,7 +17,12 @@ class AdminHome extends Component {
       users: [],
       freelancers: [],
       organizations: [],
-      loading: false
+      issuesDisplay: [],
+      usersDisplay: [],
+      freelancerDisplay: [],
+      organizationDisplay: [],
+      loading: false,
+      searchValue: ""
     };
   }
 
@@ -45,10 +50,18 @@ class AdminHome extends Component {
           return new Organization(organization);
         });
         this.setState({
-          issuesDisplay: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
-          usersDisplay: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
-          freelancerDisplay: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
-          organizationDisplay: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
+          issues: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
+          users: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
+          freelancers: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
+          organizations: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
+        });
+      })
+      .then( () => {
+        this.setState({
+          issuesDisplay: this.state.issues,
+          usersDisplay: this.state.users,
+          freelancerDisplay: this.state.freelancers,
+          organizationDisplay: this.state.organizations
         });
       })
       .then( () => {
@@ -68,6 +81,19 @@ class AdminHome extends Component {
   };
 
   refershHandler = () => this.componentDidMount();
+  dashboardHandler = () => { this.props.setView("Dashboard"); }
+
+  searchinput = async (input) => {
+    let { issues, users, freelancers, organizations } = this.state;
+    this.setState({ searchValue: input.target.value }, () => {
+      let inputValue = this.state.searchValue.trim().toLowerCase();
+      let inputLength = inputValue.length;
+      this.setState({ issuesDisplay:      (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ usersDisplay:       (inputLength === 0) ? users : users.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ freelancerDisplay:  (inputLength === 0) ? freelancers : freelancers.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+      this.setState({ organizationDisplay:(inputLength === 0) ? organizations : organizations.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+    });
+  }
 
   render() {
     let { issuesDisplay, usersDisplay, freelancerDisplay, organizationDisplay, loading } = this.state;
@@ -107,26 +133,32 @@ class AdminHome extends Component {
                   </Nav.Item>
                 </Nav>
                 <div id="adminStatistics">
-                  <h2>Statistics</h2><hr />
-                  <div className="controls"><div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />Reload Data</div></div>
+                  <h2>Controls</h2><hr />
+                  <div className="controls">
+                    <div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />
+                    Reload Data
+                  </div></div>
+                  <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
+                  <Button id="btnDashboard" variant="outline-info" size="lg" onClick={this.dashboardHandler}>Dashboard</Button>
+                  <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Site Log</Button>
                 </div>
               </Col>
               <div className="vr" xs="true"></div>
               <Col sm={9} lg>
                 <Tab.Content>
-                  <Tab.Pane eventKey="issueTab" id="issuesContainer">
+                  <Tab.Pane eventKey="issueTab" className="container">
                     <h2>Posted Issues</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:issuesDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="customerTab" id="usersContainer">
+                  <Tab.Pane eventKey="customerTab" className="container">
                     <h2>Registered Customers</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:usersDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
+                  <Tab.Pane eventKey="freelancerTab" className="container">
                     <h2>Registered Freelancers</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:freelancerDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="organizationTab" id="orgContainer">
+                  <Tab.Pane eventKey="organizationTab" className="container">
                     <h2>Registered Organizations</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:organizationDisplay}
                   </Tab.Pane>
@@ -134,9 +166,6 @@ class AdminHome extends Component {
               </Col>
             </Row>
           </Tab.Container>
-        </div>
-        <div>
-          <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Generate Log</Button>
         </div>
       </div>
     );

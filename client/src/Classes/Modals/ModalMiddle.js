@@ -8,6 +8,8 @@ class ModalMiddle extends Component {
             "paddingRight": "1.2em", 
             "paddingLeft": "1.2em", 
             "backgroundColor": "lightgreen",
+            "color": "black",
+            "fontWeight": "500",
         }
 
         return (
