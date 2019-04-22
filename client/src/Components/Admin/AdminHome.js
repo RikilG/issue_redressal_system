@@ -81,6 +81,7 @@ class AdminHome extends Component {
   };
 
   refershHandler = () => this.componentDidMount();
+  dashboardHandler = () => { this.props.setView("Dashboard"); }
 
   searchinput = async (input) => {
     let { issues, users, freelancers, organizations } = this.state;
@@ -133,26 +134,31 @@ class AdminHome extends Component {
                 </Nav>
                 <div id="adminStatistics">
                   <h2>Controls</h2><hr />
-                  <div className="controls"><div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />Reload Data</div></div>
+                  <div className="controls">
+                    <div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />
+                    Reload Data
+                  </div></div>
                   <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
+                  <Button id="btnDashboard" variant="outline-info" size="lg" onClick={this.dashboardHandler}>Dashboard</Button>
+                  <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Site Log</Button>
                 </div>
               </Col>
               <div className="vr" xs="true"></div>
               <Col sm={9} lg>
                 <Tab.Content>
-                  <Tab.Pane eventKey="issueTab" id="issuesContainer">
+                  <Tab.Pane eventKey="issueTab" className="container">
                     <h2>Posted Issues</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:issuesDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="customerTab" id="usersContainer">
+                  <Tab.Pane eventKey="customerTab" className="container">
                     <h2>Registered Customers</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:usersDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="freelancerTab" id="freelanContainer">
+                  <Tab.Pane eventKey="freelancerTab" className="container">
                     <h2>Registered Freelancers</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:freelancerDisplay}
                   </Tab.Pane>
-                  <Tab.Pane eventKey="organizationTab" id="orgContainer">
+                  <Tab.Pane eventKey="organizationTab" className="container">
                     <h2>Registered Organizations</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:organizationDisplay}
                   </Tab.Pane>
@@ -160,9 +166,6 @@ class AdminHome extends Component {
               </Col>
             </Row>
           </Tab.Container>
-        </div>
-        <div>
-          <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Generate Log</Button>
         </div>
       </div>
     );
