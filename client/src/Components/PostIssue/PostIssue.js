@@ -91,7 +91,7 @@ class PostIssue extends Component {
   handleSubmit = () => {
     if (this.state.department === "Others")
       this.setState({ department: this.state.other });
-    fetch("http://localhost:5000/postIssue", {
+    fetch("/postIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -140,7 +140,7 @@ class PostIssue extends Component {
         <h2>Post your issue here</h2>
         <br />
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={(e) => {e.preventDefault();setTimeout(1500,this.handleSubmit());} }>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
@@ -207,7 +207,7 @@ class PostIssue extends Component {
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" /*onClick={this.handleSubmit}*/ >
             Submit
           </Button>
         </Form>
