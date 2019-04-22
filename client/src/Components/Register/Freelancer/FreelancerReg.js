@@ -30,7 +30,7 @@ class FreelancerReg extends Component {
     onLnameChange   = (input) => { this.setState({ lname: input.target.value }) }
     onEmailChange   = (input) => { this.setState({ email: input.target.value }) }
     onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
-    onAddChange     = (input) => { this.setState({ address1: input.target.value }) }
+    onAddChange     = (input) => { this.setState({ address: input.target.value }) }
     onCityChange    = (input) => { this.setState({ city: input.target.value }) }
     onStateChange   = (input) => { this.setState({ state: input.target.value }) }
     onPinChange     = (input) => { this.setState({ pincode: input.target.value }) }
@@ -86,7 +86,7 @@ class FreelancerReg extends Component {
         return (
             <div id="freelanRegRoot">
             <h1>Freelancer</h1>
-            <Form onSubmit={this.handleRegister} >
+            <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister());} } >
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridFName">
                         <Form.Label>First Name</Form.Label>

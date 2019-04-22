@@ -76,7 +76,7 @@ class OrganizationReg extends Component {
         return (
             <div id="freelanRegRoot">
             <h1>Organization</h1>
-            <Form onSubmit={this.handleRegister} >
+            <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister()); } } >
                 <Form.Row>
                     <Form.Group as={Col} controlId="formOrgName">
                         <Form.Label>Name of Organization</Form.Label>

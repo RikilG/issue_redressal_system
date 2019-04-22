@@ -62,7 +62,9 @@ class FormRegister extends Component {
   };
 
   handleModalHide = () => {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false }, () => {
+      if(this.state.alert.head === "Successfully Registered!") setTimeout(1000, this.props.setView("Home"));
+    });
   }
 
   handleRegister = () => {
@@ -85,16 +87,13 @@ class FormRegister extends Component {
       .then(res => res.json())
       .then(data => {
         if (data.accepted) {
-          this.setState({ showModal: true });
-          this.setState({ alert: {head:"Successfully Registered!", body:"Login to continue." } });
-          this.props.setView("Home");
+          this.setState({ showModal: true, alert: {head:"Successfully Registered!", body:"Login to continue." } });
         }
         else {
-          this.setState({ showModal: true });
-          this.setState({ alert: {head:"User already existing", body:"Given email already exists. Please use another or login to continue" } });
+          this.setState({ showModal: true, alert: {head:"User already existing", body:"Given email already exists. Please use another or login to continue" } });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => alert(error));
   };
 
   handleServiceRegister = () => {
@@ -106,7 +105,7 @@ class FormRegister extends Component {
       <div className="formregister form">
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head={this.state.alert.head} body={this.state.alert.body} />:null}
         <h2 id="heading">New Customer? register here</h2>
-        <Form onSubmit={this.handleRegister}>
+        <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister()); }}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridFName">
               <Form.Label>First Name</Form.Label>
