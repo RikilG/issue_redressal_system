@@ -112,7 +112,7 @@ export default class CommentForm extends Component {
 
           <div className="form-group-comments-two">
             <button disabled={this.state.loading} className="btn btn-primary">
-              Comment ➤
+              Comment➤
             </button>
           </div>
         </form>

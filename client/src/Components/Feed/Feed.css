@@ -37,11 +37,11 @@
     overflow: hidden;
 }
 #panel2 {
-    flex: 25%;
+    flex: 30%;
 }
 
 #panel {
-    flex: 75%;
+    flex: 70%;
 }
 
 .panel-title {
@@ -51,9 +51,5 @@
 }
 
 .vr {
-<<<<<<< HEAD
-    border:1em solid green ;
-=======
     border: 0.05em solid lightgray;
->>>>>>> 82241da7476e323feb06c61dadca8c1b882c30c8
 }
