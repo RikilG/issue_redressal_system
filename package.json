@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "test": "nodemon server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "sqlstart": "node sqlServer.js",
+    "sqltest": "nodemon sqlServer.js"
   },
   "author": "",
   "license": "MIT",
@@ -14,7 +16,8 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mongoose": "^5.4.14"
+    "mongoose": "^5.4.14",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

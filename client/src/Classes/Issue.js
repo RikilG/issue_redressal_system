@@ -12,6 +12,7 @@ class Issue {
         this.tstart = moment(jsonObject.tstart);
         this.tend = moment(jsonObject.tend);
         this.status = jsonObject.status;
+        this.acceptedBy = jsonObject.acceptedBy;
         this.className = "Issue";
     }
 }

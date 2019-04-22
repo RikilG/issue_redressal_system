@@ -7,6 +7,7 @@ class Organization {
         this.headquaters = jsonObject.headquaters;
         this.mobile = jsonObject.mobile;
         this.workforce = jsonObject.workforce;
+        this.skills = jsonObject.skills;
         this.className = "Organization";
     }
 }

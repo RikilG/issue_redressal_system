@@ -32,16 +32,24 @@
 }
 
 #panelMain {
-    display: flex;
+    display: flex; 
     width: 100%;
     overflow: hidden;
 }
-#panel {
+#panel2 {
     flex: 25%;
+}
+
+#panel {
+    flex: 75%;
 }
 
 .panel-title {
     color:greenyellow;
     font-size: 2vw;
     text-align: center;
+}
+
+.vr {
+    border: 0.05em solid lightgray;
 }

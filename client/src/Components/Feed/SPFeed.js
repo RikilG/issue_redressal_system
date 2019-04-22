@@ -10,6 +10,7 @@ class SPFeed extends Component {
         super(props);
         this.state = {
             issues: [],
+            acceptedIssues: [],
             loading: false,
             modalShow: false,
             modalData: {head:"Unavailable", body:"Data Unavailable", issue:"No Data"},
@@ -19,20 +20,22 @@ class SPFeed extends Component {
     componentDidMount() {
         //fetch issue details from backend
         this.setState({ loading: true });
-        fetch('/admin', {
+        fetch('/spfeed', {
             method: "post",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                email: "admin@issueredressal",
+                email: this.props.email
             })
-        }).then(res => res.json())
-        .then(data => {
-            this.setState({
-                issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                    acceptedIssues: data.acptdIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                });
+            }).then( () => {
+                this.setState({ loading:false });
             });
-        }).then( () => {
-            this.setState({ loading:false });
-        });
     }
 
     handleClose = () => {this.setState({ modalShow: false });}
@@ -44,7 +47,7 @@ class SPFeed extends Component {
                 method: "post",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    email: "admin@issueredressal",
+                    email: this.props.email,
                     id: this.state.modalData.issue.id
                 })
             }).then(res => res.json())
@@ -59,10 +62,20 @@ class SPFeed extends Component {
     }
 
     render() {
-        let { issues,loading } = this.state;
+        let { issues, acceptedIssues, loading } = this.state;
+
+        let ai = (
+            <React.Fragment>
+            <h2 id="spFeedHeading">Selected Issues</h2>
+            <div id="spFeedRoot">
+                {acceptedIssues}
+            </div>
+            </React.Fragment>
+        )
 
         return (
             <React.Fragment>
+            {(acceptedIssues.length!=0)?ai:null}
             <h2 id="spFeedHeading">Available Issues</h2>
             <div id="spFeedRoot">
                 {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}

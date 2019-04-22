@@ -18,7 +18,8 @@ class OrganizationReg extends Component {
             chkCarpenter: false,
             chkCivil: false,
             otherWork: "",
-            certificates: ""
+            certificates: "",
+            skills: []
         }
     }
 
@@ -32,6 +33,15 @@ class OrganizationReg extends Component {
     onCertificatesChange=(input)=>{this.setState({ certificates:input.target.value })}
 
     handleRegister = () => {
+        if(this.state.chkElectrician)this.state.skills.push("Electrical");
+        if(this.state.chkPlumber)   this.state.skills.push("Plumbing");
+        if(this.state.chkCarpenter) this.state.skills.push("Carpentry");
+        if(this.state.chkCivil)     this.state.skills.push("Civil");
+        if(this.state.otherWork.length>0) {
+            let others = this.state.otherWork.split(",")
+            others = others.map((work,index) => {return work.trim()});
+            this.state.skills = this.state.skills.concat(others);
+        }
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
             return;
@@ -46,6 +56,7 @@ class OrganizationReg extends Component {
                 headquaters: this.state.headquaters,
                 mobile: this.state.mobile,
                 workforce: this.state.workforce,
+                skills: this.state.skills
             })
           })
           .then(res => res.json())
@@ -54,9 +65,10 @@ class OrganizationReg extends Component {
                 alert("Successfully registered!!!, login to continue.");
                 this.props.setView("Home");
               }
-                else
-                alert("Organization already enrolled, contact site admin for more details.");
-
+                else {
+                    alert("Organization already enrolled, contact site admin for more details.");
+                    this.state.skills = [];
+                }
           })
     }
 
