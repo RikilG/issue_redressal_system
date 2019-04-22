@@ -22,7 +22,7 @@
 
 .cardxRoot1:hover {
     /* background-color: lightgreen; */
-    background-color: rgb(76, 200, 206);
-    color: red;
+    background-color: rgb(3, 59, 107);
+    color: whitesmoke;
     transform: scale(1.01);
 }
