@@ -40,7 +40,7 @@ class OrganizationReg extends Component {
         if(this.state.otherWork.length>0) {
             let others = this.state.otherWork.split(",")
             others = others.map((work,index) => {return work.trim()});
-            this.state.skills = this.state.skills.concat(others);
+            this.setState({ skills: this.state.skills.concat(others) });
         }
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
@@ -67,7 +67,7 @@ class OrganizationReg extends Component {
               }
                 else {
                     alert("Organization already enrolled, contact site admin for more details.");
-                    this.state.skills = [];
+                    this.setState({ skills:[] });
                 }
           })
     }

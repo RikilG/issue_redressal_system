@@ -46,7 +46,7 @@ class FreelancerReg extends Component {
         if(this.state.otherWork.length>0) {
             let others = this.state.otherWork.split(",")
             others = others.map((work,index) => {return work.trim()});
-            this.state.skills = this.state.skills.concat(others);
+            this.setState({ skills:this.state.skills.concat(others) });
         }
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
@@ -77,7 +77,7 @@ class FreelancerReg extends Component {
               }
                 else {
                     alert("Freelancer email already existing, login to continue.");
-                    this.state.skills = [];
+                    this.setState({ skills:[] });
                 }
           })
     }
