@@ -4,7 +4,6 @@ import "./AdminHome.css";
 import Customer from "../../Classes/Customer";
 import Issue from "../../Classes/Issue";
 import Freelancer from "../../Classes/Freelancer";
-import Organization from "../../Classes/Organization";
 import CardX from "../../Classes/CardX/CardX";
 import loadingIcon from '../../Assets/loading.gif';
 import restartIcon from '../../Assets/restart.png';
@@ -16,11 +15,9 @@ class AdminHome extends Component {
       issues: [],
       users: [],
       freelancers: [],
-      organizations: [],
       issuesDisplay: [],
       usersDisplay: [],
       freelancerDisplay: [],
-      organizationDisplay: [],
       loading: false,
       searchValue: ""
     };
@@ -46,22 +43,17 @@ class AdminHome extends Component {
         let allFreelancers = data.allFreelan.map((freelancer, index) => {
           return new Freelancer(freelancer);
         });
-        let allOrganizations = data.allOrgs.map((organization, index) => {
-          return new Organization(organization);
-        });
         this.setState({
-          issues: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
+          issues: allIssues.map((issue, index) => <CardX header={issue.title} content={issue} parent={this} isAdmin={true} key={index} />),
           users: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
           freelancers: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
-          organizations: allOrganizations.map((organization, index) => <CardX header={organization.name} content={organization} parent={this} isAdmin={true} key={index} />),
         });
       })
       .then( () => {
         this.setState({
           issuesDisplay: this.state.issues,
           usersDisplay: this.state.users,
-          freelancerDisplay: this.state.freelancers,
-          organizationDisplay: this.state.organizations
+          freelancerDisplay: this.state.freelancers
         });
       })
       .then( () => {
@@ -81,22 +73,20 @@ class AdminHome extends Component {
   };
 
   refershHandler = () => this.componentDidMount();
-  dashboardHandler = () => { this.props.setView("Dashboard"); }
 
   searchinput = async (input) => {
-    let { issues, users, freelancers, organizations } = this.state;
+    let { issues, users, freelancers} = this.state;
     this.setState({ searchValue: input.target.value }, () => {
       let inputValue = this.state.searchValue.trim().toLowerCase();
       let inputLength = inputValue.length;
       this.setState({ issuesDisplay:      (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
       this.setState({ usersDisplay:       (inputLength === 0) ? users : users.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
       this.setState({ freelancerDisplay:  (inputLength === 0) ? freelancers : freelancers.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
-      this.setState({ organizationDisplay:(inputLength === 0) ? organizations : organizations.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
     });
   }
 
   render() {
-    let { issuesDisplay, usersDisplay, freelancerDisplay, organizationDisplay, loading } = this.state;
+    let { issuesDisplay, usersDisplay, freelancerDisplay, loading } = this.state;
 
     return (
       // <div id="adminHomeRoot">
@@ -126,10 +116,7 @@ class AdminHome extends Component {
                     <Nav.Link eventKey="customerTab">Customers</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="freelancerTab">Freelancers</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="organizationTab">Organizations</Nav.Link>
+                    <Nav.Link eventKey="freelancerTab">Service Providers</Nav.Link>
                   </Nav.Item>
                 </Nav>
                 <div id="adminStatistics">
@@ -139,7 +126,7 @@ class AdminHome extends Component {
                     Reload Data
                   </div></div>
                   <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
-                  <Button id="btnDashboard" variant="outline-info" size="lg" onClick={this.dashboardHandler}>Dashboard</Button>
+
                   <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Site Log</Button>
                 </div>
               </Col>
@@ -155,12 +142,8 @@ class AdminHome extends Component {
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:usersDisplay}
                   </Tab.Pane>
                   <Tab.Pane eventKey="freelancerTab" className="container">
-                    <h2>Registered Freelancers</h2><hr />
+                    <h2>Registered Service Providers</h2><hr />
                     {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:freelancerDisplay}
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="organizationTab" className="container">
-                    <h2>Registered Organizations</h2><hr />
-                    {(loading)?<img className="loadingIcon" src={loadingIcon} alt='Loading...' />:organizationDisplay}
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

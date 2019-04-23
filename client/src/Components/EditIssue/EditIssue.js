@@ -3,13 +3,9 @@ import { Button, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./EditIssue.css";
 import ModalAlert from "../../Classes/Modals/ModalAlert";
-import TimePicker from 'rc-time-picker';
-import 'rc-time-picker/assets/index.css';
-import moment from 'moment'
 // import Customer from "../../Classes/Customer";
 // import Issue from "../../Classes/Issue";
 // import Freelancer from "../../Classes/Freelancer";
-// import Organization from "../../Classes/Organization";
 // import CardX from "../../Classes/CardX/CardX";
 
 class EditIssue extends Component {
@@ -25,9 +21,6 @@ class EditIssue extends Component {
       description: this.props.storedData.description,
       other: this.props.storedData.other,
       type: this.props.storedData.type,
-      format: 'h:mm a',
-      tstart: moment(this.props.storedData.tstart),
-      tend: moment(this.props.storedData.tend),
       householdChk: true,
       communityChk: false,
       govtChk: false,
@@ -58,7 +51,12 @@ class EditIssue extends Component {
     this.setState({ complaintName: input.target.value });
   };
   onDeptChange = input => {
-    this.setState({ department: input.target.value });
+    if(input.target.value==="Others") {
+      this.setState({ department: this.state.other });
+    }
+    else {
+      this.setState({ department: input.target.value });
+    }
   };
   onPayChange = input => {
     this.setState({ pay: input.target.value });
@@ -73,13 +71,6 @@ class EditIssue extends Component {
     console.log(input.target.value);
     this.setState({ type: input.target.value });
   };
-  onTime1Change = (value) => {
-    // console.log(value && value.format(this.state.format));
-    this.setState({ tstart: value });
-  }
-  onTime2Change = (value) => {
-    this.setState({ tend: value });
-  }
 
   handleSubmit = () => {
     if (this.state.department === "Others")
@@ -91,12 +82,10 @@ class EditIssue extends Component {
       body: JSON.stringify({
         id: this.props.storedData.id,
         email: this.props.storedData.email,
-        complaintName: this.state.complaintName,
+        name: this.state.complaintName,
         pay: this.state.pay,
-        workNature: this.state.department,
-        description: this.state.description,
-        tstart: this.state.tstart,
-        tend: this.state.tend,
+        nature: this.state.department,
+        dsc: this.state.description,
         type: this.state.type
       })
     })
@@ -110,14 +99,13 @@ class EditIssue extends Component {
     setTimeout(() => this.props.setView("Feed"), 500);
   }
 
-  disabledHours = () => { return [0, 1, 2, 3, 4, 5, 6, 7, 22, 23]; }
-
   render() {
+    console.log(this.props.storedData.id);
     return (
-      <div className="editIssue">
+      <div className="editIssue form">
         <h2>Edit your issue</h2>
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} head="Issue successfully edited!" body="press close to continue..." onHide={this.handleModalHide} />:null}
-        <Form>
+        <Form onSubmit={(e) => {e.preventDefault(); this.handleSubmit();}}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
@@ -139,34 +127,14 @@ class EditIssue extends Component {
             <img alt="Government issue" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/220px-Emblem_of_India.svg.png" />
             <p>Government Issue</p>
           </label>
-          {(this.state.type === "Household")?<Form.Row>
+          <Form.Row>
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
                 <Form.Control value={this.state.pay} onChange={this.onPayChange} required />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Row>
-                <Col>
-                  <Form.Label>Specify available time(start and end)</Form.Label>
-                </Col>
-              </Form.Row>
-              <Form.Row>
-                <Col>
-                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tstart} 
-                    className="xxx timeSelect" onChange={this.onTime1Change} format={this.state.format} 
-                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
-                </Col>
-                <Col>
-                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tend} 
-                    className="xxx timeSelect" onChange={this.onTime2Change} format={this.state.format} 
-                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
-                </Col>
-              </Form.Row>
-            </Col>
           </Form.Row>
-          :null}
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
@@ -176,25 +144,15 @@ class EditIssue extends Component {
                 <option>Electric</option>
                 <option>Civil</option>
                 <option>Plumbing</option>
+                <option>Painting</option>
               </Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} controlId="others">
-              <Form.Label>others</Form.Label>
-              <Form.Control
-                placeholder="If others please specify"
-                onChange={this.onOthersChange}
-                disabled={
-                  this.state.department === "Others" ? null : "disabled"
-                }
-                required
-              />
             </Form.Group>
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" value={this.state.description} onChange={this.onDescriptionChange} required />
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
-          <Button variant="primary" onClick={this.handleSubmit}>
+          <Button variant="primary">
             Submit
           </Button>
         </Form>

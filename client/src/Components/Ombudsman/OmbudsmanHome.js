@@ -27,9 +27,9 @@ class OmbudsmanHome extends Component {
         }).then(res => res.json())
         .then(data => {
             this.setState({
-                tracked: data.trakedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} controls="Control" isOmbudsman={true} />; }),
-                untracked: data.untrackedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} controls="Track" key={index} isOmbudsman={true} />; }),
-                completed: data.completedIssues.map((issue, index) => { return <CardX header={issue.complaintName} content={new Issue(issue)} parent={this} controls="Restart" key={index} isOmbudsman={true} />; }),
+                tracked: data.trakedIssues.map((issue, index) => { return <CardX header={issue.title} content={new Issue(issue)} parent={this} key={index} controls="Control" isOmbudsman={true} />; }),
+                untracked: data.untrackedIssues.map((issue, index) => { return <CardX header={issue.title} content={new Issue(issue)} parent={this} controls="Track" key={index} isOmbudsman={true} />; }),
+                completed: data.completedIssues.map((issue, index) => { return <CardX header={issue.title} content={new Issue(issue)} parent={this} controls="Restart" key={index} isOmbudsman={true} />; }),
             });
         }).then( () => {
             this.setState({ loading: false });

@@ -13,7 +13,7 @@ class SPCard extends Component {
                 <div className='spCardContent'>
                     <table className="detailsTable"><tbody>
                         {/* <tr><th> Description:   </th><td> {this.props.content.description} </td></tr> */}
-                        <tr><th> WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th> Department:    </th><td> {this.props.content.workNature}</td></tr>
                         <tr><th> Pay:           </th><td> {this.props.content.pay}</td></tr>
                         <tr><th> Type:          </th><td> {this.props.content.type}</td></tr>
                         <tr><th> Status:        </th><td> {this.props.content.status}</td></tr>
@@ -23,16 +23,11 @@ class SPCard extends Component {
             fullCont = (
                 <div className='spCardContent'>
                     <table className="detailsTable"><tbody>
-                        <tr><th> WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th> Department:    </th><td> {this.props.content.workNature}</td></tr>
                         <tr><th> Pay:           </th><td> {this.props.content.pay}</td></tr>
                         <tr><th> Email:         </th><td> {this.props.content.email}</td></tr>
                         <tr><th> Type:          </th><td> {this.props.content.type}</td></tr>
                         <tr><th> Status:        </th><td> {this.props.content.status}</td></tr>
-                        {(this.props.content.type === "Household")?
-                        <React.Fragment>
-                        <tr><th> Open time:     </th><td> {this.props.content.tstart.format('h:mm a')}</td></tr>
-                        <tr><th> Close time:    </th><td> {this.props.content.tend.format('h:mm a')}</td></tr>
-                        </React.Fragment>:null}
                         <tr><th> Description:   </th><td> {this.props.content.description} </td></tr>
                     </tbody></table>
                 </div>
@@ -66,20 +61,6 @@ class SPCard extends Component {
                 </div>
                 <div className="cardxBody">
                     {this.state.content} 
-                    {
-                        //<span id="comControls">
-                        //    <div className="control" onClick={null}>
-                        //        {/* uncomment img tage and get suitable icon */}
-                        //        {/* <img className="action" src={govtIcon} alt='govt' /> */}
-                        //        Upvote
-                        //    </div>
-                        //    <div className="control" onClick={null}>
-                        //        {/* uncomment img tage and get suitable icon */}
-                        //        {/* <img className="action" src={govtIcon} alt='govt' /> */}
-                        //        Downvote
-                        //    </div>
-                        //</span>
-                    }
                 </div>
             </div>
         );

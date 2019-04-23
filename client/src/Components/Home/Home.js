@@ -9,11 +9,9 @@ class Home extends Component {
     this.state = {
       loginSection: null,
       users: 1,
-      organizations: 2,
       freelancers: 3,
       issues: 4,
       usersEnd: 574,
-      organizationsEnd: 27,
       freelancersEnd: 263,
       issuesEnd: 498,
       showModal: false,
@@ -38,9 +36,6 @@ class Home extends Component {
     if (this.state.users < this.state.usersEnd) {
       this.setState({ users: this.state.users + 10 });
     }
-    if (this.state.organizations < this.state.organizationsEnd) {
-      this.setState({ organizations: this.state.organizations + 1 });
-    }
     if (this.state.freelancers < this.state.freelancersEnd) {
       this.setState({ freelancers: this.state.freelancers + 6 });
     }
@@ -55,7 +50,7 @@ class Home extends Component {
 
   render() {
     //let loginSection = (this.props.signinStatus)?null:<FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} />;
-    let { users,organizations,freelancers,issues } = this.state;
+    let { users,freelancers,issues } = this.state;
 
     return (
         <div id="home">
@@ -80,10 +75,6 @@ class Home extends Component {
                 <span className="homeCard">
                     <h2>{users}</h2>
                     <h3>Users</h3>
-                </span>
-                <span className="homeCard">
-                    <h2>{organizations}</h2>
-                    <h3>Organizations</h3>
                 </span>
                 <span className="homeCard">
                     <h2>{freelancers}</h2>

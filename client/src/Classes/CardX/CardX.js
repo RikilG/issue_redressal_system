@@ -8,7 +8,6 @@ import './CardX.css';
 import '../Customer';
 import '../Freelancer';
 import '../Issue';
-import '../Organization';
 
 class CardX extends Component {
     constructor(props) {
@@ -23,13 +22,8 @@ class CardX extends Component {
                         <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
                         <tr><th>Pay:           </th><td> {this.props.content.pay}</td></tr>
                         <tr><th>Type:          </th><td> {this.props.content.type}</td></tr>
-                        <tr><th>WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th>Department:    </th><td> {this.props.content.workNature}</td></tr>
                         <tr><th>Description:   </th><td> {this.props.content.description}</td></tr>
-                        {(this.props.content.type === "Household")?
-                        <React.Fragment>
-                        <tr><th>Open time:    </th><td> {this.props.content.tstart.format('h:mm a')}</td></tr>
-                        <tr><th>Close time:      </th><td> {this.props.content.tend.format('h:mm a')}</td></tr>
-                        </React.Fragment>:null}
                         <tr><th>Status:        </th><td> {this.props.content.status}</td></tr>
                     </tbody></table>
                 </div>
@@ -67,20 +61,6 @@ class CardX extends Component {
                         <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
                         <tr><th>Aadhaar:       </th><td> {this.props.content.aadhaar}</td></tr>
                         <tr><th>Pincode:       </th><td> {this.props.content.pincode}</td></tr>
-                    </tbody></table>
-                </div>
-            )
-        }
-        else if (this.props.content.className === 'Organization') {
-            cont = (
-                <div className='cardxContent' >
-                    <table className="detailsTable"><tbody>
-                        <tr><th>Name:          </th><td> {this.props.content.name}</td></tr>
-                        <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
-                        <tr><th>Password:      </th><td> {this.props.content.password}</td></tr>
-                        <tr><th>Headquaters:   </th><td> {this.props.content.headquaters}</td></tr>
-                        <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
-                        <tr><th>Workforce:     </th><td> {this.props.content.workforce}</td></tr>
                     </tbody></table>
                 </div>
             )

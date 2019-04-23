@@ -10,12 +10,8 @@ class FreelancerReg extends Component {
             lname: "",
             email: "",
             password: "",
-            address: "",
-            city: "",
-            state: "",
             pincode: "",
             mobile: "",
-            aadhaar: "",
             iAgree: false,
             chkElectrician: false,
             chkPlumber: false,
@@ -30,12 +26,8 @@ class FreelancerReg extends Component {
     onLnameChange   = (input) => { this.setState({ lname: input.target.value }) }
     onEmailChange   = (input) => { this.setState({ email: input.target.value }) }
     onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
-    onAddChange     = (input) => { this.setState({ address: input.target.value }) }
-    onCityChange    = (input) => { this.setState({ city: input.target.value }) }
-    onStateChange   = (input) => { this.setState({ state: input.target.value }) }
     onPinChange     = (input) => { this.setState({ pincode: input.target.value }) }
     onMobileChange  = (input) => { this.setState({ mobile: input.target.value }) }
-    onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value }) }
     onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
 
     handleRegister = () => {
@@ -52,7 +44,7 @@ class FreelancerReg extends Component {
             alert("Please agree to T&C to continue.")
             return;
         }
-        fetch("http://localhost:5000/regFreelancer", {
+        fetch("/regFreelancer", {
             method: "post",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -60,12 +52,8 @@ class FreelancerReg extends Component {
                 lname: this.state.lname,
                 email: this.state.email,
                 password: this.state.password,
-                address: this.state.address,
-                city: this.state.city,
-                state: this.state.state,
-                mobile: this.state.mobile,
-                aadhaar: this.state.aadhaar,
                 pincode: this.state.pincode,
+                mobile: this.state.mobile,
                 skills: this.state.skills
             })
           })
@@ -85,7 +73,7 @@ class FreelancerReg extends Component {
     render() {
         return (
             <div id="freelanRegRoot">
-            <h1>Freelancer</h1>
+            <h1>Service Provider</h1>
             <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister());} } >
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridFName">
@@ -107,42 +95,13 @@ class FreelancerReg extends Component {
                         <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
                     </Form.Group>
                 </Form.Row>
-                <Form.Group controlId="formGridAddress">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control placeholder="1234 Main St" onChange={this.onAddChange} />
-                </Form.Group>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridMobile">
                         <Form.Label>Mobile No.</Form.Label>
                         <Form.Control placeholder="Mobile No" onChange={this.onMobileChange} required />
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formGridAadhaar">
-                        <Form.Label>Aadhaar No.</Form.Label>
-                        <Form.Control placeholder="Aadhaar No" onChange={this.onAadhaarChange} required />
-                    </Form.Group>
                 </Form.Row>
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control placeholder="City" onChange={this.onCityChange} required />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridState">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control as="select" onChange={this.onStateChange} >
-                            <option>Choose...</option>
-                            <option>Andhra Pradesh</option>
-                            <option>Arunachal Pradesh</option>
-                            <option>Assam</option>
-                            <option>Bihar</option>
-                            <option>Chattisgarh</option>
-                            <option>Gujarat</option>
-                            <option>Karnataka</option>
-                            <option>Kerala</option>
-                            <option>Rajasthan</option>
-                            <option>TamilNadu</option>
-                            <option>Telangana</option>
-                        </Form.Control>
-                    </Form.Group>
                     <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Pin Code</Form.Label>
                         <Form.Control placeholder="Pincode" onChange={this.onPinChange} required />

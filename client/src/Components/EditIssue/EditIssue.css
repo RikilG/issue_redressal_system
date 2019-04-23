@@ -1,5 +1,5 @@
 .editIssue {
-  background-color: rgba(17, 17, 17, 0.562);
+  /* background-color: rgba(17, 17, 17, 0.562); */
   text-align: center;
   /* color: rgb(255, 141, 96); */
   width: 50%;
@@ -8,7 +8,7 @@
   /* border: 1px dashed slateblue; */
   border-radius: 1em;
   padding: 2vw 3vw;
-  box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5);
+  /* box-shadow: 0.5vw 0.5vw 1vw rgb(5, 5, 5); */
 }
 
 /* HIDE RADIO */

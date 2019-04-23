@@ -76,7 +76,7 @@ class FormRegister extends Component {
         lname: this.state.lname,
         email: this.state.email,
         password: this.state.password,
-        address: this.state.address,
+        location: this.state.address,
         city: this.state.city,
         state: this.state.state,
         pincode: this.state.pincode,

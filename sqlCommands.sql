@@ -7,19 +7,29 @@ create table authors(
     primary key(id)
 );
 
-create table customer(
+create table customer2(
 	cusId	    int	not null	auto_increment,
     email	    varchar(50),
     password    varchar(20),
     fname	    varchar(15),
     lname	    varchar(15),
-    address	    varchar(50),
-    city	    varchar(10),
-    state	    varchar(10),
+    location    varchar(50),
     pincode	    numeric(6),
     mobile	    numeric(12),
-    aadhar	    numeric(12),
+    aadhaar	    numeric(12),
     primary key(cusId)
+);
+
+create table customer11(
+    pincode	    numeric(6),
+    city	    varchar(10),
+    primary key(pincode)
+);
+
+create table customer12(
+	city varchar(20) not null,
+    state varchar(20) not null,
+    primary key(city)
 );
 
 create table ombudsman(
@@ -32,25 +42,26 @@ create table ombudsman(
 
 create table department(
 	deptId	    int	not null	auto_increment,
-    name	    varchar(15),
+    dname	    varchar(15),
     primary key(deptId)
 );
 
 create table issue(
 	issId	    int	not null	auto_increment,
-    name	    varchar(20),
+    title	    varchar(50),
     email	    varchar(50),
     pay		    int,
     type	    varchar(15),
-    nature	    varchar(20),
-    dsc		    varchar(200),
+    dsc		    varchar(400),
     deptId	    int not null	references department(deptId),
+    status      varchar(30),
     primary key(issId)
 );
 
 create table serviceProvider(
 	spId        int	not null	auto_increment,
-    name	    varchar(20),
+    fname	    varchar(20),
+    lname	    varchar(20),
     email	    varchar(50),
     password    varchar(20),
     pincode	    numeric(6),
@@ -67,16 +78,14 @@ create table spDept(
 create table govtTracked(
     ombId       int	not null    references ombudsman(ombId),
     issId       int	not null    references issue(issId),
-    status      varchar(20),
-    primary key(ombId, issId)
+    primary key(issId)
 );
 
 create table takenIssues(
     spId        int not null    references serviceProvider(spId),
     issId       int	not null    references issue(issId),
-    date        date,
-    status      varchar(20),
-    primary key(spId, issId)
+    datetime	datetime,
+    primary key(issId)
 );
 
 create table sitelog(

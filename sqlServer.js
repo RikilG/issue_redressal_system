@@ -19,25 +19,19 @@ con.connect(function(err) {
     console.log("Connected!");
 });
 
-// con.query('select * from members;', function (err, result) {
-//     if (err) throw err;
-//     console.log(result);
-// })
-
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.json());
 app.use(cors())
 
+//TODO:add check ombudsman to login
 app.post("/login", (req, res) => {
   if (req.body.email === "admin@issueredressal" && req.body.password === "admin@123") {
-    sitelog("Admin logged in");
     res.json({
       isAdmin: true,
       validUser: true
     });
   }
   else if (req.body.email === "ombudsman@issueredressal" && req.body.password === "ombud@123") {
-    sitelog("Ombudsman logged in");
     res.json({
       isAdmin: false,
       isOmbudsman: true,
@@ -45,12 +39,10 @@ app.post("/login", (req, res) => {
     });
   }
   else {
-    con.query('select * from customer where email=? and password=?;', [req.body.email, req.body.password], function (err, result) {
-      if (err) throw err;
+    con.query('select * from customer2 where email=? and password=?;', [req.body.email, req.body.password], function (err, result) {
       if(result.length==0) {
         con.query('select * from serviceProvider where email=? and password=?;', [req.body.email, req.body.password], function(err, result2) {
-          if (err) throw err;
-          if(result.length==0) {
+          if(result2.length==0) {
             res.json({
               isCustomer: false,
               isAdmin: false,
@@ -73,36 +65,9 @@ app.post("/login", (req, res) => {
           isSP: false
         });
       }
+      if (err) throw err;
     });
   }
-})
-
-app.post("/comcard2", (req, res) => {
-  // voter.countDocuments({ issueid: req.body.issueid, type: "upvote" }, function (err, count1) {
-  //   voter.countDocuments({ issueid: req.body.issueid, type: "downvote" }, function (err, count2) {
-  //     res.send({
-  //       nou: count1,
-  //       nod: count2
-  //     });
-  //   });
-  // });
-})
-
-app.post("/comcard", (req, res) => {
-  // var newvoter = new voter(req.body);
-  // voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
-  //   if (data == null) {
-  //     newvoter.save();
-  //     res.json({
-  //       accepted: true
-  //     });
-  //   } else {
-  //     voter.findByIdAndUpdate(data._id, { "$set": { type: req.body.type } }, err => {
-  //       if (err) res.json({ errorStatus: true });
-  //       else res.json({ errorStatus: false });
-  //     });
-  //   }
-  // })
 })
 
 app.post("/register", function (req, res) {
@@ -118,218 +83,196 @@ app.post("/register", function (req, res) {
   //     res.json({ accepted: false });
   //   }
   // });
+  con.query('select * from customer2 where email=?',[req.body.email], function(err, data) {
+    if(data.length==0) {
+      con.query('insert into customer2 values(?,?,?,?,?,?,?,?,?)',[null,req.body.email,req.body.password,
+      req.body.fname,req.body.lname,req.body.location,req.body.pincode,req.body.mobile,req.body.aadhaar], function(err, data2) {
+        if(err) throw err;
+        con.query('select * from customer11 where pincode=?',[req.body.pincode], function(err, data3) {
+          if(data3.length==0) con.query('insert into customer11 values(?,?)',[req.body.pincode,req.body.city]);
+        });
+        con.query('select * from customer12 where city=?',[req.body.city], function(err, data3) {
+          if(data3.length==0) con.query('insert into customer12 values(?,?)',[req.body.city,req.body.state]);
+        });
+        res.json({ accepted: true });
+      });
+    }
+    else {
+      res.json({ accepted: false });
+    }
+  });
 });
 
 app.post("/regFreelancer", function (req, res) {
-  // var newFreelancer = new freelancer(req.body);
-  // freelancer.findOne({ email: req.body.email }, function (err, data) {
-  //   if (data == null) {
-  //     newFreelancer.save();
-  //     sitelog("New Freelancer: { email: " + req.body.email + " }");
-  //     res.json({
-  //       accepted: true
-  //     });
-  //   } else {
-  //     res.json({ accepted: false });
-  //     sitelog("Freelancer register rejected : { email: " +req.body.email+ " }");
-  //   }
-  // });
-});
-
-app.post('/postcomment',function(req,res){
-  // issue.findByIdAndUpdate(req.body.id,{comments:req.body.comments},function(err,data){
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   else{
-  //     res.json({res:"successful"});
-  //   }
-  // });
-});
-
-app.post('/loadcomments',function(req,res){
-  // issue.findOne({_id:req.body.issueid},function(err,data){
-  //   res.json({comments:data.comments});
-  // });
-});
-
-app.post("/regOrganization", function (req, res) {
-  // var newOrganization = new organization(req.body);
-  // organization.findOne({ email: req.body.email }, function (err, data) {
-  //   if (data == null) {
-  //     newOrganization.save();
-  //     res.json({
-  //       accepted: true
-  //     });
-  //   } else {
-  //     res.json({ accepted: false });
-  //     sitelog("Organization register rejected : { email: "+req.body.email+" }");
-  //   }
-  // });
+  con.query('select * from serviceProvider where email=?',[req.body.email], function(err, data) {
+    if(data.length===0) {
+      con.query('insert into serviceProvider values(?,?,?,?,?,?,?)',[null,req.body.fname,req.body.lname,req.body.email,
+        req.body.password,req.body.pincode,req.body.mobile], function(err, data) {
+        if(err) throw err;
+        res.json({ accepted: true });
+      });
+    }
+    else {
+      res.json({ accepted: false });
+    }
+  });
 });
 
 app.post("/postIssue", function (req, res) {
-  // var newissue = new issue(req.body);
-  // newissue.save();
-  // res.json({});
+  var id=0;
+  con.query('select deptId from department where dname=?',[req.body.nature],function(err,data){
+    if(data.length==0) {
+      con.query('insert into department values(?,?)',[null,req.body.nature], (err,data) => {
+        con.query('select deptId from department where dname=?',[req.body.nature],function(err,data2){ id=data[0].deptId });
+      });
+    }
+    else {
+      id=data[0].deptId;
+    }
+    con.query('insert into issue values(?,?,?,?,?,?,?,?)',[null,req.body.name,req.body.email,req.body.pay,req.body.type,
+      req.body.dsc,id,req.body.status],function(err,data){
+        if(err) throw err;
+        res.json({});
+      });
+  });
 });
 
 app.post("/acceptIssue", (req, res) => {
-  // issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
-  //   if (err) {
-  //     res.json({ errorStatus: true });
-  //     console.log(err);
-  //   }
-  //   else res.json({ errorStatus: false });
-  // });
+  con.query('update issue set status="Issue taken up by Freelancer" where issId=?',[req.body.id], function(err,data) {
+    con.query('insert into takenIssues values((select spId from serviceProvider where email=?),?,(select NOW()))',[req.body.email,req.body.id], function(err,data) {
+      if (err) {
+        res.json({ errorStatus: true });
+        throw err;
+      }
+      else res.json({ errorStatus: false });
+    })
+  });
 })
 
 app.post('/feed', (req, res) => {
-  // issue.find({ email: req.body.email }, function (err, issues) {
-  //   issue.find({ type: "Community" }, function (err, communityIssues) {
-  //     res.send({
-  //       myIssues: issues,
-  //       comIssues: communityIssues
-  //     });
-  //   })
-  // })
+    con.query('select * from issue i,department d where d.deptId=i.deptId and email=?',[req.body.email], function(err, issues) {
+      con.query('select * from issue where type="Community"', function(err, communityIssues) {
+        res.send({
+                 myIssues: issues,
+                 comIssues: communityIssues
+        });
+      });
+    });
 });
 
 app.post('/spfeed', (req, res) => {
-  // issue.find({ status: "Pending", type: {$ne: "Government"} }, (err, issues) => {
-  //   issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
-  //     res.json({
-  //       allIss: issues,
-  //       acptdIss: ai
-  //     });
-  //   });
-  // });
+  con.query('select * from issue where status="Pending" and type!="Government"', function(err, issues) {
+    con.query('select * from issue i,takenIssues ti where i.issId=ti.issId and status="Issue taken up by Freelancer" and ti.spId=(select spId from serviceProvider where email=?)', [req.body.email], (err, ai) => {
+      res.json({
+        allIss: issues,
+        acptdIss: ai
+      });
+    });
+  });
 });
 
 app.post("/editIssue", (req, res) => {
-  // let editissue = new issue(req.body);
-  // issue.findByIdAndUpdate(req.body.id, { "$set": { complaintName: editissue.complaintName, email: editissue.email, pay: editissue.pay, type: editissue.type, workNature: editissue.workNature, description: editissue.description, tstart: editissue.tstart, tend: editissue.tend } }, (err) => {
-  //   if (err) {
-  //     res.json({ errorStatus: true });
-  //   }
-  //   else res.json({ errorStatus: false });
-  // });
+    con.query('update issue set title=?,email=?,pay=?,type=?,dsc=?,deptId=(select deptId from department where dname=?) where issId=?',[req.body.name,req.body.email,req.body.pay,req.body.type,
+      req.body.dsc,req.body.nature,req.body.id], function(err, data) {
+      if(err) throw err;
+      res.json({ accepted: true });
+    });
 });
 
 app.post('/redirectGovt', (req, res) => {
-  // issue.findByIdAndUpdate(req.body.id, { type: "Government" }, (err) => {
-  //   if (err) {
-  //     res.json({ errorStatus: true });
-  //     console.log(err);
-  //   }
-  //   else res.json({ errorStatus: false });
-  // });
+  con.query('update issue set type="Government" where issId=?',[req.body.id], function(err,data) {
+    if (err) {
+      res.json({ errorStatus: true });
+      throw err;
+    }
+    else res.json({ errorStatus: false });
+  });
 })
 
 app.post('/admin', (req, res) => {
-  // if (req.body.email === "admin@issueredressal") {
-  //   customer.find({}, function (err, customers) {
-  //     issue.find({}, function (er, issues) {
-  //       freelancer.find({}, function (err, freelancers) {
-  //         organization.find({}, function (err, organizations) {
-  //           res.json({
-  //             allCus: customers,
-  //             allIss: issues,
-  //             allFreelan: freelancers,
-  //             allOrgs: organizations
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
-  // else {
-  //   res.json({});
-  // }
+  if (req.body.email === "admin@issueredressal") {
+    con.query('select * from customer2 c2,customer11 c11,customer12 c12 where c2.pincode=c11.pincode and c12.city=c11.city', function(err,customers) {
+      con.query('select * from issue i,department d where d.deptId=i.deptId', function(err, issues) {
+        con.query('select * from serviceProvider', function(err, freelancers) {
+          res.json({
+            allCus: customers,
+            allIss: issues,
+            allFreelan: freelancers
+          });
+        });
+      });
+    });
+  }
+  else {
+    res.json({});
+  }
 });
 
-app.post('/dashboard', (req, res) => {
-  // if (req.body.email === "admin@issueredressal") {
-  //   customer.countDocuments({}, function (err, customers) {
-  //     issue.countDocuments({}, function (er, issues) {
-  //       freelancer.countDocuments({}, function (err, freelancers) {
-  //         organization.countDocuments({}, function (err, organizations) {
-  //           res.json({
-  //             noc: customers,
-  //             noi: issues,
-  //             nof: freelancers,
-  //             noo: organizations
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
-  // else {
-  //   res.json({});
-  // }
-});
 
 app.post("/adminDelete", (req, res) => {
-  // switch (req.body.documentName) {
-  //   case "Issue":
-  //     issue.deleteOne({ _id: req.body.id }, err => {
-  //       if (err) res.json({ errorStatus: true });
-  //       else res.json({ errorStatus: false });
-  //     });
-  //     break;
-  //   case "Freelancer":
-  //     freelancer.deleteOne({ _id: req.body.id }, err => {
-  //       if (err) res.json({ errorStatus: true });
-  //       else res.json({ errorStatus: false });
-  //     });
-  //     break;
-  //   case "Organization":
-  //     organization.deleteOne({ _id: req.body.id }, err => {
-  //       if (err) res.json({ errorStatus: true });
-  //       else res.json({ errorStatus: false });
-  //     });
-  //     break;
-  //   case "Customer":
-  //     customer.deleteOne({ _id: req.body.id }, err => {
-  //       if (err) res.json({ errorStatus: true });
-  //       else res.json({ errorStatus: false });
-  //     });
-  //     break;
-  // }
+  switch (req.body.documentName) {
+    case "Issue":
+      con.query('delete from issue where issId=?',[req.body.id], function(err,data) {
+        if (err) {
+          res.json({ errorStatus: true });
+          throw err;
+        }
+        else res.json({ errorStatus: false });
+      });
+      break;
+    case "Freelancer":
+      con.query('delete from serviceProvider where spId=?',[req.body.id], function(err,data) {
+        if (err) {
+          res.json({ errorStatus: true });
+          throw err;
+        }
+        else res.json({ errorStatus: false });
+      });
+      break;
+    case "Customer":
+    con.query('delete from customer2 where cusId=?',[req.body.id], function(err,data) {
+        if (err) {
+          res.json({ errorStatus: true });
+          throw err;
+        }
+        else res.json({ errorStatus: false });
+      });
+      break;
+  }
 });
 
 app.post('/feedDelete', (req, res) => {
-  // issue.deleteOne({ _id: req.body.id }, err => {
-  //   if (err) res.json({ errorStatus: true });
-  //   else res.json({ errorStatus: false });
-  // });
+  con.query('delete from issue where issId=?',[req.body.id],function(err, data) {
+    if (err) { res.json({ errorStatus: true }); throw err; }
+    else res.json({ errorStatus: false });
+  });
 });
 
 app.post('/Ombudsman', (req, res) => {
-  // if (req.body.email === "ombudsman@issueredressal") {
-  //   issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
-  //     issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
-  //       issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
-  //         res.json({
-  //           trakedIssues: tracked,
-  //           untrackedIssues: untracked,
-  //           completedIssues: completed
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
+  //TODO:do not hardcode ombudsman
+  if (req.body.email === "ombudsman@issueredressal") {
+    con.query('select * from issue where type="Government" and status!="In Progress" and status!="Completed"',function(err, untracked) {
+      con.query('select * from issue where type="Government" and status="In Progress"', function (er, tracked) {
+        con.query('select * from issue where type="Government" and status="Completed"', function (er, completed) {
+          res.json({
+            trakedIssues: tracked,
+            untrackedIssues: untracked,
+            completedIssues: completed
+          });
+        });
+      });
+    });
+  }
 })
 
 app.post('/ombudTrack', (req, res) => {
-  // issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
-  //   if (err) {
-  //     res.json({ errorStatus: true });
-  //     console.log(err);
-  //   }
-  //   else res.json({ errorStatus: false });
-  // });
+  con.query('update issue set status=? where issId=?',[req.body.newStatus, req.body.id], function(err, data) {
+    if (err) {
+      res.json({ errorStatus: true });
+      throw err;
+    }
+    else res.json({ errorStatus: false });
+  });
 });
 
 app.listen(port, () => {

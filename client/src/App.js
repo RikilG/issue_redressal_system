@@ -9,7 +9,6 @@ import Feed from './Components/Feed/Feed';
 import SPFeed from './Components/Feed/SPFeed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
-import Dashboard from './Components/Dashboard/Dashboard';
 import OmbudsmanHome from './Components/Ombudsman/OmbudsmanHome';
 import PostIssue from './Components/PostIssue/PostIssue';
 import FormRegister from './Components/Register/FormRegister';
@@ -65,7 +64,6 @@ class App extends Component {
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
       case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome setView={this.setView} email={this.state.email} />; break;
-      case "Dashboard": view = <Dashboard />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;

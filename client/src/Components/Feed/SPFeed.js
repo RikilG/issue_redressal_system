@@ -30,8 +30,8 @@ class SPFeed extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
-                    acceptedIssues: data.acptdIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                    issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.title} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                    acceptedIssues: data.acptdIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.title} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
                 });
             }).then( () => {
                 this.setState({ loading:false });

@@ -11,7 +11,7 @@ class TopBar extends Component {
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
   handleSPFeedLink      = () => { this.props.setView("SPFeed"); };
-  handleDashLink      = () => { this.props.setView("Dashboard"); };
+
 
   handleHomeLink      = () => {
     if(this.props.isAdmin)
@@ -74,9 +74,6 @@ class TopBar extends Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="#home" onSelect={this.handleHomeLink}>Home</Nav.Link>
-            {(this.props.signinStatus && this.props.isAdmin)?
-              <Nav.Link href="#dash" onSelect={this.handleDashLink}>Dashboard</Nav.Link>
-            :null}
             {(this.props.signinStatus && this.props.isCustomer)?
               <React.Fragment>
               <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>

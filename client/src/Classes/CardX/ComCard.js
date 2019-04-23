@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import './ComCard.css';
 import '../Issue';
-import thumbsupIcon from '../../Assets/thumbsup.png';
-import thumbsdownIcon from '../../Assets/thumbsdown.png';
-import donationIcon from '../../Assets/donation.png';
-import CommentList from '../../Components/Comments/CommentList';
-import CommentForm from '../../Components/Comments/CommentForm';
 
 class ComCard extends Component {
     constructor(props) {
@@ -16,7 +11,7 @@ class ComCard extends Component {
                 <div className='cardxContent' >
                     <table className="detailsTable"><tbody>
                         <tr><th> Description:   </th><td> {this.props.content.description}</td></tr>
-                        <tr><th> WorkNature:    </th><td> {this.props.content.workNature}</td></tr>
+                        <tr><th> Department:    </th><td> {this.props.content.workNature}</td></tr>
                         <tr><th> Status:        </th><td> {this.props.content.status}</td></tr>
                     </tbody></table>
                 </div>
@@ -34,87 +29,11 @@ class ComCard extends Component {
 
         this.state = {
             content: cont,
-            upvote: 0,
-            downvote: 0,
-            comments: [],
             loading: false,
         };
     }
 
-    componentDidMount() {
-        fetch("/comcard2", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                issueid: this.props.issueid
-            })
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ downvote: data.nod });
-                this.setState({ upvote: data.nou });
-            })
-            fetch("/loadcomments", {
-                method: "post",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    issueid: this.props.issueid
-                })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    this.setState({ comments: data.comments });
-                    
-                })
-    }
-
-    handleUpvote = input => {
-        fetch("/comcard", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                issueid: this.props.issueid,
-                email: this.props.email,
-                type: 'upvote'
-            })
-        })
-            .then(res => res.json())          // convert to plain text
-            .then(data => {
-                if (!data.errorStatus) {
-                    //page reload
-                    this.props.parent.componentDidMount();
-                }
-            });
-    }
-
-    handleDownvote = input => {
-        fetch("/comcard", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                issueid: this.props.issueid,
-                email: this.props.email,
-                type: 'downvote'
-            })
-        })
-            .then(res => res.json())          // convert to plain text
-            .then(data => {
-                if (!data.errorStatus) {
-                    this.props.parent.componentDidMount();
-                }
-            });
-    }
-
-    addComment = (comment,callback) => {
-        console.log(comment);
-        this.setState({
-          loading: false,
-          comments: [comment, ...this.state.comments],
-        },()=>callback());
-    }
-
     render() {
-        let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
         return (
             <div className="cardxRoot">
                 <div className="cardxHeader" >
@@ -123,32 +42,6 @@ class ComCard extends Component {
                 </div>
                 <div className="cardxBody">
                     {this.state.content}
-                    <span id="comControls">
-                        <div className="control" onClick={this.handleUpvote}>
-                            {<img className="action" src={thumbsupIcon} alt='upvote' />}
-                            {upvote}
-                        </div>
-                        <div className="control" onClick={this.handleDownvote}>
-                            {<img className="action" src={thumbsdownIcon} alt='downvote' />}
-                            {downvote}
-                        </div>
-                        {(this.props.content.type === "Community")?
-                        <div className="control" onClick={this.props.handleDonate}>
-                            {<img className="action" src={donationIcon} alt='donate' />}
-                            <strong>Donate</strong>
-                        </div>
-                        :null}
-                    </span>
-                    {/* <Comments comments={[{ name:"name", message:'message', time:'time' }]} addComment={this.addComment}/> */
-                    }
-                    {/* <div className="vr"></div>  */} <br/>
-                    <div id='mainCommentPanel'>
-                        <div id='panelOne'> <CommentForm addComment={this.addComment} comments={this.state.comments} issueid={this.props.issueid} email={this.props.email}/>  </div>
-                        
-                        <div id='panelTwo'> <CommentList comments={this.state.comments} /> </div>
-                    </div>
-                    
-                   
                 </div>
             </div>
         );
