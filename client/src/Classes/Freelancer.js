@@ -12,6 +12,8 @@ class Freelancer {
         this.aadhaar = jsonObject.aadhaar;
         this.pincode = jsonObject.pincode;
         this.skills = jsonObject.skills;
+        this.noOfIssues = jsonObject.noOfIssues;
+        this.rating = jsonObject.rating;
         this.className = "Freelancer";
     }
 }
