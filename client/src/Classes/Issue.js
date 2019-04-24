@@ -13,6 +13,7 @@ class Issue {
         this.tend = moment(jsonObject.tend);
         this.status = jsonObject.status;
         this.acceptedBy = jsonObject.acceptedBy;
+        this.pincode = jsonObject.pincode;
         this.className = "Issue";
     }
 }

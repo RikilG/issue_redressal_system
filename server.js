@@ -53,6 +53,7 @@ var issueSchema = new mongo.Schema({
   tend: Date,
   status: String,
   acceptedBy: String,
+  pincode: Number,
   comments:[{
     name: String,
     message: String,
@@ -280,8 +281,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-  issue.find({ email: req.body.email }, function (err, issues) {
-    issue.find({ type: "Community" }, function (err, communityIssues) {
+  issue.find({ email: req.body.email, status: {$ne: "Completed"} }, function (err, issues) {
+    issue.find({ type: "Community", status: {$ne: "Completed"} }, function (err, communityIssues) {
       res.send({
         myIssues: issues,
         comIssues: communityIssues
