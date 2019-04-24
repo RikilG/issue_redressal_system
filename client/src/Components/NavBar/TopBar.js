@@ -42,10 +42,10 @@ class TopBar extends Component {
             <img className="thumbnail-image" src={"https://api.adorable.io/avatars/112/"+this.props.user+".png"} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em", borderRadius: "0.5em" }} />
           </span>
           } id="collasible-nav-dropdown">
-           <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
+           {/* <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
              Profile
-           </NavDropdown.Item>
-           <NavDropdown.Divider />
+           </NavDropdown.Item> */}
+           {/* <NavDropdown.Divider /> */}
            <NavDropdown.Item href="#home" onSelect={this.handleLogoutLink}>
              Logout
            </NavDropdown.Item>

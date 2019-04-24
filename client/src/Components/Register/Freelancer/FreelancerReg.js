@@ -18,7 +18,11 @@ class FreelancerReg extends Component {
             chkCarpenter: false,
             chkCivil: false,
             skills: [],
-            otherWork: ""
+            otherWork: "",
+            chkMechanic: false,
+            chkPlumbing: false,
+            chkMasonry: false,
+            chkHK: false
         }
     }
 
@@ -31,19 +35,20 @@ class FreelancerReg extends Component {
     onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
 
     handleRegister = () => {
-        if(this.state.chkElectrician)this.state.skills.push("Electrical");
+        if(this.state.chkElectrician)this.state.skills.push("Electric");
         if(this.state.chkPlumber)   this.state.skills.push("Plumbing");
         if(this.state.chkCarpenter) this.state.skills.push("Carpentry");
         if(this.state.chkCivil)     this.state.skills.push("Civil");
-        if(this.state.otherWork.length>0) {
-            let others = this.state.otherWork.split(",")
-            others = others.map((work,index) => {return work.trim()});
-            this.setState({ skills:this.state.skills.concat(others) });
-        }
+        if(this.state.chkMechanic)  this.state.skills.push("Mechanic");
+        if(this.state.chkPlumbing)  this.state.skills.push("Plumbing");
+        if(this.state.chkMasonry)   this.state.skills.push("Masonry");
+        if(this.state.chkHK)        this.state.skills.push("House Keeping");
+
         if(!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
             return;
         }
+
         fetch("/regFreelancer", {
             method: "post",
             headers: {'Content-Type': 'application/json'},
@@ -113,7 +118,10 @@ class FreelancerReg extends Component {
                     <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber:!this.state.chkPlumber })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil:!this.state.chkCivil })} />
                     <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter:!this.state.chkCarpenter })} />
-                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills(seperate by ,)" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Mechanic" onChange={(input) => this.setState({ chkMechanic:!this.state.chkMechanic })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Plumbing" onChange={(input) => this.setState({ chkPlumbing:!this.state.chkPlumbing })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="Masonry" onChange={(input) => this.setState({ chkMasonry:!this.state.chkMasonry })} />
+                    <Form.Check as={Col} className="skills" type="checkbox" label="House Keeping" onChange={(input) => this.setState({ chkHK:!this.state.chkHK })} />
                 </Form.Row>
                 <Form.Group id="formGridCheckbox">
                     <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />

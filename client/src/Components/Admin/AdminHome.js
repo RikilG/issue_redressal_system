@@ -44,7 +44,7 @@ class AdminHome extends Component {
           return new Freelancer(freelancer);
         });
         this.setState({
-          issues: allIssues.map((issue, index) => <CardX header={issue.title} content={issue} parent={this} isAdmin={true} key={index} />),
+          issues: allIssues.map((issue, index) => <CardX header={issue.complaintName} content={issue} parent={this} isAdmin={true} key={index} />),
           users: allCustomers.map((user, index) => <CardX header={user.fname} content={user} parent={this} isAdmin={true} key={index} />),
           freelancers: allFreelancers.map((freelancer, index) => <CardX header={freelancer.fname} content={freelancer} parent={this} isAdmin={true} key={index} />),
         });

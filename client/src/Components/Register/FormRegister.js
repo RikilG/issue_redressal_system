@@ -231,7 +231,7 @@ class FormRegister extends Component {
           <br />
           <h5>
             Trying to help the society?{" "}
-            <a href="#serviceReg" onClick={this.handleServiceRegister}>
+            <a href="#serviceReg" style={{color: "violet"}} onClick={this.handleServiceRegister}>
               Register Here
             </a>
             .

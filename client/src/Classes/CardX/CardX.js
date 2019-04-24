@@ -55,11 +55,7 @@ class CardX extends Component {
                         <tr><th>Last Namename: </th><td> {this.props.content.lname}</td></tr>
                         <tr><th>Email:         </th><td> {this.props.content.email}</td></tr>
                         <tr><th>Password:      </th><td> {this.props.content.password}</td></tr>
-                        <tr><th>Address:       </th><td> {this.props.content.address}</td></tr>
-                        <tr><th>City:          </th><td> {this.props.content.city}</td></tr>
-                        <tr><th>State:         </th><td> {this.props.content.state}</td></tr>
                         <tr><th>Mobile:        </th><td> {this.props.content.mobile}</td></tr>
-                        <tr><th>Aadhaar:       </th><td> {this.props.content.aadhaar}</td></tr>
                         <tr><th>Pincode:       </th><td> {this.props.content.pincode}</td></tr>
                     </tbody></table>
                 </div>

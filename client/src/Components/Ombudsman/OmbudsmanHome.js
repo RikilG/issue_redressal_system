@@ -33,6 +33,7 @@ class OmbudsmanHome extends Component {
             });
         }).then( () => {
             this.setState({ loading: false });
+            console.log(this.state.tracked);
         } );
     }
     

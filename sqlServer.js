@@ -108,8 +108,20 @@ app.post("/regFreelancer", function (req, res) {
     if(data.length===0) {
       con.query('insert into serviceProvider values(?,?,?,?,?,?,?)',[null,req.body.fname,req.body.lname,req.body.email,
         req.body.password,req.body.pincode,req.body.mobile], function(err, data) {
-        if(err) throw err;
-        res.json({ accepted: true });
+          console.log(req.body.skills);
+          con.query('select * from serviceProvider where email=?',[req.body.email],function(err,sid) {
+            req.body.skills.map((dept)=>{
+              con.query('select * from department where dname=?',[dept],function(err,data){
+                console.log([sid[0].spId,data[0].deptId]);
+                con.query('insert into spDept values (?,?)',[sid[0].spId,data[0].deptId]);
+              })
+            });
+            if(err) throw err;
+            res.json({ accepted: true });
+            // con.query('insert into spDept values ?',req.body.skills.map((dept)=>{return [sid,]}));
+            // if(err) throw err;
+            // res.json({ accepted: true });
+          });
       });
     }
     else {
@@ -150,8 +162,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-    con.query('select * from issue i,department d where d.deptId=i.deptId and email=?',[req.body.email], function(err, issues) {
-      con.query('select * from issue where type="Community"', function(err, communityIssues) {
+    con.query('select * from issue i,department d where d.deptId=i.deptId and i.email=?',[req.body.email], function(err, issues) {
+      con.query('select * from issue i,department d where d.deptId=i.deptId and i.type="Community"', function(err, communityIssues) {
         res.send({
                  myIssues: issues,
                  comIssues: communityIssues
@@ -251,9 +263,9 @@ app.post('/feedDelete', (req, res) => {
 app.post('/Ombudsman', (req, res) => {
   //TODO:do not hardcode ombudsman
   if (req.body.email === "ombudsman@issueredressal") {
-    con.query('select * from issue where type="Government" and status!="In Progress" and status!="Completed"',function(err, untracked) {
-      con.query('select * from issue where type="Government" and status="In Progress"', function (er, tracked) {
-        con.query('select * from issue where type="Government" and status="Completed"', function (er, completed) {
+    con.query('select * from issue i,department d where d.deptId=i.deptId and type="Government" and status!="In Progress" and status!="Completed"',function(err, untracked) {
+      con.query('select * from issue i,department d where d.deptId=i.deptId and type="Government" and status="In Progress"', function (er, tracked) {
+        con.query('select * from issue i,department d where d.deptId=i.deptId and type="Government" and status="Completed"', function (er, completed) {
           res.json({
             trakedIssues: tracked,
             untrackedIssues: untracked,
@@ -275,6 +287,20 @@ app.post('/ombudTrack', (req, res) => {
   });
 });
 
+app.get("/logs", (req, res) => {
+  con.query('call getLog',(err, data) => {
+    // var str;
+    // testLog(data,(str) => res.send(str));
+    res.send(data)
+  });
+});
+
 app.listen(port, () => {
   console.log(`server running on : "http://localhost:${port}"`);
 });
+
+// testLog(data,callback(str)) {
+//   var str;
+//   data.map((obj) => {str += obj.logId + obj.description + '\n ' + obj.time  + '\n\n'; });
+//   callback(str);
+// } 

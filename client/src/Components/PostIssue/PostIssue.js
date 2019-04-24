@@ -128,10 +128,13 @@ class PostIssue extends Component {
               <Form.Label>Type of work</Form.Label>
               <Form.Control as="select" onChange={this.onDeptChange} required>
                 <option>Others</option>
-                <option>Carpentry</option>
                 <option>Electric</option>
+                <option>Mechanic</option>
+                <option>Carpentry</option>
                 <option>Civil</option>
                 <option>Plumbing</option>
+                <option>Masonry</option>
+                <option>House Keeping</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>

@@ -140,11 +140,13 @@ class EditIssue extends Component {
               <Form.Label>Type of work</Form.Label>
               <Form.Control as="select" value={this.state.department} onChange={this.onDeptChange} required>
                 <option>Others</option>
-                <option>Carpentry</option>
                 <option>Electric</option>
+                <option>Mechanic</option>
+                <option>Carpentry</option>
                 <option>Civil</option>
                 <option>Plumbing</option>
-                <option>Painting</option>
+                <option>Masonry</option>
+                <option>House Keeping</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -152,7 +154,7 @@ class EditIssue extends Component {
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
-          <Button variant="primary">
+          <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>

@@ -13,7 +13,7 @@ create table customer2(
     password    varchar(20),
     fname	    varchar(15),
     lname	    varchar(15),
-    location    varchar(50),
+    location    varchar(100),
     pincode	    numeric(6),
     mobile	    numeric(12),
     aadhaar	    numeric(12),
@@ -89,10 +89,9 @@ create table takenIssues(
 );
 
 create table sitelog(
-    logId		int not null    auto_increment,
-    triggerName varchar(10),
-    tableName   varchar(15),
-    value		varchar(100),
+    logId		    int not null    auto_increment,
+    description		varchar(100),
+    time            datetime,
     primary key(logId)
 );
 
@@ -103,3 +102,15 @@ insert into authors values(null,'T Naga Sai Bharath','DEV');
 insert into authors values(null,'Kasuba Badri Vishal','DEV');
 
 insert into ombudsman values(null, 'Rahul', 'ombudsman@issueredressal', 'ombud@123');
+
+create trigger t1 after insert on issue
+    for each row
+        insert into sitelog values(null,concat(new.title," is posted"),now());
+
+create trigger t2 after update on issue
+    for each row
+        insert into sitelog values(null,concat(old.title," post is updated to",new.title),now());
+
+create trigger t3 after insert on customer2
+    for each row
+        insert into sitelog values(null,concat("new customer",new.fname," is registered"),now());
