@@ -3,7 +3,7 @@ import "./RatingPage.css";
 import Rating from 'react-rating';
 import { Button } from "react-bootstrap";
 import starempty from '../../Assets/star-empty.png';
-import starfull from '../../Assets/star-full.png';
+//import starfull from '../../Assets/star-full.png';
 import stargrey from '../../Assets/star-grey.png';
 import starred from '../../Assets/star-red.png';
 import staryellow from '../../Assets/star-yellow.png';
@@ -12,15 +12,15 @@ import stargreen from '../../Assets/star-green.png';
 import stargreenn from '../../Assets/star-greenn.png';
 import staryellow3 from '../../Assets/star-yellow3.png';
 
-import stargrey2 from '../../Assets/star-grey2.png';
-import starred2 from '../../Assets/star-red2.png';
-import staryellow2 from '../../Assets/star-yellow2.png';
+//import stargrey2 from '../../Assets/star-grey2.png';
+//import starred2 from '../../Assets/star-red2.png';
+//import staryellow2 from '../../Assets/star-yellow2.png';
 
 class RatingPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rate: 0,
+            rate: 3,
             review: "",
             star: starempty
         };
@@ -46,43 +46,41 @@ class RatingPage extends Component {
             default: this.setState({ star: stargrey });
         }
         this.setState({ rate: input });
-        console.log("hi" + this.state.rate)
     }
     onReviewChange = input => {
-        console.log(input.target.value);
         this.setState({ review: input.target.value });
     }
 
     ratingChange = input => {
-
-        // this.setState({ review: input.target.value });
         fetch("/rating", {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 issueid: this.props.storedData.id,
-                cusemail: null,//this.props.cusid,
-                SPemail: null,
+                cusemail: this.props.email,
+                SPemail: "srihari99@gmail.com",//this.props.storedData.acceptedBy,
                 rating: this.state.rate,
                 review: this.state.review
             })
         })
-            .then(res => res.text())          // convert to plain text
-            .then(text => console.log(text))         // convert to plain text
+            .then(res => res.json())          // convert to plain text
+        this.props.setView("Feed");
     }
     render() {
         return (
-            <div>
-                <h1 id="myRating"> Rate </h1> <br />
-                <Rating
-                    stop={5}
-                    emptySymbol={<img alt="stargrey" src={stargrey} className="icon" />}
-                    fullSymbol={[<img alt="starred" src={starred} className="icon" />, <img alt="starorange" src={starorange} className="icon" />, <img alt="stargreenn" src={stargreenn} className="icon" />, <img alt="stargreen" src={stargreen} className="icon" />, <img alt="staryellow" src={staryellow} className="icon" />]}
-                    fractions={2}
-                    initialRating={this.state.rate}
-                    onChange={(rate) => this.onRatingChange(rate)}
-                    fullSymbol={<img alt="star" src={this.state.star} className="icon" />}
-                />
+            <div >
+                <h1 id="myRating"> Feedback </h1> <br />
+                <div id="ratingContainer">
+                    <Rating
+                        stop={5}
+                        emptySymbol={<img alt="stargrey" src={stargrey} className="icon" />}
+                        fullSymbol={[<img alt="starred" src={starred} className="icon" />, <img alt="starorange" src={starorange} className="icon" />, <img alt="stargreenn" src={stargreenn} className="icon" />, <img alt="stargreen" src={stargreen} className="icon" />, <img alt="staryellow" src={staryellow} className="icon" />]}
+                        fractions={2}
+                        initialRating={this.state.rate}
+                        onChange={(rate) => this.onRatingChange(rate)}
+                        fullSymbol={<img alt="star" src={this.state.star} className="icon" />}
+                    />
+                </div>
                 <br /><br />
                 <textarea
                     id="textbox"

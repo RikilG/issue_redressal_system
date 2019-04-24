@@ -72,6 +72,8 @@ var freelancerSchema = new mongo.Schema({
   mobile: Number,
   aadhaar: Number,
   pincode: Number,
+  noOfIssues: Number,
+  rating: Number,
   skills: [String]
 });
 var freelancer = new mongo.model('freelancer', freelancerSchema);
@@ -96,8 +98,8 @@ var voter = new mongo.model('voter', voterSchema);
 
 var ratingSchema = new mongo.Schema({
   issueid: String,
-  cusid: String,
-  SPid: String,
+  cusemail: String,
+  SPemail: String,
   rating: Number,
   review: String
 });
@@ -179,11 +181,21 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/comcard2", (req, res) => {
+  var exist = 0;
   voter.countDocuments({ issueid: req.body.issueid, type: "upvote" }, function (err, count1) {
     voter.countDocuments({ issueid: req.body.issueid, type: "downvote" }, function (err, count2) {
-      res.send({
-        nou: count1,
-        nod: count2
+      voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
+        if (data == null) {
+          exist = 0
+        }
+        else {
+          exist = data.type == "upvote" ? 1 : 2
+        }
+        res.send({
+          nou: count1,
+          nod: count2,
+          myv: exist
+        });
       });
     });
   });
@@ -215,12 +227,22 @@ app.post("/rating", (req, res) => {
         accepted: true
       });
     } else {
-      newrating.findByIdAndUpdate(data._id, { "$set": { rating: req.body.rating, review: req.body.review } }, err => {
-        if (err) res.json({ errorStatus: true });
-        else res.json({ errorStatus: false });
+      rating.findByIdAndUpdate(data._id, { "$set": { rating: req.body.rating, review: req.body.review } }, err => {
+        // if (err) res.json({ errorStatus: true });
+        // else res.json({ errorStatus: false });
       });
     }
-  })
+  });
+  freelancer.findOne({ email: req.body.SPemail }, function (erro, datas) {
+    freelancer.findByIdAndUpdate(datas._id, { "$set": { rating: ((datas.rating * datas.noOfIssues) + req.body.rating) / (datas.noOfIssues + 1), noOfIssues: datas.noOfIssues + 1 } }, err => {
+      // if (erro || err) res.json({ errorStatus: true });
+      // else res.json({ errorStatus: false });
+    });
+  });
+  issue.findByIdAndUpdate(req.body.issueid, { "$set": { status: "Completed" } }, err => {
+    // if (erro || err) res.json({ errorStatus: true });
+    // else res.json({ errorStatus: false });
+  });
 })
 
 

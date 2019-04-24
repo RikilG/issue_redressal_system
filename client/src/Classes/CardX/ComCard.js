@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from "react-bootstrap";
 import './ComCard.css';
 import '../Issue';
 import thumbsupIcon from '../../Assets/thumbsup.png';
@@ -38,6 +39,7 @@ class ComCard extends Component {
             downvote: 0,
             comments: [],
             loading: false,
+            myvote: 0
         };
     }
 
@@ -46,13 +48,15 @@ class ComCard extends Component {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                issueid: this.props.issueid
+                issueid: this.props.issueid,
+                email: this.props.email
             })
         })
             .then(res => res.json())
             .then(data => {
                 this.setState({ downvote: data.nod });
                 this.setState({ upvote: data.nou });
+                this.setState({ myvote: data.myv })
             })
         fetch("/loadcomments", {
             method: "post",
@@ -124,14 +128,15 @@ class ComCard extends Component {
                 <div className="cardxBody">
                     {this.state.content}
                     <span id="comControls">
-                        <div className="control" onClick={this.handleUpvote}>
+                        <Button className="control" variant="primary" onClick={this.handleUpvote} disabled={this.state.myvote === 1 ? "disabled" : null}>
                             {<img className="action" src={thumbsupIcon} alt='upvote' />}
                             {upvote}
-                        </div>
-                        <div className="control" onClick={this.handleDownvote}>
+                        </Button>
+                        <Button className="control" variant="primary" onClick={this.handleDownvote} disabled={this.state.myvote === 2 ? "disabled" : null}>
                             {<img className="action" src={thumbsdownIcon} alt='downvote' />}
                             {downvote}
-                        </div>
+                        </Button>
+
                         {(this.props.content.type === "Community") ?
                             <div className="control" onClick={this.props.handleDonate}>
                                 {<img className="action" src={donationIcon} alt='donate' />}

@@ -69,7 +69,6 @@ class CardX extends Component {
     }
 
     redToRating = () => {
-        console.log("Ratin");
         this.props.storeData(this.props.content);
         this.props.setView("RatingPage");
     }
@@ -118,7 +117,7 @@ class CardX extends Component {
                         )}
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToRating}>
-                                Rate
+                                Completed
                             </div>
                         )}
                     </span>
