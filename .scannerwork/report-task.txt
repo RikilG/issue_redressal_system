@@ -1,0 +1,7 @@
+organization=kasuba-badri-vishal-github
+projectKey=kasuba-badri-vishal_household_issue_redressal_system
+serverUrl=https://sonarcloud.io
+serverVersion=7.8.0.23906
+dashboardUrl=https://sonarcloud.io/dashboard?id=kasuba-badri-vishal_household_issue_redressal_system
+ceTaskId=AWpJ9GpBoQGPGjAgugVX
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWpJ9GpBoQGPGjAgugVX

@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
 const mongo = require("mongoose");
+const grid = require("gridfs-stream");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -180,7 +181,6 @@ app.post("/comcard2", (req, res) => {
   });
 })
 
-
 app.post("/comcard", (req, res) => {
   var newvoter = new voter(req.body);
   voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
@@ -265,8 +265,9 @@ app.post("/regOrganization", function (req, res) {
 });
 
 app.post("/postIssue", function (req, res) {
-  var newissue = new issue(req.body);
-  newissue.save();
+  // var newissue = new issue(req.body);
+  console.log(req.body.image);
+  // newissue.save();
   res.json({});
 });
 
