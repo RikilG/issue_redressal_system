@@ -17,7 +17,7 @@ class Feed extends Component {
       showModal: false
     }
   }
-  
+
   handleDonate = () => { this.setState({ showModal: true }); }
   hideModal = () => { this.setState({ showModal: false }); }
 

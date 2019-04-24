@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './FreelancerReg.css'
-import {Form, Col, Button} from 'react-bootstrap';
+import { Form, Col, Button } from 'react-bootstrap';
 
 class FreelancerReg extends Component {
     constructor(props) {
@@ -26,35 +26,35 @@ class FreelancerReg extends Component {
         }
     }
 
-    onFnameChange   = (input) => { this.setState({ fname: input.target.value }) }
-    onLnameChange   = (input) => { this.setState({ lname: input.target.value }) }
-    onEmailChange   = (input) => { this.setState({ email: input.target.value }) }
-    onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
-    onAddChange     = (input) => { this.setState({ address1: input.target.value }) }
-    onCityChange    = (input) => { this.setState({ city: input.target.value }) }
-    onStateChange   = (input) => { this.setState({ state: input.target.value }) }
-    onPinChange     = (input) => { this.setState({ pincode: input.target.value }) }
-    onMobileChange  = (input) => { this.setState({ mobile: input.target.value }) }
+    onFnameChange = (input) => { this.setState({ fname: input.target.value }) }
+    onLnameChange = (input) => { this.setState({ lname: input.target.value }) }
+    onEmailChange = (input) => { this.setState({ email: input.target.value }) }
+    onPasswordChange = (input) => { this.setState({ password: input.target.value }) }
+    onAddChange = (input) => { this.setState({ address1: input.target.value }) }
+    onCityChange = (input) => { this.setState({ city: input.target.value }) }
+    onStateChange = (input) => { this.setState({ state: input.target.value }) }
+    onPinChange = (input) => { this.setState({ pincode: input.target.value }) }
+    onMobileChange = (input) => { this.setState({ mobile: input.target.value }) }
     onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value }) }
-    onChkChange     = (input) => { this.setState({ iAgree:!this.state.iAgree }); }
+    onChkChange = (input) => { this.setState({ iAgree: !this.state.iAgree }); }
 
     handleRegister = () => {
-        if(this.state.chkElectrician)this.state.skills.push("Electrical");
-        if(this.state.chkPlumber)   this.state.skills.push("Plumbing");
-        if(this.state.chkCarpenter) this.state.skills.push("Carpentry");
-        if(this.state.chkCivil)     this.state.skills.push("Civil");
-        if(this.state.otherWork.length>0) {
+        if (this.state.chkElectrician) this.state.skills.push("Electrical");
+        if (this.state.chkPlumber) this.state.skills.push("Plumbing");
+        if (this.state.chkCarpenter) this.state.skills.push("Carpentry");
+        if (this.state.chkCivil) this.state.skills.push("Civil");
+        if (this.state.otherWork.length > 0) {
             let others = this.state.otherWork.split(",")
-            others = others.map((work,index) => {return work.trim()});
+            others = others.map((work, index) => { return work.trim() });
             this.state.skills = this.state.skills.concat(others);
         }
-        if(!this.state.iAgree) {
+        if (!this.state.iAgree) {
             alert("Please agree to T&C to continue.")
             return;
         }
         fetch("http://localhost:5000/regFreelancer", {
             method: "post",
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 fname: this.state.fname,
                 lname: this.state.lname,
@@ -66,101 +66,103 @@ class FreelancerReg extends Component {
                 mobile: this.state.mobile,
                 aadhaar: this.state.aadhaar,
                 pincode: this.state.pincode,
-                skills: this.state.skills
+                skills: this.state.skills,
+                noOfIssues: 0,
+                rating: 0
             })
-          })
-          .then(res => res.json())
-          .then(data => {
-              if(data.accepted){
-                alert("Successfully registered!!!, login to continue.");
-                this.props.setView("Home");
-              }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.accepted) {
+                    alert("Successfully registered!!!, login to continue.");
+                    this.props.setView("Home");
+                }
                 else {
                     alert("Freelancer email already existing, login to continue.");
                     this.state.skills = [];
                 }
-          })
+            })
     }
 
     render() {
         return (
             <div id="freelanRegRoot">
-            <h1>Freelancer</h1>
-            <Form onSubmit={this.handleRegister} >
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridFName">
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control type="text" placeholder="First Name" onChange={this.onFnameChange} required />
+                <h1>Freelancer</h1>
+                <Form onSubmit={this.handleRegister} >
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridFName">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" placeholder="First Name" onChange={this.onFnameChange} required />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridLName">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" placeholder="Last Name" onChange={this.onLnameChange} />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} required />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Group controlId="formGridAddress">
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control placeholder="1234 Main St" onChange={this.onAddChange} />
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formGridLName">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="text" placeholder="Last Name" onChange={this.onLnameChange} />
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridMobile">
+                            <Form.Label>Mobile No.</Form.Label>
+                            <Form.Control placeholder="Mobile No" onChange={this.onMobileChange} required />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridAadhaar">
+                            <Form.Label>Aadhaar No.</Form.Label>
+                            <Form.Control placeholder="Aadhaar No" onChange={this.onAadhaarChange} required />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridCity">
+                            <Form.Label>City</Form.Label>
+                            <Form.Control placeholder="City" onChange={this.onCityChange} required />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridState">
+                            <Form.Label>State</Form.Label>
+                            <Form.Control as="select" onChange={this.onStateChange} >
+                                <option>Choose...</option>
+                                <option>Andhra Pradesh</option>
+                                <option>Arunachal Pradesh</option>
+                                <option>Assam</option>
+                                <option>Bihar</option>
+                                <option>Chattisgarh</option>
+                                <option>Gujarat</option>
+                                <option>Karnataka</option>
+                                <option>Kerala</option>
+                                <option>Rajasthan</option>
+                                <option>TamilNadu</option>
+                                <option>Telangana</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridZip">
+                            <Form.Label>Pin Code</Form.Label>
+                            <Form.Control placeholder="Pincode" onChange={this.onPinChange} required />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Label className="skills" as={Col} >Skills : </Form.Label>
+                        <Form.Check as={Col} className="skills" type="checkbox" label="Electrician" onChange={(input) => this.setState({ chkElectrician: !this.state.chkElectrician })} />
+                        <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber: !this.state.chkPlumber })} />
+                        <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil: !this.state.chkCivil })} />
+                        <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter: !this.state.chkCarpenter })} />
+                        <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills(seperate by ,)" onChange={(input) => this.setState({ otherWork: input.target.value })} /></Form.Group>
+                    </Form.Row>
+                    <Form.Group id="formGridCheckbox">
+                        <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />
                     </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="email@example.com" onChange={this.onEmailChange} required />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={this.onPasswordChange} required />
-                    </Form.Group>
-                </Form.Row>
-                <Form.Group controlId="formGridAddress">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control placeholder="1234 Main St" onChange={this.onAddChange} />
-                </Form.Group>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridMobile">
-                        <Form.Label>Mobile No.</Form.Label>
-                        <Form.Control placeholder="Mobile No" onChange={this.onMobileChange} required />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridAadhaar">
-                        <Form.Label>Aadhaar No.</Form.Label>
-                        <Form.Control placeholder="Aadhaar No" onChange={this.onAadhaarChange} required />
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control placeholder="City" onChange={this.onCityChange} required />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridState">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control as="select" onChange={this.onStateChange} >
-                            <option>Choose...</option>
-                            <option>Andhra Pradesh</option>
-                            <option>Arunachal Pradesh</option>
-                            <option>Assam</option>
-                            <option>Bihar</option>
-                            <option>Chattisgarh</option>
-                            <option>Gujarat</option>
-                            <option>Karnataka</option>
-                            <option>Kerala</option>
-                            <option>Rajasthan</option>
-                            <option>TamilNadu</option>
-                            <option>Telangana</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridZip">
-                        <Form.Label>Pin Code</Form.Label>
-                        <Form.Control placeholder="Pincode" onChange={this.onPinChange} required />
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                    <Form.Label className="skills" as={Col} >Skills : </Form.Label>
-                    <Form.Check as={Col} className="skills" type="checkbox" label="Electrician" onChange={(input) => this.setState({ chkElectrician:!this.state.chkElectrician })} />
-                    <Form.Check as={Col} className="skills" type="checkbox" label="Plumber" onChange={(input) => this.setState({ chkPlumber:!this.state.chkPlumber })} />
-                    <Form.Check as={Col} className="skills" type="checkbox" label="Civil" onChange={(input) => this.setState({ chkCivil:!this.state.chkCivil })} />
-                    <Form.Check as={Col} className="skills" type="checkbox" label="Carpenter" onChange={(input) => this.setState({ chkCarpenter:!this.state.chkCarpenter })} />
-                    <Form.Group as={Col} controlId="otherWork"><Form.Control placeholder="Other Skills(seperate by ,)" onChange={(input) => this.setState({ otherWork:input.target.value })} /></Form.Group>
-                </Form.Row>
-                <Form.Group id="formGridCheckbox">
-                    <Form.Check type="checkbox" label="I Agree to the terms and conditions" checked={this.state.iAgree} onChange={this.onChkChange} required />
-                </Form.Group>
-                <Button type="Submit" variant="primary" >Submit</Button>
-            </Form>
+                    <Button type="Submit" variant="primary" >Submit</Button>
+                </Form>
             </div>
         );
     }
