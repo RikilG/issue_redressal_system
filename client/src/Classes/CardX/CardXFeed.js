@@ -19,11 +19,11 @@ class CardX extends Component {
                         <tr><th>Pay:            </th><td> {this.props.content.pay} </td></tr>
                         <tr><th>Type:           </th><td> {this.props.content.type} </td></tr>
                         <tr><th>WorkNature:     </th><td> {this.props.content.workNature} </td></tr>
-                        {(this.props.content.type === "Household")?
-                        <React.Fragment>
-                        <tr><th>Open time:      </th><td> {this.props.content.tstart.format('h:mm a')} </td></tr>
-                        <tr><th>Close time:     </th><td> {this.props.content.tend.format('h:mm a')} </td></tr>
-                        </React.Fragment>:null}
+                        {(this.props.content.type === "Household") ?
+                            <React.Fragment>
+                                <tr><th>Open time:      </th><td> {this.props.content.tstart.format('h:mm a')} </td></tr>
+                                <tr><th>Close time:     </th><td> {this.props.content.tend.format('h:mm a')} </td></tr>
+                            </React.Fragment> : null}
                         <tr><th>Status:         </th><td> {this.props.content.status} </td></tr>
                     </tbody></table>
                 </div>
@@ -68,6 +68,11 @@ class CardX extends Component {
         this.props.setView("EditIssue");
     }
 
+    redToRating = () => {
+        this.props.storeData(this.props.content);
+        this.props.setView("RatingPage");
+    }
+
     redToDelete = () => {
         if (window.confirm("This operation is not reversible. Do you want to continue?")) {
             fetch('/feedDelete', {
@@ -110,14 +115,21 @@ class CardX extends Component {
                                 Edit
                             </div>
                         )}
+                        {this.state.showBody && (
+                            <div className="control" onClick={this.redToRating}>
+                                Completed
+                            </div>
+                        )}
                     </span>
                 </div>
-                {this.state.showBody && (
-                    <div className="cardxBody" onClick={this.toggleBody} >
-                        {this.state.content}
-                    </div>
-                )}
-            </div>
+                {
+                    this.state.showBody && (
+                        <div className="cardxBody" onClick={this.toggleBody} >
+                            {this.state.content}
+                        </div>
+                    )
+                }
+            </div >
         );
     }
 }
