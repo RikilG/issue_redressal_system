@@ -16,8 +16,6 @@ import carousal1 from '../../Assets/carousal1.jpg';
 import carousal2 from '../../Assets/carousal2.jpg';
 import carousal3 from '../../Assets/carousal3.png';
 import carousal4 from '../../Assets/carousal4.png';
-import ImageUpload from "./ImageUpload";
-
 
 class PostIssue extends Component {
   constructor(props) {
@@ -35,12 +33,9 @@ class PostIssue extends Component {
       householdChk: true,
       format: 'h:mm a',
       tstart: moment().hour(9).minute(0),
-      tend: moment().hour(18).minute(0),
-      pictures: []
+      tend: moment().hour(18).minute(0)
     };
   }
-
-
 
   componentDidMount() {
     setInterval(() => {
@@ -152,7 +147,6 @@ class PostIssue extends Component {
               <Form.Control type="text" placeholder="Complaint Name" onChange={this.onCmpNameChange} required />
             </Form.Group>
           </Form.Row>
-          
           <label>
             <input id="hi" type="radio" name="test" value="Household" onChange={this.onIssueTypeChange} checked={this.state.householdChk} />
             <img alt="Household" src={householdimg} />
@@ -202,7 +196,6 @@ class PostIssue extends Component {
                 <option>Electric</option>
                 <option>Civil</option>
                 <option>Plumbing</option>
-                <option>Worker</option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="others">
@@ -211,7 +204,6 @@ class PostIssue extends Component {
             </Form.Group>
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
-          <ImageUpload/>
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>

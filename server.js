@@ -202,7 +202,6 @@ app.post("/comcard2", (req, res) => {
   });
 })
 
-
 app.post("/comcard", (req, res) => {
   var newvoter = new voter(req.body);
   voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
