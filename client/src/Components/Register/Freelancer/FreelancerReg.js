@@ -28,17 +28,17 @@ class FreelancerReg extends Component {
         }
     }
 
-    onFnameChange   = (input) => { this.setState({ fname: input.target.value    }) }
-    onLnameChange   = (input) => { this.setState({ lname: input.target.value    }) }
-    onEmailChange   = (input) => { this.setState({ email: input.target.value    }) }
-    onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
-    onAddChange     = (input) => { this.setState({ address: input.target.value  }) }
-    onCityChange    = (input) => { this.setState({ city: input.target.value     }) }
-    onStateChange   = (input) => { this.setState({ state: input.target.value    }) }
-    onPinChange     = (input) => { this.setState({ pincode: input.target.value  }) }
-    onMobileChange  = (input) => { this.setState({ mobile: input.target.value   }) }
-    onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value  }) }
-    onChkChange     = (input) => { this.setState({ iAgree: !this.state.iAgree   }) }
+    onFnameChange = (input) => { this.setState({ fname: input.target.value }) }
+    onLnameChange = (input) => { this.setState({ lname: input.target.value }) }
+    onEmailChange = (input) => { this.setState({ email: input.target.value }) }
+    onPasswordChange = (input) => { this.setState({ password: input.target.value }) }
+    onAddChange = (input) => { this.setState({ address: input.target.value }) }
+    onCityChange = (input) => { this.setState({ city: input.target.value }) }
+    onStateChange = (input) => { this.setState({ state: input.target.value }) }
+    onPinChange = (input) => { this.setState({ pincode: input.target.value }) }
+    onMobileChange = (input) => { this.setState({ mobile: input.target.value }) }
+    onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value }) }
+    onChkChange = (input) => { this.setState({ iAgree: !this.state.iAgree }) }
 
     handleRegister = () => {
         if (this.state.chkElectrician) this.state.skills.push("Electrical");
@@ -47,8 +47,8 @@ class FreelancerReg extends Component {
         if (this.state.chkCivil) this.state.skills.push("Civil");
         if (this.state.otherWork.length > 0) {
             let others = this.state.otherWork.split(",")
-            others = others.map((work,index) => {return work.trim()});
-            this.setState({ skills:this.state.skills.concat(others) });
+            others = others.map((work, index) => { return work.trim() });
+            this.setState({ skills: this.state.skills.concat(others) });
         }
         if (!this.state.iAgree) {
             window.alert("Please agree to T&C to continue.")
@@ -91,7 +91,7 @@ class FreelancerReg extends Component {
         return (
             <div id="freelanRegRoot">
                 <h1>Freelancer</h1>
-                <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister());} } >
+                <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister()); }} >
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridFName">
                             <Form.Label>First Name</Form.Label>

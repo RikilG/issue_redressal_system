@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongo = require("mongoose");
 const app = express();
 const port = process.env.PORT || 5000;
+const multer = require("multer");
 
 const sitelog = (message) => {
   var datetime = new Date(Date.now() + 5.5);
@@ -50,12 +51,13 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  imageURL:String,
   tstart: Date,
   tend: Date,
   status: String,
   acceptedBy: String,
   pincode: Number,
-  comments:[{
+  comments: [{
     name: String,
     message: String,
     time: String
@@ -70,6 +72,7 @@ var freelancerSchema = new mongo.Schema({
   password: String,
   address: String,
   city: String,
+  department: String,
   state: String,
   mobile: Number,
   aadhaar: Number,
@@ -326,6 +329,20 @@ app.post("/postIssue", function (req, res) {
   res.json({});
 });
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+   cb(null, path.join(__dirname+'/uploads/'))
+   },
+   filename: function (req, file, cb) {
+    cb(null,file.originalname);
+   }
+})
+var upload = multer({storage: storage});
+
+app.post("/uploadImage",upload.single("image"),function(req,res){
+  res.json({});
+});
+
 app.post("/acceptIssue", (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up", acceptedBy: req.body.email }, (err) => {
     if (err) {
@@ -337,8 +354,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-  issue.find({ email: req.body.email, status: {$ne: "Completed"} }, function (err, issues) {
-    issue.find({ type: "Community", status: {$ne: "Completed"} }, function (err, communityIssues) {
+  issue.find({ email: req.body.email, status: { $ne: "Completed" } }, function (err, issues) {
+    issue.find({ type: "Community", status: { $ne: "Completed" } }, function (err, communityIssues) {
       res.send({
         myIssues: issues,
         comIssues: communityIssues
@@ -399,6 +416,30 @@ app.post('/admin', (req, res) => {
     res.json({});
   }
 });
+
+
+app.post('/dashboard3', (req, res) => {
+  issue.count({ tstart: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data1) {
+    issue.count({ tend: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data2) {
+      freelancer.count({ tstart: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data3) {
+        customer.count({ tstart: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data4) {
+          organization.count({ tstart: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data5) {
+            rating.count({ tstart: { $gt: new Date(req.body.date2), $lte: new Date(req.body.date1) } }, function (err, data6) {
+              res.json({
+                num1: data1,
+                num2: data2,
+                num3: data3,
+                num4: data4,
+                num5: data5,
+                num6: data6
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+})
 
 app.post('/dashboard', (req, res) => {
   if (req.body.email === "admin@issueredressal") {
@@ -484,20 +525,19 @@ app.post('/ombudTrack', (req, res) => {
   });
 })
 
-app.post('/passwordUpdate',(req,res) => {
-  customer.findOneAndUpdate({email : req.body.email},{password : req.body.password},(err,data) => {
-    if(err) {
+app.post('/passwordUpdate',(req, res) => {
+  customer.findOneAndUpdate({email : req.body.email},{password : req.body.password},(err, data) => {
+    if (err) {
       res.json({errorStatus : true});
       console.log(err);
     }
-    else res.json({errorStatus : false});
+    else res.json({ errorStatus: false });
   })
 })
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
-
 app.listen(port, () => {
   console.log(`server running on : "http://localhost:${port}"`);
-});
+})
