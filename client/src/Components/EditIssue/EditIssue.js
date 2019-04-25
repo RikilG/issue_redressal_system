@@ -114,10 +114,10 @@ class EditIssue extends Component {
 
   render() {
     return (
-      <div className="editIssue">
+      <div className="editIssue form">
         <h2>Edit your issue</h2>
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} head="Issue successfully edited!" body="press close to continue..." onHide={this.handleModalHide} />:null}
-        <Form>
+        <Form onSubmit={(e) => {e.preventDefault(); this.handleSubmit();}}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
@@ -143,7 +143,7 @@ class EditIssue extends Component {
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
-                <Form.Control value={this.state.pay} onChange={this.onPayChange} required />
+                <Form.Control type="number" value={this.state.pay} onChange={this.onPayChange} required />
               </Form.Group>
             </Col>
             <Col>
@@ -194,7 +194,7 @@ class EditIssue extends Component {
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
-          <Button variant="primary" onClick={this.handleSubmit}>
+          <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>

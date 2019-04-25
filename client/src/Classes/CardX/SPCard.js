@@ -6,6 +6,7 @@ class SPCard extends Component {
     constructor(props) {
         super(props);
         let cont,fullCont;
+        let isAccepted = (this.props.content.status==="Issue taken up")?true:false;
         
         if(this.props.content.className === 'Issue') {
             cont = (
@@ -49,11 +50,12 @@ class SPCard extends Component {
 
         this.state = {
             content: cont,
-            fullContent: fullCont
+            fullContent: fullCont,
+            isSelected: isAccepted
         };
     }
 
-    handleShow = () => { this.props.parent.handleOpen({ head:this.props.header, body:this.state.fullContent, issue:this.props.content }) }
+    handleShow = () => { this.props.parent.handleOpen({ head:this.props.header, body:this.state.fullContent, issue:this.props.content, isSelected:this.state.isSelected }) }
 
     render() {
         return (
