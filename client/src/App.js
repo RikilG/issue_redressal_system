@@ -6,7 +6,6 @@ import ErrorBoundary from './Classes/ErrorBoundary';
 import TopBar from './Components/NavBar/TopBar';
 import Home from './Components/Home/Home';
 import Feed from './Components/Feed/Feed';
-import SPFeed from './Components/Feed/SPFeed';
 import FormLogin from './Components/Login/FormLogin';
 import AdminHome from './Components/Admin/AdminHome';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -75,7 +74,6 @@ class App extends Component {
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
-      case "SPFeed": view = <SPFeed />; break;
       case "RatingPage": view = <RatingPage setView={this.setView} storedData={this.state.storedData} email={this.state.email} />; break;
       default: alert("No Page To Load (case:default:App.js)");
     }
