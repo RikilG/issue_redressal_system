@@ -10,6 +10,7 @@ class TopBar extends Component {
   handleDetailsLink   = () => { this.props.setView("PostIssue"); };
   handleProfileLink   = () => { this.props.setView("Profile"); };
   handleFeedLink      = () => { this.props.setView("Feed"); };
+  handleSPFeedLink      = () => { this.props.setView("SPFeed"); };
   handleDashLink      = () => { this.props.setView("Dashboard"); };
 
   handleHomeLink      = () => {
@@ -74,16 +75,19 @@ class TopBar extends Component {
           <Nav className="mr-auto">
             <Nav.Link href="#home" onSelect={this.handleHomeLink}>Home</Nav.Link>
             {(this.props.signinStatus && this.props.isAdmin)?
-            <Nav.Link href="#dash" onSelect={this.handleDashLink}>Dashboard</Nav.Link>
+              <Nav.Link href="#dash" onSelect={this.handleDashLink}>Dashboard</Nav.Link>
             :null}
             {(this.props.signinStatus && this.props.isCustomer)?
-            <React.Fragment>
-            <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
-            <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>
-            </React.Fragment>
+              <React.Fragment>
+              <Nav.Link href="#feed" onSelect={this.handleFeedLink}>Feed</Nav.Link>
+              <Nav.Link href="#postIssue" onSelect={this.handleDetailsLink}>Post Issue</Nav.Link>
+              </React.Fragment>
             :null}
             {(this.props.isOmbudsman)?
-            <Nav.Link href="#prevPosts" onSelect={this.handleOmbudsmanPosts} >Completed Issues</Nav.Link>
+              <Nav.Link href="#prevPosts" onSelect={this.handleOmbudsmanPosts} >Completed Issues</Nav.Link>
+            :null}
+            {(this.props.signinStatus && !this.props.isOmbudsman && !this.props.isAdmin && !this.props.isCustomer)?
+              <Nav.Link href="#spfeed" onSelect={this.handleSPFeedLink} >Feed</Nav.Link>
             :null}
           </Nav>
           <Nav>

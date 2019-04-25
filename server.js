@@ -53,7 +53,8 @@ var issueSchema = new mongo.Schema({
   tend: Date,
   status: String,
   acceptedBy: String,
-  comments: [{
+  pincode: Number,
+  comments:[{
     name: String,
     message: String,
     time: String
@@ -320,7 +321,7 @@ app.post("/postIssue", function (req, res) {
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -330,8 +331,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-  issue.find({ email: req.body.email }, function (err, issues) {
-    issue.find({ type: "Community" }, function (err, communityIssues) {
+  issue.find({ email: req.body.email, status: {$ne: "Completed"} }, function (err, issues) {
+    issue.find({ type: "Community", status: {$ne: "Completed"} }, function (err, communityIssues) {
       res.send({
         myIssues: issues,
         comIssues: communityIssues
@@ -342,7 +343,7 @@ app.post('/feed', (req, res) => {
 
 app.post('/spfeed', (req, res) => {
   issue.find({ status: "Pending", type: { $ne: "Government" } }, (err, issues) => {
-    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+    issue.find({ status: "Issue taken up", acceptedBy: req.body.email }, (err, ai) => {
       res.json({
         allIss: issues,
         acptdIss: ai
