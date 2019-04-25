@@ -5,11 +5,11 @@ import loadingIcon from '../../Assets/loading.gif';
 
 //sent as data in props
 const doughnutData = {
-    labels: [ 'Red', 'Green', 'Yellow' ],
-	datasets: [
+    labels: ['Red', 'Green', 'Yellow'],
+    datasets: [
         {
             data: [300, 50, 100],
-            backgroundColor: [ '#FF6384', '#36A2EB', '#FFCE56' ],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             // hoverBackgroundColor: [ '#202020', '#36A2EB', '#FFCE56' ]
         }
     ]
@@ -44,7 +44,7 @@ const lineData = {
 }
 
 const dlineData = {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ],
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
     datasets: [
         {
             backgroundColor: "rgba(0,123,255,0.1)",
@@ -63,7 +63,7 @@ const dlineData = {
             borderColor: "rgba(255,65,105,1)",
             borderDash: [3, 3],
             borderWidth: 1,
-            data: [100, 20, 300, 400, 500, 60, 200, 80, 90, 100, 1012, 132, 113, 140, 1250, 135, 173, 1800, 190, 220, 211, 122, 23, 1204, 125, 26, 207, 280, 209 ],
+            data: [100, 20, 300, 400, 500, 60, 200, 80, 90, 100, 1012, 132, 113, 140, 1250, 135, 173, 1800, 190, 220, 211, 122, 23, 1204, 125, 26, 207, 280, 209],
             fill: "start",
             label: "Past Month",
             pointBackgroundColor: "#ffffff",
@@ -109,25 +109,55 @@ const options = {
 }
 
 class Dashboard extends Component {
-
-    state = {
-        loading: false,
-        noc: null,
-        noi: null,
-        nof: null,
-        noo: null,
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            noc: null,
+            noi: null,
+            nof: null,
+            noo: null,
+            numb: 0,
+        };
     }
 
     componentDidMount() {
         this.setState({ loading: true });
-        fetch('/dashboard',{
+        let tempdate = new Date();
+        let year = new Date().getFullYear();
+        let month = new Date().getMonth() + 1;
+        if (month == 1) {
+            month = 12;
+            year = year - 1;
+        }
+        else {
+            month = month - 1;
+        }
+        let date = new Date(year + "-" + month + "-18");
+        console.log(date);
+        fetch('/dashboard2', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                date: date
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("hull" + data.num);
+                this.setState({
+                    numb: data.num
+                });
+            })
+
+
+        fetch('/dashboard', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email: "admin@issueredressal"
             })
-        })
-            .then(res => res.json())
+        }).then(res => res.json())
             .then(data => {
                 this.setState({
                     noc: data.noc,
@@ -147,8 +177,8 @@ class Dashboard extends Component {
         return (
             <div className="dashRoot">
                 <div id="dashHeader">
-                    <h2 style={{display: "inline"}}>Dashboard</h2>
-                    {(this.state.loading)?<img alt="loading..." src={loadingIcon} style={{width: "2.6em", height: "2.6em", float: "right", margin: "1em"}} />:null}
+                    <h2 style={{ display: "inline" }}>Dashboard</h2>
+                    {(this.state.loading) ? <img alt="loading..." src={loadingIcon} style={{ width: "2.6em", height: "2.6em", float: "right", margin: "1em" }} /> : null}
                 </div>
                 <div id="dashStats">
                     <div className="dashStatsCard">

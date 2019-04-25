@@ -392,96 +392,108 @@ app.post('/admin', (req, res) => {
   }
 });
 
-app.post('/dashboard', (req, res) => {
-  if (req.body.email === "admin@issueredressal") {
-    customer.countDocuments({}, function (err, customers) {
-      issue.countDocuments({}, function (er, issues) {
-        freelancer.countDocuments({}, function (err, freelancers) {
-          organization.countDocuments({}, function (err, organizations) {
-            res.json({
-              noc: customers,
-              noi: issues,
-              nof: freelancers,
-              noo: organizations
+app.post('/dashboard2', (req, res) => {
+  console.log("dashh" + new Date(req.body.date));
+  issue.count({ tstart: { $gte: new Date(req.body.date) }, type: "Household" }, function (err, data1) {
+    issue.count({ tstart: { $gte: new Date(req.body.date) }, type: "Community" }, function (err, data2) {
+      console.log(data1);
+      res.json({
+        num1: data1,
+        num2: data2
+      });
+    });
+  });
+
+  app.post('/dashboard', (req, res) => {
+    if (req.body.email === "admin@issueredressal") {
+      customer.countDocuments({}, function (err, customers) {
+        issue.countDocuments({}, function (er, issues) {
+          freelancer.countDocuments({}, function (err, freelancers) {
+            organization.countDocuments({}, function (err, organizations) {
+              res.json({
+                noc: customers,
+                noi: issues,
+                nof: freelancers,
+                noo: organizations
+              });
             });
           });
         });
       });
-    });
-  }
-  else {
-    res.json({});
-  }
-});
-
-app.post("/adminDelete", (req, res) => {
-  switch (req.body.documentName) {
-    case "Issue":
-      issue.deleteOne({ _id: req.body.id }, err => {
-        if (err) res.json({ errorStatus: true });
-        else res.json({ errorStatus: false });
-      });
-      break;
-    case "Freelancer":
-      freelancer.deleteOne({ _id: req.body.id }, err => {
-        if (err) res.json({ errorStatus: true });
-        else res.json({ errorStatus: false });
-      });
-      break;
-    case "Organization":
-      organization.deleteOne({ _id: req.body.id }, err => {
-        if (err) res.json({ errorStatus: true });
-        else res.json({ errorStatus: false });
-      });
-      break;
-    case "Customer":
-      customer.deleteOne({ _id: req.body.id }, err => {
-        if (err) res.json({ errorStatus: true });
-        else res.json({ errorStatus: false });
-      });
-      break;
-  }
-});
-
-app.post('/feedDelete', (req, res) => {
-  issue.deleteOne({ _id: req.body.id }, err => {
-    if (err) res.json({ errorStatus: true });
-    else res.json({ errorStatus: false });
+    }
+    else {
+      res.json({});
+    }
   });
-});
 
-app.post('/Ombudsman', (req, res) => {
-  if (req.body.email === "ombudsman@issueredressal") {
-    issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
-      issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
-        issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
-          res.json({
-            trakedIssues: tracked,
-            untrackedIssues: untracked,
-            completedIssues: completed
+  app.post("/adminDelete", (req, res) => {
+    switch (req.body.documentName) {
+      case "Issue":
+        issue.deleteOne({ _id: req.body.id }, err => {
+          if (err) res.json({ errorStatus: true });
+          else res.json({ errorStatus: false });
+        });
+        break;
+      case "Freelancer":
+        freelancer.deleteOne({ _id: req.body.id }, err => {
+          if (err) res.json({ errorStatus: true });
+          else res.json({ errorStatus: false });
+        });
+        break;
+      case "Organization":
+        organization.deleteOne({ _id: req.body.id }, err => {
+          if (err) res.json({ errorStatus: true });
+          else res.json({ errorStatus: false });
+        });
+        break;
+      case "Customer":
+        customer.deleteOne({ _id: req.body.id }, err => {
+          if (err) res.json({ errorStatus: true });
+          else res.json({ errorStatus: false });
+        });
+        break;
+    }
+  });
+
+  app.post('/feedDelete', (req, res) => {
+    issue.deleteOne({ _id: req.body.id }, err => {
+      if (err) res.json({ errorStatus: true });
+      else res.json({ errorStatus: false });
+    });
+  });
+
+  app.post('/Ombudsman', (req, res) => {
+    if (req.body.email === "ombudsman@issueredressal") {
+      issue.find({ type: "Government", status: { $nin: ["In Progress", "Completed"] } }, function (er, untracked) {
+        issue.find({ type: "Government", status: "In Progress" }, function (er, tracked) {
+          issue.find({ type: "Government", status: "Completed" }, function (er, completed) {
+            res.json({
+              trakedIssues: tracked,
+              untrackedIssues: untracked,
+              completedIssues: completed
+            });
           });
         });
       });
-    });
-  }
-})
-
-
-
-app.post('/ombudTrack', (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
-    if (err) {
-      res.json({ errorStatus: true });
-      console.log(err);
     }
-    else res.json({ errorStatus: false });
+  })
+
+
+
+  app.post('/ombudTrack', (req, res) => {
+    issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
+      if (err) {
+        res.json({ errorStatus: true });
+        console.log(err);
+      }
+      else res.json({ errorStatus: false });
+    });
+  })
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
   });
-})
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`server running on : "http://localhost:${port}"`);
-});
+  app.listen(port, () => {
+    console.log(`server running on : "http://localhost:${port}"`);
+  });
