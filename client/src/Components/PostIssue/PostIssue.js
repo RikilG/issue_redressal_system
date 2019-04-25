@@ -16,8 +16,6 @@ import carousal1 from '../../Assets/carousal1.jpg';
 import carousal2 from '../../Assets/carousal2.jpg';
 import carousal3 from '../../Assets/carousal3.png';
 import carousal4 from '../../Assets/carousal4.png';
-// import ImageUpload from "./ImageUpload";
-
 
 class PostIssue extends Component {
   constructor(props) {
@@ -35,13 +33,9 @@ class PostIssue extends Component {
       householdChk: true,
       format: 'h:mm a',
       tstart: moment().hour(9).minute(0),
-      tend: moment().hour(18).minute(0),
-      file: '',
-      imagePreviewUrl: ''
+      tend: moment().hour(18).minute(0)
     };
   }
-
-
 
   componentDidMount() {
     setInterval(() => {
@@ -94,26 +88,23 @@ class PostIssue extends Component {
     this.setState({ tend: value });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
     if (this.state.department === "Others")
       this.setState({ department: this.state.other });
-    fetch("/postIssue", {
+    fetch("http://localhost:5000/postIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify({
-      //   email: this.props.email,
-      //   complaintName: this.state.complaintName,
-      //   pay: this.state.pay,
-      //   workNature: this.state.department,
-      //   description: this.state.description,
-      //   type: this.state.type,
-      //   tstart: this.state.tstart,
-      //   tend: this.state.tend,
-      //   status: "Pending",
-      //   image: this.state.file
-      // })
-      body: this.state.file
+      body: JSON.stringify({
+        email: this.props.email,
+        complaintName: this.state.complaintName,
+        pay: this.state.pay,
+        workNature: this.state.department,
+        description: this.state.description,
+        type: this.state.type,
+        tstart: this.state.tstart,
+        tend: this.state.tend,
+        status: "Pending"
+      })
     })
     .then(res => {console.log(res); return res})
       .then(res => {console.log(res); return res.json()})
@@ -141,53 +132,21 @@ class PostIssue extends Component {
 
   disabledHours = () => { return [0, 1, 2, 3, 4, 5, 6, 7, 22, 23]; }
 
-  _handleSubmit(e) {
-    e.preventDefault();
-    // TODO: do something with -> this.state.file
-    console.log('handle uploading-', this.state.file);
-    // this.props.uploadImage(this.state.file)
-  }
-
-  _handleImageChange(e) {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
-
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
-    }
-
-    reader.readAsDataURL(file);
-    // setTimeout(800,() => this.props.uploadImage(this.state.file));
-  }
-
   render() {
     let { carousel } = this.state;
-    let {imagePreviewUrl} = this.state;
-      let $imagePreview = null;
-      if (imagePreviewUrl) {
-        $imagePreview = (<img src={imagePreviewUrl} alt="Preview" />);
-      } else {
-        $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
-      }
-
     return (
       <div className="postIssue form">
         <img id="carousel" alt="mypic" src={carousel} />
         <h2>Post your issue here</h2>
         <br />
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
-        <Form onSubmit={(e) => this.handleSubmit(e)}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
               <Form.Control type="text" placeholder="Complaint Name" onChange={this.onCmpNameChange} required />
             </Form.Group>
           </Form.Row>
-          
           <label>
             <input id="hi" type="radio" name="test" value="Household" onChange={this.onIssueTypeChange} checked={this.state.householdChk} />
             <img alt="Household" src={householdimg} />
@@ -237,7 +196,6 @@ class PostIssue extends Component {
                 <option>Electric</option>
                 <option>Civil</option>
                 <option>Plumbing</option>
-                <option>Worker</option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="others">
@@ -246,20 +204,6 @@ class PostIssue extends Component {
             </Form.Group>
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
-          {/* <ImageUpload uploadImage={this.uploadImage} /> */}
-          <div className="previewComponent">
-            <form /*onSubmit={(e)=>this._handleSubmit(e)}*/>
-              <input className="fileInput" 
-                type="file" 
-                onChange={(e)=>this._handleImageChange(e)} />
-              <button className="submitButton" 
-                type="submit" 
-                onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
-            </form>
-            <div className="imgPreview">
-              {$imagePreview}
-            </div>
-          </div>
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
