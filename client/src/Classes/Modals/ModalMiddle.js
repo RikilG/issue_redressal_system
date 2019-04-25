@@ -30,7 +30,9 @@ class ModalMiddle extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.onHide} style={{ "paddingRight": "1em", "paddingLeft": "1em" }}>Close</Button>
-                    <Button onClick={this.props.accept} style={btnAccept}>Accept</Button>
+                    {(!this.props.content.isSelected)?
+                        <Button onClick={this.props.accept} style={btnAccept}>Accept</Button>
+                    :null}
                 </Modal.Footer>
             </Modal>
         );

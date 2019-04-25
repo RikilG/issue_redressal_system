@@ -16,9 +16,8 @@ import FormRegister from './Components/Register/FormRegister';
 import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import EditIssue from "./Components/EditIssue/EditIssue";
-import SPP from './Components/SPPreferences';
-
-import ModalAlert from "./Classes/Modals/ModalAlert";
+import RatingPage from "./Components/RatingPage/RatingPage";
+//import ModalAlert from "./Classes/Modals/ModalAlert";
 // import Footer from './Components/Footer/Footer';
 
 class App extends Component {
@@ -32,6 +31,7 @@ class App extends Component {
       isCustomer: false,
       completedIssues: false,
       email: "",
+      user: null,
       storedData: null
     };
   }
@@ -44,6 +44,10 @@ class App extends Component {
   storeData = data => {
     this.setState({ storedData: data });
   };
+
+  setUser = (data) => {
+    this.setState({ user: data });
+  }
 
   setSigninStatus = (boolValue, userEmail) => {
     if (boolValue === false) {
@@ -61,9 +65,9 @@ class App extends Component {
     let currentView = this.state.currentView;
     switch (currentView) {
       case "Register": view = <FormRegister setView={this.setView} />; break;
-      case "Profile": view = <Profile />; break;
-      case "Login": view = <FormLogin setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
-      case "Home": view = <Home setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
+      case "Profile": view = <Profile user={this.state.user} />; break;
+      case "Login": view = <FormLogin setUser={this.setUser} setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
+      case "Home": view = <Home setUser={this.setUser} setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
       case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome setView={this.setView} email={this.state.email} />; break;
@@ -71,18 +75,18 @@ class App extends Component {
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
-      case "SPFeed": view = <SPFeed email={this.state.email}/>; break;
-      case "SPP": view = <SPP setView={this.setView} content={this.state.storedData} />; break;
-      default: view = <ModalAlert show={true} head="Code Error!" body="No page to load. Contact site admin" onHide={null} />;
+      case "SPFeed": view = <SPFeed />; break;
+      case "RatingPage": view = <RatingPage setView={this.setView} storedData={this.state.storedData} email={this.state.email} />; break;
+      default: alert("No Page To Load (case:default:App.js)");
     }
 
     return (
       <ErrorBoundary>
-      <div className="App">
-        <TopBar setView={this.setView} user={this.state.email} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
+        <div className="App">
+          <TopBar setView={this.setView} user={this.state.email} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
           {view}
-        {/* <footer id="footer"><Footer /></footer> */}
-      </div>
+          {/* <footer id="footer"><Footer /></footer> */}
+        </div>
       </ErrorBoundary>
     );
   }

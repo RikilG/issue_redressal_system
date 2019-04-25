@@ -10,9 +10,9 @@ const multer = require("multer");
 
 const sitelog = (message) => {
   var datetime = new Date(Date.now() + 5.5);
-  fs.appendFile("ServerLog.txt", "> " + datetime.toString() + ":\n\t" + message +"\n", err => {
-      if (err) console.log(err);
-    }
+  fs.appendFile("ServerLog.txt", "> " + datetime.toString() + ":\n\t" + message + "\n", err => {
+    if (err) console.log(err);
+  }
   );
 }
 
@@ -55,6 +55,7 @@ var issueSchema = new mongo.Schema({
   tend: Date,
   status: String,
   acceptedBy: String,
+  pincode: Number,
   comments:[{
     name: String,
     message: String,
@@ -75,7 +76,9 @@ var freelancerSchema = new mongo.Schema({
   mobile: Number,
   aadhaar: Number,
   pincode: Number,
-  skills:[String]
+  noOfIssues: Number,
+  rating: Number,
+  skills: [String]
 });
 var freelancer = new mongo.model('freelancer', freelancerSchema);
 
@@ -86,7 +89,7 @@ var organizationSchema = new mongo.Schema({
   headquaters: String,
   mobile: Number,
   workforce: Number,
-  skills:[String]
+  skills: [String]
 });
 var organization = new mongo.model('organization', organizationSchema);
 
@@ -96,6 +99,15 @@ var voterSchema = new mongo.Schema({
   type: String
 });
 var voter = new mongo.model('voter', voterSchema);
+
+var ratingSchema = new mongo.Schema({
+  issueid: String,
+  cusemail: String,
+  SPemail: String,
+  rating: Number,
+  review: String
+});
+var rating = new mongo.model('rating', ratingSchema);
 
 //serve react static files.
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -147,7 +159,8 @@ app.post("/login", (req, res) => {
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
-                  isSP: true
+                  isSP: true,
+                  user: data3,
                 });
               }
             })
@@ -156,7 +169,8 @@ app.post("/login", (req, res) => {
             res.json({
               isCustomer: false,
               isAdmin: false,
-              isSP: true
+              isSP: true,
+              user: data2,
             });
           }
         })
@@ -165,7 +179,8 @@ app.post("/login", (req, res) => {
         res.json({
           isCustomer: true,
           isAdmin: false,
-          isSP: false
+          isSP: false,
+          user: data1,
         });
       }
     });
@@ -173,11 +188,21 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/comcard2", (req, res) => {
+  var exist = 0;
   voter.countDocuments({ issueid: req.body.issueid, type: "upvote" }, function (err, count1) {
     voter.countDocuments({ issueid: req.body.issueid, type: "downvote" }, function (err, count2) {
-      res.send({
-        nou: count1,
-        nod: count2
+      voter.findOne({ email: req.body.email, issueid: req.body.issueid }, function (err, data) {
+        if (data == null) {
+          exist = 0
+        }
+        else {
+          exist = data.type == "upvote" ? 1 : 2
+        }
+        res.send({
+          nou: count1,
+          nod: count2,
+          myv: exist
+        });
       });
     });
   });
@@ -199,6 +224,34 @@ app.post("/comcard", (req, res) => {
     }
   })
 })
+
+app.post("/rating", (req, res) => {
+  var newrating = new rating(req.body);
+  rating.findOne({ issueid: req.body.issueid }, function (err, data) {
+    if (data == null) {
+      newrating.save();
+      res.json({
+        accepted: true
+      });
+    } else {
+      rating.findByIdAndUpdate(data._id, { "$set": { rating: req.body.rating, review: req.body.review } }, err => {
+        // if (err) res.json({ errorStatus: true });
+        // else res.json({ errorStatus: false });
+      });
+    }
+  });
+  freelancer.findOne({ email: req.body.SPemail }, function (erro, datas) {
+    freelancer.findByIdAndUpdate(datas._id, { "$set": { rating: ((datas.rating * datas.noOfIssues) + req.body.rating) / (datas.noOfIssues + 1), noOfIssues: datas.noOfIssues + 1 } }, err => {
+      // if (erro || err) res.json({ errorStatus: true });
+      // else res.json({ errorStatus: false });
+    });
+  });
+  issue.findByIdAndUpdate(req.body.issueid, { "$set": { status: "Completed" } }, err => {
+    // if (erro || err) res.json({ errorStatus: true });
+    // else res.json({ errorStatus: false });
+  });
+})
+
 
 app.post("/register", function (req, res) {
   var newcustm = new customer(req.body);
@@ -226,28 +279,28 @@ app.post("/regFreelancer", function (req, res) {
       });
     } else {
       res.json({ accepted: false });
-      sitelog("Freelancer register rejected : { email: " +req.body.email+ " }");
+      sitelog("Freelancer register rejected : { email: " + req.body.email + " }");
     }
   });
 });
 
-app.post('/postcomment',function(req,res){
- // console.log(req.body.id);
-  issue.findByIdAndUpdate(req.body.id,{comments:req.body.comments},function(err,data){
-    if(err){
+app.post('/postcomment', function (req, res) {
+  // console.log(req.body.id);
+  issue.findByIdAndUpdate(req.body.id, { comments: req.body.comments }, function (err, data) {
+    if (err) {
       console.log(err);
     }
-    else{
-      res.json({res:"successful"});
+    else {
+      res.json({ res: "successful" });
     }
   });
 });
 
-app.post('/loadcomments',function(req,res){
-//  console.log(req.body.issueid);
-  issue.findOne({_id:req.body.issueid},function(err,data){
-  //  console.log(data.comments);
-    res.json({comments:data.comments});
+app.post('/loadcomments', function (req, res) {
+  //  console.log(req.body.issueid);
+  issue.findOne({ _id: req.body.issueid }, function (err, data) {
+    //  console.log(data.comments);
+    res.json({ comments: data.comments });
   });
 });
 
@@ -261,7 +314,7 @@ app.post("/regOrganization", function (req, res) {
       });
     } else {
       res.json({ accepted: false });
-      sitelog("Organization register rejected : { email: "+req.body.email+" }");
+      sitelog("Organization register rejected : { email: " + req.body.email + " }");
     }
   });
 });
@@ -287,7 +340,7 @@ app.post("/uploadImage",upload.single("image"),function(req,res){
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -297,8 +350,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-  issue.find({ email: req.body.email }, function (err, issues) {
-    issue.find({ type: "Community" }, function (err, communityIssues) {
+  issue.find({ email: req.body.email, status: {$ne: "Completed"} }, function (err, issues) {
+    issue.find({ type: "Community", status: {$ne: "Completed"} }, function (err, communityIssues) {
       res.send({
         myIssues: issues,
         comIssues: communityIssues
@@ -308,8 +361,8 @@ app.post('/feed', (req, res) => {
 });
 
 app.post('/spfeed', (req, res) => {
-  issue.find({ status: "Pending", type: {$ne: "Government"} }, (err, issues) => {
-    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+  issue.find({ status: "Pending", type: { $ne: "Government" } }, (err, issues) => {
+    issue.find({ status: "Issue taken up", acceptedBy: req.body.email }, (err, ai) => {
       res.json({
         allIss: issues,
         acptdIss: ai
@@ -434,6 +487,8 @@ app.post('/Ombudsman', (req, res) => {
   }
 })
 
+
+
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
     if (err) {
@@ -444,11 +499,16 @@ app.post('/ombudTrack', (req, res) => {
   });
 })
 
-app.post('/spp',function(req,res){
-    freelancer.find({department:req.body.dept},function(err,fls){
-        res.json({sps:fls.email});
-    })
-});
+app.post('/passwordUpdate',(req,res) => {
+  console.log(req.body);
+  customer.findOneAndUpdate({email : req.body.email},{password : req.body.password},(err,data) => {
+    if(err) {
+      res.json({errorStatus : true});
+      console.log(err);
+    }
+    else res.json({errorStatus : false});
+  })
+})
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));

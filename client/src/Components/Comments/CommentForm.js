@@ -8,14 +8,12 @@ export default class CommentForm extends Component {
     this.state = {
       loading: false,
       error: "",
-
       comment: {
         name: "",
         message: "",
         time: ""
       }
     };
-
     // bind context to methods
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -26,7 +24,6 @@ export default class CommentForm extends Component {
    */
   handleFieldChange = event => {
     const { value, name } = event.target;
-
     this.setState({
       ...this.state,
       comment: {
@@ -39,6 +36,8 @@ export default class CommentForm extends Component {
    * Form submit handler
    */
   onSubmit(e) {
+    let derivetime = new Date().toString();
+    
     // prevent default form submission
     e.preventDefault();
     // loading status and clear error
@@ -47,8 +46,8 @@ export default class CommentForm extends Component {
     // persist the comments on server
     let { comment } = this.state;
     comment.name=this.props.email;
+    comment.time = derivetime;
     let promise = new Promise(function(resolve, reject) {
-      comment.time=new Date().toString();
       resolve(comment);
     });
     promise.then(
@@ -63,9 +62,7 @@ export default class CommentForm extends Component {
             this.setState({ loading: false, error: res.error });
           } else {
             // add time return from api and push comment to parent state
-            comment.time = res.time;
-         //   this.props.addComment(comment);
-  
+            comment.time = derivetime;
             // clear the message box
             this.setState({
               loading: false,
@@ -81,9 +78,6 @@ export default class CommentForm extends Component {
         });
       })
     );
-   // console.log(this.props.comments);
-    // console.log(comment);
-    // sleep(5000);
   }
 
   renderError() {
@@ -112,7 +106,7 @@ export default class CommentForm extends Component {
 
           <div className="form-group-comments-two">
             <button disabled={this.state.loading} className="btn btn-primary">
-              Comment ➤
+              Comment➤
             </button>
           </div>
         </form>

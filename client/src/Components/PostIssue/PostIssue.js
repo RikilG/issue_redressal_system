@@ -172,7 +172,7 @@ class PostIssue extends Component {
         <h2>Post your issue here</h2>
         <br />
         {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
-        <Form onSubmit={(e) => {e.preventDefault();setTimeout(1500,this.handleSubmit());} }>
+        <Form onSubmit={(e) => {e.preventDefault(); this.handleSubmit();}}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>

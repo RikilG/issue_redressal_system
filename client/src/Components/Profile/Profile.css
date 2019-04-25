@@ -10,3 +10,10 @@
 #colid{
     justify-content: center;
 }
+
+.profile-image 
+{
+    height: 200px;
+    width: 200px;
+    border-Radius: 0.5em;
+}

@@ -46,14 +46,19 @@
 .detailsTable th,
 .detailsTable td{
     vertical-align: top;
-    min-width: 12em;
-    padding: 0.1em;
-    max-height: 2em;
+    min-width: 10vw;
+    padding: 0.1vw;
+    max-height: 2vh;
     overflow: hidden;
 }
 
+.detailsTable td {
+    padding-left: 0vw;
+    min-width: 7vw;
+}
+
 .cardxBody {
-    padding-left: 2vw;
+    padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 0;
     padding-bottom: 1.5vh;
