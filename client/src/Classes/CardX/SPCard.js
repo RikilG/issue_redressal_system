@@ -6,7 +6,7 @@ class SPCard extends Component {
     constructor(props) {
         super(props);
         let cont,fullCont;
-        let isAccepted = (this.props.content.status==="Issue taken up by Freelancer")?true:false;
+        let isAccepted = (this.props.content.status==="Issue taken up")?true:false;
         
         if(this.props.content.className === 'Issue') {
             cont = (

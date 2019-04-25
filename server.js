@@ -320,7 +320,7 @@ app.post("/postIssue", function (req, res) {
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -342,7 +342,7 @@ app.post('/feed', (req, res) => {
 
 app.post('/spfeed', (req, res) => {
   issue.find({ status: "Pending", type: { $ne: "Government" } }, (err, issues) => {
-    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+    issue.find({ status: "Issue taken up", acceptedBy: req.body.email }, (err, ai) => {
       res.json({
         allIss: issues,
         acptdIss: ai
