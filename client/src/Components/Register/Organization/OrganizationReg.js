@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Form, Col, Button} from 'react-bootstrap';
+import moment from 'moment';
 
 class OrganizationReg extends Component {
     constructor(props) {
@@ -18,7 +19,10 @@ class OrganizationReg extends Component {
             chkCivil: false,
             otherWork: "",
             certificates: "",
-            skills: []
+            skills: [],
+            rating: 0,
+            noOfIssues: 0,
+            tstart: moment()
         }
     }
 
@@ -55,7 +59,8 @@ class OrganizationReg extends Component {
                 headquaters: this.state.headquaters,
                 mobile: this.state.mobile,
                 workforce: this.state.workforce,
-                skills: this.state.skills
+                skills: this.state.skills,
+                tstart: this.state.tstart
             })
           })
           .then(res => res.json())

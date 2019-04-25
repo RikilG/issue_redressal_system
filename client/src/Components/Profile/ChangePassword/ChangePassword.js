@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
 import './ChangePassword.css';
-import FormGroup from 'react-bootstrap/FormGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import ControlLabel from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
 
 class ChangePassword extends Component{
@@ -34,18 +31,11 @@ class ChangePassword extends Component{
     }
 
     validateCurrPw() {
-        if(this.props.user.password === this.state.oldPassword)
-          return true
-        else
-          return false
+        return (this.props.user.password === this.state.oldPassword);
     }
 
     validateNewPw() {
-        if(this.state.password===this.state.confirmPassword)
-            return true 
-        else
-            return false
-
+        return (this.state.password===this.state.confirmPassword);
     }
 
       updatePassword = () => {
@@ -65,11 +55,11 @@ class ChangePassword extends Component{
                  .then(data => {
                     
                  }).catch((err)=>{alert(err)});
-                alert("Successfully updated");
+                window.alert("Successfully updated");
               }
               else
               {
-                  alert("New Password and Confirmed Password are not matching");
+                  window.alert("New Password and Confirmed Password are not matching");
                   this.refs.oldPref.value="";
                   this.refs.newPref.value="";  
                   this.refs.confirmPref.value="";
@@ -77,7 +67,7 @@ class ChangePassword extends Component{
           }
           else
           {
-              alert("Current Password is wrong");
+              window.alert("Current Password is wrong");
               this.refs.oldPref.value="";
               this.refs.newPref.value="";  
               this.refs.confirmPref.value="";

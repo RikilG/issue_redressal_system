@@ -116,7 +116,7 @@ class CardX extends Component {
                                 Edit
                             </div>
                         )}
-                        {this.state.showBody && (
+                        {this.state.showBody && this.props.content.status!=="Pending" && (
                             <div className="control" onClick={this.redToRating}>
                                 <img className="action" src={doneIcon} alt='done' />
                                 Completed

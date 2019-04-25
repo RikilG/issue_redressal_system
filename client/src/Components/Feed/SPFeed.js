@@ -18,11 +18,13 @@ class SPFeed extends Component {
             modalShow: false,
             modalData: {head:"Unavailable", body:"Data Unavailable", issue:"No Data", isSelected:true},
             searchValue: "",
+            myPin: (this.props.user)?this.props.user.pincode:500078,
         }
     }
 
     componentDidMount() {
         //fetch issue details from backend
+        let { myPin } = this.state;
         this.setState({ loading: true });
         fetch('/spfeed', {
             method: "post",
@@ -35,6 +37,7 @@ class SPFeed extends Component {
             .then(data => {
                 this.setState({
                     issues: data.allIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
+                    localIssues: data.allIss.map((issue, index) => { if(myPin+5 > issue.pincode && myPin-5 < issue.pincode) return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /> }),
                     acceptedIssues: data.acptdIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
                 });
             }).then( () => {
@@ -50,7 +53,9 @@ class SPFeed extends Component {
         this.setState({ searchValue: input.target.value }, () => {
             let inputValue = (this.state.searchValue!==null) ? this.state.searchValue.trim().toLowerCase() : "";
             let inputLength = inputValue.length;
-            this.setState({ issuesDisplay: (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+            this.setState({
+                issuesDisplay: (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue )
+            });
         });
     }
 
@@ -78,7 +83,8 @@ class SPFeed extends Component {
     }
 
     render() {
-        let { issuesDisplay, acceptedIssues, loading } = this.state;
+        let { issuesDisplay, acceptedIssues, localIssues, loading } = this.state;
+        console.log(this.state.localIssues);
 
         let ai = (
             <React.Fragment>
@@ -122,7 +128,7 @@ class SPFeed extends Component {
                         <Tab.Pane eventKey="issueTab" className="container">
                             <h2>Issues Near Me</h2><hr />
                             <div id="spFeedRoot">
-                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issuesDisplay}
+                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : localIssues}
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="acceptedTab" className="container">

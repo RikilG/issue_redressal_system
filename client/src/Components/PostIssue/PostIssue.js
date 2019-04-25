@@ -103,6 +103,7 @@ class PostIssue extends Component {
         type: this.state.type,
         tstart: this.state.tstart,
         tend: this.state.tend,
+        pincode: this.props.user.pincode,
         status: "Pending"
       })
     })
