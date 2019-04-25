@@ -53,6 +53,7 @@ var issueSchema = new mongo.Schema({
   tend: Date,
   status: String,
   acceptedBy: String,
+  pincode: Number,
   comments: [{
     name: String,
     message: String,
@@ -155,7 +156,8 @@ app.post("/login", (req, res) => {
                 res.json({
                   isCustomer: false,
                   isAdmin: false,
-                  isSP: true
+                  isSP: true,
+                  user: data3,
                 });
               }
             })
@@ -164,7 +166,8 @@ app.post("/login", (req, res) => {
             res.json({
               isCustomer: false,
               isAdmin: false,
-              isSP: true
+              isSP: true,
+              user: data2,
             });
           }
         })
@@ -173,7 +176,8 @@ app.post("/login", (req, res) => {
         res.json({
           isCustomer: true,
           isAdmin: false,
-          isSP: false
+          isSP: false,
+          user: data1,
         });
       }
     });
@@ -319,7 +323,7 @@ app.post("/postIssue", function (req, res) {
 });
 
 app.post("/acceptIssue", (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err) => {
+  issue.findByIdAndUpdate(req.body.id, { status: "Issue taken up", acceptedBy: req.body.email }, (err) => {
     if (err) {
       res.json({ errorStatus: true });
       console.log(err);
@@ -329,8 +333,8 @@ app.post("/acceptIssue", (req, res) => {
 })
 
 app.post('/feed', (req, res) => {
-  issue.find({ email: req.body.email }, function (err, issues) {
-    issue.find({ type: "Community" }, function (err, communityIssues) {
+  issue.find({ email: req.body.email, status: { $ne: "Completed" } }, function (err, issues) {
+    issue.find({ type: "Community", status: { $ne: "Completed" } }, function (err, communityIssues) {
       res.send({
         myIssues: issues,
         comIssues: communityIssues
@@ -341,7 +345,7 @@ app.post('/feed', (req, res) => {
 
 app.post('/spfeed', (req, res) => {
   issue.find({ status: "Pending", type: { $ne: "Government" } }, (err, issues) => {
-    issue.find({ status: "Issue taken up by Freelancer", acceptedBy: req.body.email }, (err, ai) => {
+    issue.find({ status: "Issue taken up", acceptedBy: req.body.email }, (err, ai) => {
       res.json({
         allIss: issues,
         acptdIss: ai
@@ -488,6 +492,29 @@ app.post('/dashboard2', (req, res) => {
       }
       else res.json({ errorStatus: false });
     });
+  })
+
+
+
+  app.post('/ombudTrack', (req, res) => {
+    issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
+      if (err) {
+        res.json({ errorStatus: true });
+        console.log(err);
+      }
+      else res.json({ errorStatus: false });
+    });
+  })
+
+  app.post('/passwordUpdate', (req, res) => {
+    console.log(req.body);
+    customer.findOneAndUpdate({ email: req.body.email }, { password: req.body.password }, (err, data) => {
+      if (err) {
+        res.json({ errorStatus: true });
+        console.log(err);
+      }
+      else res.json({ errorStatus: false });
+    })
   })
 
   app.get('*', (req, res) => {
