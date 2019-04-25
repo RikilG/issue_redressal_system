@@ -535,6 +535,14 @@ app.post('/passwordUpdate',(req, res) => {
   })
 })
 
+app.post('/getReviews', (req, res) => {
+  rating.find({ SPemail: req.body.SPemail }, (err, data) => {
+    if(err) throw err;
+    console.log(data);
+    res.json({ reviews: data });
+  })
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });

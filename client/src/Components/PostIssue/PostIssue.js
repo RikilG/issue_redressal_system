@@ -128,16 +128,17 @@ class PostIssue extends Component {
         status: "Pending"
       })
     })
-    .then(fetch('/uploadImage',{
-      method:"post",
-      body:data,
-    })
-    .then(res => {console.log(res); return res})
-      .then(res => {console.log(res); return res.json()})
-      .then(data => {
-        this.setState({ showModal: true });
+    .then(
+      fetch('/uploadImage',{
+        method:"post",
+        body:data,
       })
-      .catch(error => window.alert(error));
+        .then(res => {console.log(res); return res})
+        .then(res => {console.log(res); return res.json()})
+        .then(data => {
+          this.setState({ showModal: true });
+        })
+        .catch(error => window.alert(error)))
     // console.log("Posting issue using axios");
     // axios.post("/postIssue", {
     //   email: this.props.email,
