@@ -109,8 +109,7 @@ class ComCard extends Component {
             });
     }
 
-    addComment = (comment, callback) => {
-        console.log(comment);
+    addComment = (comment,callback) => {
         this.setState({
             loading: false,
             comments: [comment, ...this.state.comments],
@@ -119,44 +118,44 @@ class ComCard extends Component {
 
     render() {
         let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
-        return (
-            <div className="cardxRoot">
-                <div className="cardxHeader" >
-                    {this.props.header}
-
-                </div>
-                <div className="cardxBody">
-                    {this.state.content}
-                    <span id="comControls">
-                        <Button className="control" variant="primary" onClick={this.handleUpvote} disabled={this.state.myvote === 1 ? "disabled" : null}>
-                            {<img className="action" src={thumbsupIcon} alt='upvote' />}
-                            {upvote}
-                        </Button>
-                        <Button className="control" variant="primary" onClick={this.handleDownvote} disabled={this.state.myvote === 2 ? "disabled" : null}>
-                            {<img className="action" src={thumbsdownIcon} alt='downvote' />}
-                            {downvote}
-                        </Button>
-
-                        {(this.props.content.type === "Community") ?
-                            <div className="control" onClick={this.props.handleDonate}>
-                                {<img className="action" src={donationIcon} alt='donate' />}
-                                <strong>Donate</strong>
-                            </div>
-                            : null}
-                    </span>
-                    {/* <Comments comments={[{ name:"name", message:'message', time:'time' }]} addComment={this.addComment}/> */
-                    }
-                    {/* <div className="vr"></div>  */} <br />
-                    <div id='mainCommentPanel'>
-                        <div id='panelOne'> <CommentForm addComment={this.addComment} comments={this.state.comments} issueid={this.props.issueid} email={this.props.email} />  </div>
-
-                        <div id='panelTwo'> <CommentList comments={this.state.comments} /> </div>
+        // console.log(this.props.feedType);
+        if(this.props.feedType==="trendy" && upvote<=3) 
+            return (null);
+        else {    
+            return (
+                <div className={(this.props.feedType==="trendy")?"cardxRoot1":"cardxRoot"}>
+                    <div className="cardxHeader" >
+                        {this.props.header}
                     </div>
-
-
+                    <div className="cardxBody">
+                        {this.state.content}
+                        <span id="comControls">
+                            <Button className="control" variant="primary" onClick={this.handleUpvote} disabled={this.state.myvote === 1 ? "disabled" : null}>
+                                {<img className="action" src={thumbsupIcon} alt='upvote' />}
+                                {upvote}
+                            </Button>
+                            <Button className="control" variant="primary" onClick={this.handleDownvote} disabled={this.state.myvote === 2 ? "disabled" : null}>
+                                {<img className="action" src={thumbsdownIcon} alt='downvote' />}
+                                {downvote}
+                            </Button>
+                            {(this.props.content.type === "Community") ?
+                                <div className="control" onClick={this.props.handleDonate}>
+                                    {<img className="action" src={donationIcon} alt='donate' />}
+                                    <strong>Donate</strong>
+                                </div>
+                                :null}
+                        </span>
+                        <br/>
+                        {(this.props.feedType!=="trendy")?
+                        <div id='mainCommentPanel'>
+                            <div id='panelOne'> <CommentForm addComment={this.addComment} comments={this.state.comments} issueid={this.props.issueid} email={this.props.email}/>  </div>
+                            <div id='panelTwo'> <CommentList comments={this.state.comments} /> </div>
+                        </div>
+                        :null}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
