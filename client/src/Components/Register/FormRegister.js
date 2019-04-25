@@ -93,7 +93,7 @@ class FormRegister extends Component {
           this.setState({ showModal: true, alert: {head:"User already existing", body:"Given email already exists. Please use another or login to continue" } });
         }
       })
-      .catch(error => alert(error));
+      .catch(error => window.alert(error));
   };
 
   handleServiceRegister = () => {

@@ -49,7 +49,7 @@ class FreelancerReg extends Component {
             this.setState({ skills:this.state.skills.concat(others) });
         }
         if (!this.state.iAgree) {
-            alert("Please agree to T&C to continue.")
+            window.alert("Please agree to T&C to continue.")
             return;
         }
         fetch("/regFreelancer", {
@@ -74,11 +74,11 @@ class FreelancerReg extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data.accepted) {
-                    alert("Successfully registered!!!, login to continue.");
+                    window.alert("Successfully registered!!!, login to continue.");
                     this.props.setView("Home");
                 }
                 else {
-                    alert("Freelancer email already existing, login to continue.");
+                    window.alert("Freelancer email already existing, login to continue.");
                     this.setState({ skills:[] });
                 }
             })

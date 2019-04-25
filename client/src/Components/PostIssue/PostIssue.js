@@ -111,7 +111,7 @@ class PostIssue extends Component {
       .then(data => {
         this.setState({ showModal: true });
       })
-      .catch(error => alert(error));
+      .catch(error => window.alert(error));
     // console.log("Posting issue using axios");
     // axios.post("/postIssue", {
     //   email: this.props.email,
