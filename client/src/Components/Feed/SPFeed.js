@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import { Tab, Row, Col, Nav } from "react-bootstrap";
+import { Tab, Row, Col, Nav, FormControl } from "react-bootstrap";
 import './SPFeed.css';
 import Issue from '../../Classes/Issue';
 import loadingIcon from '../../Assets/loading.gif';
 import SPCard from '../../Classes/CardX/SPCard';
 import ModalMiddle from '../../Classes/Modals/ModalMiddle';
+import restartIcon from '../../Assets/restart.png';
 
 class SPFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
             issues: [],
+            issuesDisplay: [],
             acceptedIssues: [],
             loading: false,
             modalShow: false,
             modalData: {head:"Unavailable", body:"Data Unavailable", issue:"No Data", isSelected:true},
+            searchValue: "",
         }
     }
 
@@ -31,12 +34,24 @@ class SPFeed extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({
-                    issues: data.allIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
-                    acceptedIssues: data.acptdIss.map((issue, index) => { return <div className="cardWrapper" key={index}><SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /></div>; }),
+                    issues: data.allIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
+                    acceptedIssues: data.acptdIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
                 });
             }).then( () => {
                 this.setState({ loading:false });
+            }).then( () => {
+                let input = {target: {value: ""}}
+                this.searchinput(input);
             });
+    }
+
+    searchinput = async (input) => {
+        let { issues } = this.state;
+        this.setState({ searchValue: input.target.value }, () => {
+            let inputValue = (this.state.searchValue!==null) ? this.state.searchValue.trim().toLowerCase() : "";
+            let inputLength = inputValue.length;
+            this.setState({ issuesDisplay: (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
+        });
     }
 
     handleClose = () => {this.setState({ modalShow: false });}
@@ -63,7 +78,7 @@ class SPFeed extends Component {
     }
 
     render() {
-        let { issues, acceptedIssues, loading } = this.state;
+        let { issuesDisplay, acceptedIssues, loading } = this.state;
 
         let ai = (
             <React.Fragment>
@@ -92,16 +107,14 @@ class SPFeed extends Component {
                             <Nav.Link eventKey="customerTab">All Issues</Nav.Link>
                         </Nav.Item>
                         </Nav>
-                        {/* <div id="adminStatistics">
-                        <h2>Controls</h2><hr />
+                        <div id="adminStatistics">
+                        <h2>Options</h2><hr />
                         <div className="controls">
-                            <div className="control small" onClick={this.refershHandler}><img className="action" src={restartIcon} alt="Reload" />
+                            <div className="control small" onClick={() => {this.componentDidMount()}}><img className="action" src={restartIcon} alt="Reload" />
                             Reload Data
                         </div></div>
                         <FormControl className="searchbar" type="text" placeholder="Search" onChange={this.searchinput} />
-                        <Button id="btnDashboard" variant="outline-info" size="lg" onClick={this.dashboardHandler}>Dashboard</Button>
-                        <Button id="btnLog" variant="outline-info" size="lg" onClick={this.fetchLog}>Site Log</Button>
-                        </div> */}
+                        </div>
                     </Col>
                     <div className="vr" xs="true"></div>
                     <Col sm={9} lg>
@@ -109,7 +122,7 @@ class SPFeed extends Component {
                         <Tab.Pane eventKey="issueTab" className="container">
                             <h2>Issues Near Me</h2><hr />
                             <div id="spFeedRoot">
-                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}
+                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issuesDisplay}
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="acceptedTab" className="container">
@@ -123,7 +136,7 @@ class SPFeed extends Component {
                         <Tab.Pane eventKey="customerTab" className="container">
                             <h2>All Issues</h2><hr />
                             <div id="spFeedRoot">
-                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}
+                                {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issuesDisplay}
                             </div>
                         </Tab.Pane>
                         </Tab.Content>

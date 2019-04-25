@@ -86,7 +86,7 @@ class AdminHome extends Component {
   searchinput = async (input) => {
     let { issues, users, freelancers, organizations } = this.state;
     this.setState({ searchValue: input.target.value }, () => {
-      let inputValue = this.state.searchValue.trim().toLowerCase();
+      let inputValue = (this.state.searchValue!==null) ? this.state.searchValue.trim().toLowerCase() : "";
       let inputLength = inputValue.length;
       this.setState({ issuesDisplay:      (inputLength === 0) ? issues : issues.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
       this.setState({ usersDisplay:       (inputLength === 0) ? users : users.filter(card => card.props.header.toLowerCase().slice(0, inputLength) === inputValue ) });
