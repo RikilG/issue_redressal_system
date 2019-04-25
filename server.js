@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongo = require("mongoose");
 const app = express();
 const port = process.env.PORT || 5000;
+const multer = require("multer");
 
 const sitelog = (message) => {
   var datetime = new Date(Date.now() + 5.5);
@@ -49,6 +50,7 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  imageURL:String,
   tstart: Date,
   tend: Date,
   status: String,
@@ -267,6 +269,20 @@ app.post("/regOrganization", function (req, res) {
 app.post("/postIssue", function (req, res) {
   var newissue = new issue(req.body);
   newissue.save();
+  res.json({});
+});
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+   cb(null, path.join(__dirname+'/uploads/'))
+   },
+   filename: function (req, file, cb) {
+    cb(null,file.originalname);
+   }
+})
+var upload = multer({storage: storage});
+
+app.post("/uploadImage",upload.single("image"),function(req,res){
   res.json({});
 });
 
