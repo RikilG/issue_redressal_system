@@ -4,7 +4,6 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './Profile.css';
-import CustPhoto from '../../Assets/images.png';
 import ViewDetails from './ViewDetails/ViewDetails';
 import MyPosts from './MyPostsFolder/MyPosts.js';
 import ChangePassword from './ChangePassword/ChangePassword.js';
@@ -17,12 +16,14 @@ class ProfilePage extends Component{
     // console.log("Hi");
     super(props);
     this.state = {
-        email: this.props.email,
+        //email: this.props.email,
     }
     // console.log(this.props.email);
-}
+    }
+
+
     render()
-    {
+    { 
         return (
             <div id="divid">
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -33,7 +34,7 @@ class ProfilePage extends Component{
           <Nav.Link eventKey="first">Details</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="second">Posts Posted</Nav.Link>
+          <Nav.Link eventKey="second">Issues Solved</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="third">Change Password</Nav.Link>
@@ -47,19 +48,20 @@ class ProfilePage extends Component{
     <Col sm={8}>
       <Tab.Content>
         <Tab.Pane eventKey="first">
+        <h1>Your Details</h1>
          <ViewDetails user={this.props.user} />
         </Tab.Pane>
         <Tab.Pane eventKey="second">
-          <h1 >My Posts</h1>
+          <h1 >Your Posts</h1>
           <MyPosts id="posts"  user={this.props.user}/>
         </Tab.Pane>
         <Tab.Pane eventKey="third">
-          <h1 style={{color:'red'}}>Change Your Password</h1>
+          <h1 >Change Your Password</h1>
           <ChangePassword id="chgPsW" user={this.props.user} />
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-          <h1 style={{color:'red'}}>Change Your Profile</h1>
-          <EditProfile user={this.props.user}/>
+          <h1 >Change Your Profile</h1>
+          <EditProfile user={this.props.user} setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} />
         </Tab.Pane>
       </Tab.Content>
     </Col>

@@ -97,6 +97,7 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
+                    {(this.props.content.status!=="Completed")?
                     <span id="controls">
                         {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                             <div className="control" onClick={this.redToGovt}>
@@ -123,6 +124,7 @@ class CardX extends Component {
                             </div>
                         )}
                     </span>
+                    :null}
                 </div>
                 {
                     this.state.showBody && (
@@ -131,7 +133,7 @@ class CardX extends Component {
                         </div>
                     )
                 }
-            </div >
+            </div>
         );
     }
 }

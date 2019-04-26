@@ -65,7 +65,7 @@ class App extends Component {
     let currentView = this.state.currentView;
     switch (currentView) {
       case "Register": view = <FormRegister setView={this.setView} />; break;
-      case "Profile": view = <Profile isAdmin={this.state.isAdmin} isCustomer={this.state.isCustomer} isOmbudsman={this.state.isOmbudsman} user={this.state.user} />; break;
+      case "Profile": view = <Profile isAdmin={this.state.isAdmin} isCustomer={this.state.isCustomer} isOmbudsman={this.state.isOmbudsman} user={this.state.user} setView={this.setView} setSigninStatus={this.setSigninStatus} />; break;
       case "Login": view = <FormLogin setUser={this.setUser} setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Home": view = <Home setUser={this.setUser} setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;

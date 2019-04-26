@@ -80,15 +80,15 @@ class ChangePassword extends Component{
         <div>
             <Form>
             <Form.Group controlId="oldPassword">
-                <Form.Label className="labelPw">Current Password</Form.Label>
+                <Form.Label className="labelPw">Current Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password" onChange={(input) => this.setState({oldPassword : input.target.value})} ref="oldPref" />
             </Form.Group>
             <Form.Group controlId="newPassword">
-                <Form.Label className="labelPw">New Password</Form.Label>
+                <Form.Label className="labelPw">New Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password" onChange={(input) => this.setState({password : input.target.value})} ref="newPref" />
             </Form.Group>
             <Form.Group controlId="confirmPassword">
-                <Form.Label className="labelPw">Confirm Password</Form.Label>
+                <Form.Label className="labelPw">Confirm Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password"  onChange={(input) => this.setState({confirmPassword : input.target.value})} ref="confirmPref" />
             </Form.Group>
             <Button as="input" type="submit" value="Change Password" onClick={this.updatePassword}/>

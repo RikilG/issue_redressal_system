@@ -541,7 +541,33 @@ app.post('/passwordUpdate', (req, res) => {
       res.json({ errorStatus: true });
       console.log(err);
     }
+    else res.json({errorStatus : false});
+  })
+})
+
+app.post('/updateProfile',(req,res) => {
+  // console.log(req.body);
+  customer.findByIdAndUpdate(req.body.id, { "$set": {
+    fname: req.body.fname,
+    lname: req.body.lname,
+    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state,
+    pincode: req.body.pincode,
+    mobile: req.body.mobile,
+    aadhaar: req.body.aadhaar } }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+    }
     else res.json({ errorStatus: false });
+  });
+})
+
+app.post('/myPosts',(req,res) => {
+  issue.find({ email: req.body.email, status: "Completed" }, function (err, issues) {
+      res.send({
+        myIssues: issues
+      });
   })
 })
 
