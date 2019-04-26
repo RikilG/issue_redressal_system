@@ -131,10 +131,11 @@ class PostIssue extends Component {
       method:"post",
       body:data,
     })
-      .then(fetch('/uploadImage', {
-        method: "post",
-        body: data,
-      }))
+      // .then(
+      //   fetch('/uploadImage', {
+      //   method: "post",
+      //   body: data,
+      // }))
       .then(res => { console.log(res); return res })
       .then(res => { console.log(res); return res.json() })
       .then(data => {
@@ -240,7 +241,7 @@ class PostIssue extends Component {
             </Form.Group>
           </Form.Row>
           <textarea id="textDesc" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
-          <div className="previewComponent">
+          {/* <div className="previewComponent">
           <form>
             <input className="fileInput" name="image"
               type="file"
@@ -250,7 +251,7 @@ class PostIssue extends Component {
           <div className="imgPreview">
             {$imagePreview}
           </div>
-        </div>
+        </div> */}
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
