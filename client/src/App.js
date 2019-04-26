@@ -16,6 +16,7 @@ import ServiceProvider from './Components/Register/ServiceProvider';
 import Profile from './Components/Profile/ProfilePage';
 import EditIssue from "./Components/EditIssue/EditIssue";
 import RatingPage from "./Components/RatingPage/RatingPage";
+import SPFeed from './Components/Feed/SPFeed';
 //import ModalAlert from "./Classes/Modals/ModalAlert";
 // import Footer from './Components/Footer/Footer';
 
@@ -71,6 +72,7 @@ class App extends Component {
       case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome setView={this.setView} email={this.state.email} />; break;
       case "Dashboard": view = <Dashboard />; break;
+      case "SPFeed": view = <SPFeed />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;

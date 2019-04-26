@@ -29,7 +29,7 @@ class Home extends Component {
     this.count();
     this.setState({
       loginSection: (this.props.signinStatus)?null:
-        <FormLogin setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} 
+        <FormLogin setUser={this.props.setUser} setView={this.props.setView} setSigninStatus={this.props.setSigninStatus} setAdmin={this.props.setAdmin} 
           setOmbudsman={this.props.setOmbudsman} setCustomer={this.props.setCustomer} parent={this}  /> 
     });
   }

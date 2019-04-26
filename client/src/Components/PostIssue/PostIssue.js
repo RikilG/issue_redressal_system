@@ -126,8 +126,8 @@ class PostIssue extends Component {
         tend: this.state.tend,
         status: "Pending"
       })
-    })
-    .then(fetch('/uploadImage',{
+    });
+    fetch('/uploadImage',{
       method:"post",
       body:data,
     })
@@ -135,7 +135,7 @@ class PostIssue extends Component {
       .then(res => {console.log(res); return res.json()})
       .then(data => {
         this.setState({ showModal: true });
-      }))
+      })
       .catch(error => alert(error));
     // console.log("Posting issue using axios");
     // axios.post("/postIssue", {
