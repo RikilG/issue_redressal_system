@@ -6,10 +6,10 @@ import moment from 'moment';
 
 //sent as data in props
 const doughnutData = {
-    labels: ['Red', 'Green', 'Yellow'],
+    labels: ['Completed', 'Pending', 'In Progress'],
     datasets: [
         {
-            data: [300, 50, 100],
+            data: [],
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             // hoverBackgroundColor: [ '#202020', '#36A2EB', '#FFCE56' ]
         }
@@ -164,7 +164,7 @@ const dlineData = {
             borderWidth: 1.5,
             data: [100, 200, 30, 400, 50, 600, 700, 800, 90, 1000, 1100, 102, 1310, 104, 1510, 106, 1701, 180, 1901, 2100, 210, 202, 203, 240, 250, 260, 207, 2080, 290],
             fill: "start",
-            label: "Current Month",
+            label: "All issues",
             pointBackgroundColor: "#ffffff",
             pointHoverBackgroundColor: "rgb(0,123,255)",
             pointHoverRadius: 13,
@@ -177,7 +177,7 @@ const dlineData = {
             borderWidth: 1,
             data: [100, 20, 300, 400, 500, 60, 200, 80, 90, 100, 1012, 132, 113, 140, 1250, 135, 173, 1800, 190, 220, 211, 122, 23, 1204, 125, 26, 207, 280, 209],
             fill: "start",
-            label: "Past Month",
+            label: "Completed issues",
             pointBackgroundColor: "#ffffff",
             pointBorderColor: "rgba(255,65,105,1)",
             pointHoverBackgroundColor: "rgba(255,65,105,1)",
@@ -207,13 +207,13 @@ const options = {
             // ticks: {
             //     display: false //this will remove only the label
             // }
-            display: false,
+            // display: false,
         }],
         yAxes: [{
             // ticks: {
             //     display: false //this will remove only the label
             // }
-            display: false,
+            // display: false,
         }],
     },
     responsive: true,
@@ -229,12 +229,16 @@ class Dashboard extends Component {
             noi: null,
             nof: null,
             noo: null,
+            nogp: null,//govt pending
+            nogi: null,
+            nogc: null,
             numval1: [],
             numval2: [],
             numval3: [],
             numval4: [],
             numval5: [],
-            dates: []
+            dates: [],
+            weeks: 5,
         };
     }
 
@@ -266,7 +270,7 @@ class Dashboard extends Component {
             })*/
 
         let arr = [];
-        for (let i = 0; i < 7; ++i) {
+        for (let i = 0; i < this.state.weeks + 1; ++i) {
             arr[i] = new Date(moment().subtract((7 * i), 'days'));
         }
         let numb1 = [];
@@ -276,7 +280,7 @@ class Dashboard extends Component {
         let numb5 = [];
         let numb6 = [];
         let date = [];
-        for (let i = 0; i < 6; ++i) {
+        for (let i = 0; i < this.state.weeks; ++i) {
             fetch('/dashboard3', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -287,15 +291,15 @@ class Dashboard extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
-                    numb1[5 - i] = data.num1;
-                    numb2[5 - i] = data.num2;
-                    numb3[5 - i] = data.num3;
-                    numb4[5 - i] = data.num4;
-                    numb5[5 - i] = data.num5;
-                    numb6[5 - i] = data.num6;
+                    numb1[this.state.weeks - 1 - i] = data.num1;
+                    numb2[this.state.weeks - 1 - i] = data.num2;
+                    numb3[this.state.weeks - 1 - i] = data.num3;
+                    numb4[this.state.weeks - 1 - i] = data.num4;
+                    numb5[this.state.weeks - 1 - i] = data.num5;
+                    numb6[this.state.weeks - 1 - i] = data.num6;
                 })
         }
-        for (let i = 0; i < 6; ++i) {
+        for (let i = 0; i < this.state.weeks; ++i) {
             let year = arr[i].getFullYear();
             let month = arr[i].getMonth() + 1;
             let day = arr[i].getDate();
@@ -332,11 +336,24 @@ class Dashboard extends Component {
                     noi: data.noi,
                     nof: data.nof,
                     noo: data.noo,
+                    nogp: data.num7,
+                    nogi: data.num8,
+                    nogc: data.num9
                 });
             })
             .then(() => {
-                this.setState({ loading: false });
+                this.setState({ loading: false }, () => {
+                    doughnutData.datasets[0].data[0] = this.state.nogc;
+                    doughnutData.datasets[0].data[1] = this.state.nogp;
+                    doughnutData.datasets[0].data[2] = this.state.nogi;
+                });
             });
+    }
+
+    weekChangeHandle = (input) => {
+        this.setState({ weeks: input.target.value }, () => {
+            this.componentDidMount()
+        });
     }
 
     render() {
@@ -345,8 +362,10 @@ class Dashboard extends Component {
         return (
             <div className="dashRoot">
                 <div id="dashHeader">
-                    <h2 style={{ display: "inline" }}>Dashboard</h2>
-                    {(this.state.loading) ? <img alt="loading..." src={loadingIcon} style={{ width: "2.6em", height: "2.6em", float: "right", margin: "1em" }} /> : null}
+                    <h2>Dashboard</h2>
+                    {(this.state.loading) ? <img alt="loading..." src={loadingIcon} style={{ width: "3em", height: "3em", float: "right", margin: "1em" }} /> : null}
+                    <br />
+                    <input type="number" id="numBox" value={this.state.weeks} onChange={this.weekChangeHandle} />
                 </div>
                 <div id="dashStats">
                     <div className="dashStatsCard">
@@ -387,7 +406,10 @@ class Dashboard extends Component {
                 </div>
                 <div id="dashStats">
                     <div className="dashGraphCard flx-lg"><Line data={dlineData} /></div>
-                    <div className="dashGraphCard flx-sm"><Doughnut data={doughnutData} options={options} /></div>
+                    <div className="dashGraphCard flx-sm"><Doughnut data={doughnutData} options={{
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }} /></div>
                 </div>
             </div>
         );

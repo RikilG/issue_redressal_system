@@ -431,7 +431,7 @@ app.post('/dashboard3', (req, res) => {
                 num3: data3,
                 num4: data4,
                 num5: data5,
-                num6: data6
+                num6: data6,
               });
             });
           });
@@ -447,11 +447,21 @@ app.post('/dashboard', (req, res) => {
       issue.countDocuments({}, function (er, issues) {
         freelancer.countDocuments({}, function (err, freelancers) {
           organization.countDocuments({}, function (err, organizations) {
-            res.json({
-              noc: customers,
-              noi: issues,
-              nof: freelancers,
-              noo: organizations
+            issue.count({ type: "Government", status: "Pending" }, function (err, data7) {
+              issue.count({ type: "Government", status: "In Progress" }, function (err, data8) {
+                issue.count({ type: "Government", status: "Completed" }, function (err, data9) {
+                  //console.log(data7, data8, data9);
+                  res.json({
+                    noc: customers,
+                    noi: issues,
+                    nof: freelancers,
+                    noo: organizations,
+                    num7: data7,
+                    num8: data8,
+                    num9: data9
+                  });
+                });
+              });
             });
           });
         });
