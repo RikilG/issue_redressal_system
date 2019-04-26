@@ -51,11 +51,7 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
-<<<<<<< HEAD
   imageURL:String,
-=======
-  imageURL: String,
->>>>>>> e1b2f1c0a2b4cd7cdfae99d3b5d3c474000fe797
   tstart: Date,
   tend: Date,
   status: String,
@@ -335,7 +331,6 @@ app.post("/postIssue", function (req, res) {
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-<<<<<<< HEAD
    cb(null, path.join(__dirname+'/client/src/uploads/'))
    },
    filename: function (req, file, cb) {
@@ -345,17 +340,6 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 app.post("/uploadImage",upload.single("image"),function(req,res){
-=======
-    cb(null, path.join(__dirname + '/uploads/'))
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-})
-var upload = multer({ storage: storage });
-
-app.post("/uploadImage", upload.single("image"), function (req, res) {
->>>>>>> e1b2f1c0a2b4cd7cdfae99d3b5d3c474000fe797
   res.json({});
 });
 
