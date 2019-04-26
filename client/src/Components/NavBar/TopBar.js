@@ -17,7 +17,7 @@ class TopBar extends Component {
     if(this.props.isAdmin)
       this.props.setView("AdminHome");
     else if(this.props.isOmbudsman)
-      this.props.setView("OmbudsmanHome");
+      this.props.setCompletedIssues(!this.props.completedIssues);
     else
       this.props.setView("Home")
   };

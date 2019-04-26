@@ -164,7 +164,7 @@ class PostIssue extends Component {
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} />);
+      $imagePreview = (<img src={imagePreviewUrl} alt="imagePreview" />);
     } else {
       $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
     }
@@ -237,7 +237,7 @@ class PostIssue extends Component {
               <Form.Control placeholder="If others please specify" onChange={this.onOthersChange} disabled={ this.state.department === "Others" ? null : "disabled" } required />
             </Form.Group>
           </Form.Row>
-          <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
+          <textarea id="textDesc" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
           <div className="previewComponent">
           <form onSubmit={(e)=>this.handleSubmit(e)}>
             <input className="fileInput" name="image"

@@ -98,12 +98,12 @@ class CardX extends Component {
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
                     <span id="controls">
-                        {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
+                        {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") ? (
                             <div className="control" onClick={this.redToGovt}>
                                 <img className="action" src={govtIcon} alt='govt' />
                                 Redirect to Govt
                             </div>
-                        )}
+                        ):null}
                         {this.state.showBody && (
                             <div className="control" onClick={this.redToDelete}>
                                 <img className="action" src={deleteIcon} alt='delete' />

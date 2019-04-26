@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './Profile.css';
-import CustPhoto from '../../Assets/images.png';
+// import CustPhoto from '../../Assets/images.png';
 import ViewDetails from './ViewDetails/ViewDetails';
 import MyPosts from './MyPostsFolder/MyPosts.js';
 import ChangePassword from './ChangePassword/ChangePassword.js';

@@ -447,11 +447,14 @@ app.post('/dashboard', (req, res) => {
       issue.countDocuments({}, function (er, issues) {
         freelancer.countDocuments({}, function (err, freelancers) {
           organization.countDocuments({}, function (err, organizations) {
-            res.json({
-              noc: customers,
-              noi: issues,
-              nof: freelancers,
-              noo: organizations
+            rating.countDocuments({}, function (err, reviews) {
+              res.json({
+                noc: customers,
+                noi: issues,
+                nof: freelancers,
+                noo: organizations,
+                nor: reviews
+              });
             });
           });
         });
