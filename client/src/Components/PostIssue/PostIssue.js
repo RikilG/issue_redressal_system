@@ -71,7 +71,6 @@ class PostIssue extends Component {
         imagePreviewUrl: reader.result
       });
     };
-
     reader.readAsDataURL(file);
   }
 
@@ -109,8 +108,8 @@ class PostIssue extends Component {
   handleSubmit = () => {
     if (this.state.department === "Others")
       this.setState({ department: this.state.other });
-    const data = new FormData();
-    data.append("image", this.state.file);
+    const data=new FormData();
+    data.append("image",this.state.file);
     fetch("/postIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -118,7 +117,7 @@ class PostIssue extends Component {
         email: this.props.email,
         complaintName: this.state.complaintName,
         pay: this.state.pay,
-        imageURL: this.state.file.name,
+        imageURL:this.state.file.name,
         workNature: this.state.department,
         description: this.state.description,
         type: this.state.type,
@@ -127,6 +126,10 @@ class PostIssue extends Component {
         pincode: this.props.user.pincode,
         status: "Pending"
       })
+    });
+    fetch('/uploadImage',{
+      method:"post",
+      body:data,
     })
       .then(fetch('/uploadImage', {
         method: "post",
@@ -160,7 +163,7 @@ class PostIssue extends Component {
 
   render() {
     let { carousel } = this.state;
-    let { imagePreviewUrl } = this.state;
+    let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = (<img src={imagePreviewUrl} />);
@@ -238,16 +241,16 @@ class PostIssue extends Component {
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
           <div className="previewComponent">
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-              <input className="fileInput" name="image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => this.handleImageChange(e)} />
-            </form>
-            <div className="imgPreview">
-              {$imagePreview}
-            </div>
+          <form>
+            <input className="fileInput" name="image"
+              type="file"
+              accept="image/*" 
+              onChange={(e)=>this.handleImageChange(e)} />
+           </form>
+          <div className="imgPreview">
+            {$imagePreview}
           </div>
+        </div>
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>

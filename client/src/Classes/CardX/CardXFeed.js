@@ -5,15 +5,18 @@ import deleteIcon from '../../Assets/delete.png';
 import doneIcon from '../../Assets/done.png';
 import '../CardX/CardX.css';
 import '../Issue';
-
 class CardX extends Component {
     constructor(props) {
         super(props);
         let cont;
+        const images=require.context('../../uploads');
 
         if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
+                {(this.props.content.imageURL)?
+                <img className="rajphoto" src= {images('./'+this.props.content.imageURL)} />
+                :null}
                     <table className="detailsTable"><tbody>
                         <tr><th>Complaint Name: </th><td> {this.props.content.complaintName} </td></tr>
                         <tr><th>Description:    </th><td> {this.props.content.description} </td></tr>

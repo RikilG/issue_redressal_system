@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Tab, Row, Col, Nav, FormControl } from "react-bootstrap";
 import './SPFeed.css';
+//import SPFeed from './Components/Feed/SPFeed'
 import Issue from '../../Classes/Issue';
 import loadingIcon from '../../Assets/loading.gif';
 import SPCard from '../../Classes/CardX/SPCard';
