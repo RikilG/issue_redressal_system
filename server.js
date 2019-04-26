@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongo = require("mongoose");
 const app = express();
 const port = process.env.PORT || 5000;
+const multer = require("multer");
 
 const sitelog = (message) => {
   var datetime = new Date(Date.now() + 5.5);
@@ -38,7 +39,8 @@ var cusSchema = new mongo.Schema({
   state: String,
   pincode: Number,
   mobile: Number,
-  aadhaar: Number
+  aadhaar: Number,
+  tstart: Date
 });
 var customer = mongo.model('customer', cusSchema);
 
@@ -49,6 +51,7 @@ var issueSchema = new mongo.Schema({
   type: String,
   workNature: String,
   description: String,
+  imageURL: String,
   tstart: Date,
   tend: Date,
   status: String,
@@ -69,13 +72,15 @@ var freelancerSchema = new mongo.Schema({
   password: String,
   address: String,
   city: String,
+  department: String,
   state: String,
   mobile: Number,
   aadhaar: Number,
   pincode: Number,
   noOfIssues: Number,
   rating: Number,
-  skills: [String]
+  skills: [String],
+  tstart: Date
 });
 var freelancer = new mongo.model('freelancer', freelancerSchema);
 
@@ -86,7 +91,8 @@ var organizationSchema = new mongo.Schema({
   headquaters: String,
   mobile: Number,
   workforce: Number,
-  skills: [String]
+  skills: [String],
+  tstart: Date
 });
 var organization = new mongo.model('organization', organizationSchema);
 
@@ -102,7 +108,8 @@ var ratingSchema = new mongo.Schema({
   cusemail: String,
   SPemail: String,
   rating: Number,
-  review: String
+  review: String,
+  tstart: Date
 });
 var rating = new mongo.model('rating', ratingSchema);
 
@@ -227,9 +234,6 @@ app.post("/rating", (req, res) => {
   rating.findOne({ issueid: req.body.issueid }, function (err, data) {
     if (data == null) {
       newrating.save();
-      res.json({
-        accepted: true
-      });
     } else {
       rating.findByIdAndUpdate(data._id, { "$set": { rating: req.body.rating, review: req.body.review } }, err => {
         // if (err) res.json({ errorStatus: true });
@@ -239,13 +243,16 @@ app.post("/rating", (req, res) => {
   });
   freelancer.findOne({ email: req.body.SPemail }, function (erro, datas) {
     freelancer.findByIdAndUpdate(datas._id, { "$set": { rating: ((datas.rating * datas.noOfIssues) + req.body.rating) / (datas.noOfIssues + 1), noOfIssues: datas.noOfIssues + 1 } }, err => {
-      // if (erro || err) res.json({ errorStatus: true });
+      if (err) console.log(err);
       // else res.json({ errorStatus: false });
     });
   });
-  issue.findByIdAndUpdate(req.body.issueid, { "$set": { status: "Completed" } }, err => {
+  issue.findByIdAndUpdate(req.body.issueid, { "$set": { status: "Completed", tend: req.body.tend } }, err => {
     // if (erro || err) res.json({ errorStatus: true });
     // else res.json({ errorStatus: false });
+    res.json({
+      accepted: true
+    });
   });
 })
 
@@ -319,6 +326,20 @@ app.post("/regOrganization", function (req, res) {
 app.post("/postIssue", function (req, res) {
   var newissue = new issue(req.body);
   newissue.save();
+  res.json({});
+});
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname + '/uploads/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+})
+var upload = multer({ storage: storage });
+
+app.post("/uploadImage", upload.single("image"), function (req, res) {
   res.json({});
 });
 
@@ -494,20 +515,6 @@ app.post('/Ombudsman', (req, res) => {
   }
 })
 
-
-
-app.post('/ombudTrack', (req, res) => {
-  issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
-    if (err) {
-      res.json({ errorStatus: true });
-      console.log(err);
-    }
-    else res.json({ errorStatus: false });
-  });
-})
-
-
-
 app.post('/ombudTrack', (req, res) => {
   issue.findByIdAndUpdate(req.body.id, { status: req.body.newStatus }, (err) => {
     if (err) {
@@ -519,7 +526,6 @@ app.post('/ombudTrack', (req, res) => {
 })
 
 app.post('/passwordUpdate', (req, res) => {
-  console.log(req.body);
   customer.findOneAndUpdate({ email: req.body.email }, { password: req.body.password }, (err, data) => {
     if (err) {
       res.json({ errorStatus: true });
@@ -532,7 +538,6 @@ app.post('/passwordUpdate', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
-
 app.listen(port, () => {
   console.log(`server running on : "http://localhost:${port}"`);
 })

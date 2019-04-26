@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
 import './ViewDetails.css';
-import EditButton from '../../../Assets/edit.png';
-import { type } from 'os';
 
 class ViewDetails extends Component{
 

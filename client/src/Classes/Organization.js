@@ -8,6 +8,7 @@ class Organization {
         this.mobile = jsonObject.mobile;
         this.workforce = jsonObject.workforce;
         this.skills = jsonObject.skills;
+        this.tstart = jsonObject.tstart;
         this.className = "Organization";
     }
 }

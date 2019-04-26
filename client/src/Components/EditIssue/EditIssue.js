@@ -45,7 +45,6 @@ class EditIssue extends Component {
       this.setState({ householdChk: false });
       this.setState({ govtChk: true });
     }
-;
   }
 
   onOthersChange = input => {

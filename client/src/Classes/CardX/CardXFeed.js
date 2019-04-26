@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import govtIcon from '../../Assets/govt.png';
 import editIcon from '../../Assets/edit.png';
 import deleteIcon from '../../Assets/delete.png';
+import doneIcon from '../../Assets/done.png';
 import '../CardX/CardX.css';
 import '../Issue';
 
@@ -115,8 +116,9 @@ class CardX extends Component {
                                 Edit
                             </div>
                         )}
-                        {this.state.showBody && (
+                        {this.state.showBody && this.props.content.status!=="Pending" && (
                             <div className="control" onClick={this.redToRating}>
+                                <img className="action" src={doneIcon} alt='done' />
                                 Completed
                             </div>
                         )}

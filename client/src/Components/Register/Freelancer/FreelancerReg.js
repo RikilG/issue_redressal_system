@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './FreelancerReg.css'
 import { Form, Col, Button } from 'react-bootstrap';
+import moment from 'moment';
 
 class FreelancerReg extends Component {
     constructor(props) {
@@ -22,7 +23,8 @@ class FreelancerReg extends Component {
             chkCarpenter: false,
             chkCivil: false,
             skills: [],
-            otherWork: ""
+            otherWork: "",
+            tstart: moment(),
         }
     }
 
@@ -49,7 +51,7 @@ class FreelancerReg extends Component {
             this.setState({ skills: this.state.skills.concat(others) });
         }
         if (!this.state.iAgree) {
-            alert("Please agree to T&C to continue.")
+            window.alert("Please agree to T&C to continue.")
             return;
         }
         fetch("/regFreelancer", {
@@ -68,17 +70,18 @@ class FreelancerReg extends Component {
                 pincode: this.state.pincode,
                 skills: this.state.skills,
                 noOfIssues: 0,
-                rating: 0
+                rating: 0,
+                tstart: this.state.tstart
             })
         })
             .then(res => res.json())
             .then(data => {
                 if (data.accepted) {
-                    alert("Successfully registered!!!, login to continue.");
+                    window.alert("Successfully registered!!!, login to continue.");
                     this.props.setView("Home");
                 }
                 else {
-                    alert("Freelancer email already existing, login to continue.");
+                    window.alert("Freelancer email already existing, login to continue.");
                     this.setState({ skills: [] });
                 }
             })

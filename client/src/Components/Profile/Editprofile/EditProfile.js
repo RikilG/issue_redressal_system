@@ -25,7 +25,7 @@ class EditProfile extends Component{
     render()
     {
         return (
-            <div className="profileSetUp">
+            <div className="profileSetUp form">
                 <Form>
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridFName">

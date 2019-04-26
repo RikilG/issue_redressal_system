@@ -33,7 +33,9 @@ class PostIssue extends Component {
       householdChk: true,
       format: 'h:mm a',
       tstart: moment().hour(9).minute(0),
-      tend: moment().hour(18).minute(0)
+      tend: moment().hour(18).minute(0),
+      file: '',
+      imagePreviewUrl: ''
     };
   }
 
@@ -55,6 +57,22 @@ class PostIssue extends Component {
   handleModalHide = () => {
     setTimeout(() => this.setState({ showModal: false }), 500);
     this.props.setView("Feed");
+  }
+
+  handleImageChange = (e) => {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    
+    reader.readAsDataURL(file);
   }
 
   onOthersChange = input => {
@@ -91,6 +109,8 @@ class PostIssue extends Component {
   handleSubmit = () => {
     if (this.state.department === "Others")
       this.setState({ department: this.state.other });
+    const data=new FormData();
+    data.append("image",this.state.file);
     fetch("/postIssue", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -98,20 +118,26 @@ class PostIssue extends Component {
         email: this.props.email,
         complaintName: this.state.complaintName,
         pay: this.state.pay,
+        imageURL:this.state.file.name,
         workNature: this.state.department,
         description: this.state.description,
         type: this.state.type,
         tstart: this.state.tstart,
         tend: this.state.tend,
+        pincode: this.props.user.pincode,
         status: "Pending"
       })
+    })
+    .then(fetch('/uploadImage',{
+      method:"post",
+      body:data,
     })
     .then(res => {console.log(res); return res})
       .then(res => {console.log(res); return res.json()})
       .then(data => {
         this.setState({ showModal: true });
       })
-      .catch(error => alert(error));
+      .catch(error => window.alert(error));
     // console.log("Posting issue using axios");
     // axios.post("/postIssue", {
     //   email: this.props.email,
@@ -134,6 +160,13 @@ class PostIssue extends Component {
 
   render() {
     let { carousel } = this.state;
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} />);
+    } else {
+      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+    }
     return (
       <div className="postIssue form">
         <img id="carousel" alt="mypic" src={carousel} />
@@ -204,10 +237,21 @@ class PostIssue extends Component {
             </Form.Group>
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
+          <div className="previewComponent">
+          <form onSubmit={(e)=>this.handleSubmit(e)}>
+            <input className="fileInput" name="image"
+              type="file"
+              accept="image/*" 
+              onChange={(e)=>this.handleImageChange(e)} />
+           </form>
+          <div className="imgPreview">
+            {$imagePreview}
+          </div>
+        </div>
           <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="I Agree to the terms and conditions" required />
           </Form.Group>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" /*onClick={this.handleSubmit}*/ >
             Submit
           </Button>
         </Form>

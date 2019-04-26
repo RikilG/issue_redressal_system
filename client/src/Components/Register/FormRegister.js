@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./FormRegister.css";
 import { Form, Button, Col } from "react-bootstrap";
 import ModalAlert from "../../Classes/Modals/ModalAlert";
+import moment from 'moment';
 
 class FormRegister extends Component {
   constructor(props) {
@@ -20,46 +21,23 @@ class FormRegister extends Component {
       aadhaar: "",
       iAgree: false,
       alert: { head: null, body: null },
-      showModal: false
+      showModal: false,
+      tstart: moment()
     };
   }
 
-  onFnameChange = input => {
-    this.setState({ fname: input.target.value });
-  };
-  onLnameChange = input => {
-    this.setState({ lname: input.target.value });
-  };
-  onEmailChange = input => {
-    this.setState({ email: input.target.value });
-  };
-  onPasswordChange = input => {
-    this.setState({ password: input.target.value });
-  };
-  onAddChange = input => {
-    this.setState({ address: input.target.value });
-  };
-  onCommunityChange = input => {
-    this.setState({ community: input.target.value });
-  };
-  onCityChange = input => {
-    this.setState({ city: input.target.value });
-  };
-  onStateChange = input => {
-    this.setState({ state: input.target.value });
-  };
-  onPinChange = input => {
-    this.setState({ pincode: input.target.value });
-  };
-  onMobileChange = input => {
-    this.setState({ mobile: input.target.value });
-  };
-  onAadhaarChange = input => {
-    this.setState({ aadhaar: input.target.value });
-  };
-  onChkChange = input => {
-    this.setState({ iAgree: !this.state.iAgree });
-  };
+  onFnameChange = input => { this.setState({ fname: input.target.value }); };
+  onLnameChange = input => { this.setState({ lname: input.target.value }); };
+  onEmailChange = input => { this.setState({ email: input.target.value }); };
+  onPasswordChange = input => { this.setState({ password: input.target.value }); };
+  onAddChange = input => { this.setState({ address: input.target.value }); };
+  onCommunityChange = input => { this.setState({ community: input.target.value }); };
+  onCityChange = input => { this.setState({ city: input.target.value }); };
+  onStateChange = input => { this.setState({ state: input.target.value }); };
+  onPinChange = input => { this.setState({ pincode: input.target.value }); };
+  onMobileChange = input => { this.setState({ mobile: input.target.value }); };
+  onAadhaarChange = input => { this.setState({ aadhaar: input.target.value }); };
+  onChkChange = input => { this.setState({ iAgree: !this.state.iAgree }); };
 
   handleModalHide = () => {
     this.setState({ showModal: false }, () => {
@@ -81,7 +59,8 @@ class FormRegister extends Component {
         state: this.state.state,
         pincode: this.state.pincode,
         mobile: this.state.mobile,
-        aadhaar: this.state.aadhaar
+        aadhaar: this.state.aadhaar,
+        tstart: this.state.tstart
       })
     })
       .then(res => res.json())
@@ -93,7 +72,7 @@ class FormRegister extends Component {
           this.setState({ showModal: true, alert: {head:"User already existing", body:"Given email already exists. Please use another or login to continue" } });
         }
       })
-      .catch(error => alert(error));
+      .catch(error => window.alert(error));
   };
 
   handleServiceRegister = () => {

@@ -38,8 +38,8 @@ class TopBar extends Component {
         <NavDropdown title={
           <span className="pull-right dropdown-menu-right">
             {/* {user.username} */}
-            Welcome User
-            <img className="thumbnail-image" src={"https://api.adorable.io/avatars/112/"+this.props.user+".png"} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em", borderRadius: "0.5em" }} />
+            Welcome {(this.props.user)?this.props.user.fname:"User "}
+            <img className="thumbnail-image" src={"https://api.adorable.io/avatars/112/"+this.props.email+".png"} alt="Account" style={{ height: "1.6em", width: "1.6em", marginLeft: "0.5em", borderRadius: "0.5em" }} />
           </span>
           } id="collasible-nav-dropdown">
            <NavDropdown.Item href="#profile" onSelect={this.handleProfileLink}> 
