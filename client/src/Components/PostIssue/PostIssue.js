@@ -131,7 +131,6 @@ class PostIssue extends Component {
       method:"post",
       body:data,
     })
-    .then(res => {console.log(res); return res})
       .then(res => {console.log(res); return res.json()})
       .then(data => {
         this.setState({ showModal: true });
