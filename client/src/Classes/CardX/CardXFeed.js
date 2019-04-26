@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import govtIcon from '../../Assets/govt.png';
 import editIcon from '../../Assets/edit.png';
 import deleteIcon from '../../Assets/delete.png';
+import doneIcon from '../../Assets/done.png';
 import '../CardX/CardX.css';
 import '../Issue';
 class CardX extends Component {
@@ -99,6 +100,7 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
+                    {(this.props.content.status!=="Completed")?
                     <span id="controls">
                         {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") && (
                             <div className="control" onClick={this.redToGovt}>
@@ -118,12 +120,14 @@ class CardX extends Component {
                                 Edit
                             </div>
                         )}
-                        {this.state.showBody && (
+                        {this.state.showBody && this.props.content.status!=="Pending" && (
                             <div className="control" onClick={this.redToRating}>
+                                <img className="action" src={doneIcon} alt='done' />
                                 Completed
                             </div>
                         )}
                     </span>
+                    :null}
                 </div>
                 {
                     this.state.showBody && (
@@ -132,7 +136,7 @@ class CardX extends Component {
                         </div>
                     )
                 }
-            </div >
+            </div>
         );
     }
 }

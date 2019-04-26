@@ -11,6 +11,7 @@ import starorange from '../../Assets/star-orange.png';
 import stargreen from '../../Assets/star-green.png';
 import stargreenn from '../../Assets/star-greenn.png';
 import staryellow3 from '../../Assets/star-yellow3.png';
+import moment from 'moment';
 
 //import stargrey2 from '../../Assets/star-grey2.png';
 //import starred2 from '../../Assets/star-red2.png';
@@ -22,7 +23,9 @@ class RatingPage extends Component {
         this.state = {
             rate: 3,
             review: "",
-            star: starempty
+            star: starempty,
+            tend: moment(),
+            tstart: moment()
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -58,14 +61,17 @@ class RatingPage extends Component {
             body: JSON.stringify({
                 issueid: this.props.storedData.id,
                 cusemail: this.props.email,
-                SPemail: "srihari99@gmail.com",//this.props.storedData.acceptedBy,
+                SPemail: this.props.storedData.acceptedBy,
                 rating: this.state.rate,
-                review: this.state.review
+                review: this.state.review,
+                tend: this.state.tend,
+                tstart: this.state.tstart
             })
         })
             .then(res => res.json())          // convert to plain text
         this.props.setView("Feed");
     }
+    
     render() {
         return (
             <div >

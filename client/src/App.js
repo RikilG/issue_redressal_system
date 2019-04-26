@@ -65,25 +65,29 @@ class App extends Component {
     let currentView = this.state.currentView;
     switch (currentView) {
       case "Register": view = <FormRegister setView={this.setView} />; break;
-      case "Profile": view = <Profile user={this.state.user} />; break;
+      case "Profile": view = <Profile isAdmin={this.state.isAdmin} isCustomer={this.state.isCustomer} isOmbudsman={this.state.isOmbudsman} user={this.state.user} setView={this.setView} setSigninStatus={this.setSigninStatus} />; break;
       case "Login": view = <FormLogin setUser={this.setUser} setView={this.setView} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Home": view = <Home setUser={this.setUser} setView={this.setView} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} setAdmin={this.setAdmin} setOmbudsman={this.setOmbudsman} setCustomer={this.setCustomer} />; break;
       case "Feed": view = <Feed setView={this.setView} email={this.state.email} storeData={this.storeData} />; break;
-      case "PostIssue": view = <PostIssue email={this.state.email} setView={this.setView} />; break;
+      case "PostIssue": view = <PostIssue user={this.state.user} email={this.state.email} setView={this.setView} />; break;
       case "AdminHome": view = <AdminHome setView={this.setView} email={this.state.email} />; break;
       case "Dashboard": view = <Dashboard />; break;
       case "SPFeed": view = <SPFeed />; break;
       case "OmbudsmanHome": view = <OmbudsmanHome email={this.state.email} setView={this.setView} completedIssues={this.state.completedIssues} />; break;
       case "ServiceProviderReg": view = <ServiceProvider setView={this.setView} />; break;
       case "EditIssue": view = (<EditIssue setView={this.setView} data={this.state.storedData} storedData={this.state.storedData} parent={this} />); break;
+<<<<<<< HEAD
+=======
+      case "SPFeed": view = <SPFeed email={this.state.email} user={this.state.user} />; break;
+>>>>>>> e1b2f1c0a2b4cd7cdfae99d3b5d3c474000fe797
       case "RatingPage": view = <RatingPage setView={this.setView} storedData={this.state.storedData} email={this.state.email} />; break;
-      default: alert("No Page To Load (case:default:App.js)");
+      default: window.alert("No Page To Load (case:default:App.js)");
     }
 
     return (
       <ErrorBoundary>
         <div className="App">
-          <TopBar setView={this.setView} user={this.state.email} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
+          <TopBar setView={this.setView} email={this.state.email} user={this.state.user} signinStatus={this.state.signinStatus} setSigninStatus={this.setSigninStatus} isAdmin={this.state.isAdmin} isOmbudsman={this.state.isOmbudsman} isCustomer={this.state.isCustomer} setCompletedIssues={this.setCompletedIssues} completedIssues={this.state.completedIssues} />
           {view}
           {/* <footer id="footer"><Footer /></footer> */}
         </div>

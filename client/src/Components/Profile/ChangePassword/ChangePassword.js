@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
 import './ChangePassword.css';
-import FormGroup from 'react-bootstrap/FormGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import ControlLabel from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
 
 class ChangePassword extends Component{
@@ -34,18 +31,11 @@ class ChangePassword extends Component{
     }
 
     validateCurrPw() {
-        if(this.props.user.password === this.state.oldPassword)
-          return true
-        else
-          return false
+        return (this.props.user.password === this.state.oldPassword);
     }
 
     validateNewPw() {
-        if(this.state.password===this.state.confirmPassword)
-            return true 
-        else
-            return false
-
+        return (this.state.password===this.state.confirmPassword);
     }
 
       updatePassword = () => {
@@ -65,11 +55,11 @@ class ChangePassword extends Component{
                  .then(data => {
                     
                  }).catch((err)=>{alert(err)});
-                alert("Successfully updated");
+                window.alert("Successfully updated");
               }
               else
               {
-                  alert("New Password and Confirmed Password are not matching");
+                  window.alert("New Password and Confirmed Password are not matching");
                   this.refs.oldPref.value="";
                   this.refs.newPref.value="";  
                   this.refs.confirmPref.value="";
@@ -77,7 +67,7 @@ class ChangePassword extends Component{
           }
           else
           {
-              alert("Current Password is wrong");
+              window.alert("Current Password is wrong");
               this.refs.oldPref.value="";
               this.refs.newPref.value="";  
               this.refs.confirmPref.value="";
@@ -90,15 +80,15 @@ class ChangePassword extends Component{
         <div>
             <Form>
             <Form.Group controlId="oldPassword">
-                <Form.Label className="labelPw">Current Password</Form.Label>
+                <Form.Label className="labelPw">Current Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password" onChange={(input) => this.setState({oldPassword : input.target.value})} ref="oldPref" />
             </Form.Group>
             <Form.Group controlId="newPassword">
-                <Form.Label className="labelPw">New Password</Form.Label>
+                <Form.Label className="labelPw">New Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password" onChange={(input) => this.setState({password : input.target.value})} ref="newPref" />
             </Form.Group>
             <Form.Group controlId="confirmPassword">
-                <Form.Label className="labelPw">Confirm Password</Form.Label>
+                <Form.Label className="labelPw">Confirm Password :</Form.Label>
                 <Form.Control className="chgPwEle" type="password"  onChange={(input) => this.setState({confirmPassword : input.target.value})} ref="confirmPref" />
             </Form.Group>
             <Button as="input" type="submit" value="Change Password" onClick={this.updatePassword}/>

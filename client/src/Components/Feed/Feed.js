@@ -34,8 +34,8 @@ class Feed extends Component {
       .then(data => {
         this.setState({
           issues: data.myIssues.map((issue, index) => { return <CardXFeed header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} setView={this.props.setView} storeData={this.props.storeData} />; }),
-          comIssues: data.comIssues.map((issue, index) => { return <ComCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate}/>; }),
-          trendyIssues: data.comIssues.map((issue, index) => { return <ComCard feedType="trendy" header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate}/>; })
+          comIssues: data.comIssues.map((issue, index) => { return <ComCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate} />; }),
+          trendyIssues: data.comIssues.map((issue, index) => { return <ComCard feedType="trendy" header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate} />; })
         });
       }).then(() => {
         this.setState({ loading: false });
@@ -47,7 +47,7 @@ class Feed extends Component {
 
     return (
       <div id="feedRoot">
-        {(this.state.showModal)?<ModalDonate show={this.state.showModal} onHide={this.hideModal} />:null}
+        {(this.state.showModal) ? <ModalDonate show={this.state.showModal} onHide={this.hideModal} /> : null}
         <h2 id="myFeed">My Feed </h2> <hr />
         {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : issues}
         <hr />
@@ -68,7 +68,7 @@ class Feed extends Component {
               <h3 className="panel-title"> Trendy Issues</h3>
             </div>
             <div className="panel-body">
-            {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : trendyIssues}
+              {(loading) ? <img className="loadingIcon" src={loadingIcon} alt='Loading...' /> : trendyIssues}
             </div>
           </div>
         </div>

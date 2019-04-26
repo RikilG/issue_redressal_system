@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
 import './ViewDetails.css';
-import EditButton from '../../../Assets/edit.png';
-import { type } from 'os';
 
 class ViewDetails extends Component{
 
@@ -41,10 +39,6 @@ class ViewDetails extends Component{
                     <tr className="allRows">
                         <th className="leftColumn">Address</th>
                         <td className="rightColumn">{this.props.user.address}</td>
-                    </tr>
-                    <tr className="allRows">
-                        <th className="leftColumn">Community</th>
-                        <td className="rightColumn">{this.props.user.community}</td>
                     </tr>
                     <tr className="allRows">
                         <th className="leftColumn">City</th>

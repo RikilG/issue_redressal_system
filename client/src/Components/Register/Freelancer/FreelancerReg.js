@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './FreelancerReg.css'
 import { Form, Col, Button } from 'react-bootstrap';
+import moment from 'moment';
 
 class FreelancerReg extends Component {
     constructor(props) {
@@ -22,21 +23,22 @@ class FreelancerReg extends Component {
             chkCarpenter: false,
             chkCivil: false,
             skills: [],
-            otherWork: ""
+            otherWork: "",
+            tstart: moment(),
         }
     }
 
-    onFnameChange   = (input) => { this.setState({ fname: input.target.value    }) }
-    onLnameChange   = (input) => { this.setState({ lname: input.target.value    }) }
-    onEmailChange   = (input) => { this.setState({ email: input.target.value    }) }
-    onPasswordChange= (input) => { this.setState({ password: input.target.value }) }
-    onAddChange     = (input) => { this.setState({ address: input.target.value  }) }
-    onCityChange    = (input) => { this.setState({ city: input.target.value     }) }
-    onStateChange   = (input) => { this.setState({ state: input.target.value    }) }
-    onPinChange     = (input) => { this.setState({ pincode: input.target.value  }) }
-    onMobileChange  = (input) => { this.setState({ mobile: input.target.value   }) }
-    onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value  }) }
-    onChkChange     = (input) => { this.setState({ iAgree: !this.state.iAgree   }) }
+    onFnameChange = (input) => { this.setState({ fname: input.target.value }) }
+    onLnameChange = (input) => { this.setState({ lname: input.target.value }) }
+    onEmailChange = (input) => { this.setState({ email: input.target.value }) }
+    onPasswordChange = (input) => { this.setState({ password: input.target.value }) }
+    onAddChange = (input) => { this.setState({ address: input.target.value }) }
+    onCityChange = (input) => { this.setState({ city: input.target.value }) }
+    onStateChange = (input) => { this.setState({ state: input.target.value }) }
+    onPinChange = (input) => { this.setState({ pincode: input.target.value }) }
+    onMobileChange = (input) => { this.setState({ mobile: input.target.value }) }
+    onAadhaarChange = (input) => { this.setState({ aadhaar: input.target.value }) }
+    onChkChange = (input) => { this.setState({ iAgree: !this.state.iAgree }) }
 
     handleRegister = () => {
         if (this.state.chkElectrician) this.state.skills.push("Electrical");
@@ -45,11 +47,11 @@ class FreelancerReg extends Component {
         if (this.state.chkCivil) this.state.skills.push("Civil");
         if (this.state.otherWork.length > 0) {
             let others = this.state.otherWork.split(",")
-            others = others.map((work,index) => {return work.trim()});
-            this.setState({ skills:this.state.skills.concat(others) });
+            others = others.map((work, index) => { return work.trim() });
+            this.setState({ skills: this.state.skills.concat(others) });
         }
         if (!this.state.iAgree) {
-            alert("Please agree to T&C to continue.")
+            window.alert("Please agree to T&C to continue.")
             return;
         }
         fetch("/regFreelancer", {
@@ -68,18 +70,19 @@ class FreelancerReg extends Component {
                 pincode: this.state.pincode,
                 skills: this.state.skills,
                 noOfIssues: 0,
-                rating: 0
+                rating: 0,
+                tstart: this.state.tstart
             })
         })
             .then(res => res.json())
             .then(data => {
                 if (data.accepted) {
-                    alert("Successfully registered!!!, login to continue.");
+                    window.alert("Successfully registered!!!, login to continue.");
                     this.props.setView("Home");
                 }
                 else {
-                    alert("Freelancer email already existing, login to continue.");
-                    this.setState({ skills:[] });
+                    window.alert("Freelancer email already existing, login to continue.");
+                    this.setState({ skills: [] });
                 }
             })
     }
@@ -88,7 +91,7 @@ class FreelancerReg extends Component {
         return (
             <div id="freelanRegRoot">
                 <h1>Freelancer</h1>
-                <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister());} } >
+                <Form onSubmit={(e) => { e.preventDefault(); setTimeout(800, this.handleRegister()); }} >
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridFName">
                             <Form.Label>First Name</Form.Label>

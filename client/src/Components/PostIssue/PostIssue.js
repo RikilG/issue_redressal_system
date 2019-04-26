@@ -42,13 +42,13 @@ class PostIssue extends Component {
   componentDidMount() {
     setInterval(() => {
       this.setState({ i: this.state.i + 1 }, () => {
-        if (this.state.i%10 === 1 || this.state.i%10 === 5 || this.state.i%10 === 9)
+        if (this.state.i % 10 === 1 || this.state.i % 10 === 5 || this.state.i % 10 === 9)
           this.setState({ carousel: carousal1 });
-        else if (this.state.i%10 === 2 || this.state.i%10 === 8)
+        else if (this.state.i % 10 === 2 || this.state.i % 10 === 8)
           this.setState({ carousel: carousal2 });
-        else if (this.state.i%10 === 3 || this.state.i%10 === 6 || this.state.i%10 === 0)
+        else if (this.state.i % 10 === 3 || this.state.i % 10 === 6 || this.state.i % 10 === 0)
           this.setState({ carousel: carousal3 });
-        else if (this.state.i%10 === 4 || this.state.i%10 === 7)
+        else if (this.state.i % 10 === 4 || this.state.i % 10 === 7)
           this.setState({ carousel: carousal4 });
       });
     }, 3500);
@@ -71,7 +71,6 @@ class PostIssue extends Component {
         imagePreviewUrl: reader.result
       });
     };
-    
     reader.readAsDataURL(file);
   }
 
@@ -91,9 +90,9 @@ class PostIssue extends Component {
     this.setState({ pay: input.target.value });
   };
   onIssueTypeChange = input => {
-    if ( input.target.value === "Community" || input.target.value === "Government" )
+    if (input.target.value === "Community" || input.target.value === "Government")
       this.setState({ householdChk: false });
-    else 
+    else
       this.setState({ householdChk: true });
     console.log(input.target.value);
     this.setState({ type: input.target.value });
@@ -124,6 +123,7 @@ class PostIssue extends Component {
         type: this.state.type,
         tstart: this.state.tstart,
         tend: this.state.tend,
+        pincode: this.props.user.pincode,
         status: "Pending"
       })
     });
@@ -131,11 +131,16 @@ class PostIssue extends Component {
       method:"post",
       body:data,
     })
-      .then(res => {console.log(res); return res.json()})
+      .then(fetch('/uploadImage', {
+        method: "post",
+        body: data,
+      }))
+      .then(res => { console.log(res); return res })
+      .then(res => { console.log(res); return res.json() })
       .then(data => {
         this.setState({ showModal: true });
       })
-      .catch(error => alert(error));
+      .catch(error => window.alert(error))
     // console.log("Posting issue using axios");
     // axios.post("/postIssue", {
     //   email: this.props.email,
@@ -170,8 +175,8 @@ class PostIssue extends Component {
         <img id="carousel" alt="mypic" src={carousel} />
         <h2>Post your issue here</h2>
         <br />
-        {(this.state.showModal)?<ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." />:null}
-        <Form onSubmit={(e) => {e.preventDefault(); this.handleSubmit();}}>
+        {(this.state.showModal) ? <ModalAlert show={this.state.showModal} onHide={this.handleModalHide} head="Issue successfully submitted!" body="Press close to continue." /> : null}
+        <Form onSubmit={(e) => { e.preventDefault(); this.handleSubmit(); }}>
           <Form.Row>
             <Form.Group as={Col} controlId="ComplaintName">
               <Form.Label>Complaint Name</Form.Label>
@@ -193,7 +198,7 @@ class PostIssue extends Component {
             <img alt="Government issue" src={governmentimg} />
             <p>Government Issue</p>
           </label>
-          {(this.state.type === "Household")?<Form.Row>
+          {(this.state.type === "Household") ? <Form.Row>
             <Col>
               <Form.Group controlId="estimated pay">
                 <Form.Label>Estimated pay</Form.Label>
@@ -206,18 +211,18 @@ class PostIssue extends Component {
               </Col></Form.Row>
               <Form.Row>
                 <Col>
-                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tstart} 
-                    className="xxx timeSelect" onChange={this.onTime1Change} format={this.state.format} 
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tstart}
+                    className="xxx timeSelect" onChange={this.onTime1Change} format={this.state.format}
                     disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
                 <Col>
-                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tend} 
-                  className="xxx timeSelect" onChange={this.onTime2Change} format={this.state.format} 
-                  disabledHours={this.disabledHours} use12Hours inputReadOnly />
+                  <TimePicker showSecond={false} allowEmpty={false} defaultValue={this.state.tend}
+                    className="xxx timeSelect" onChange={this.onTime2Change} format={this.state.format}
+                    disabledHours={this.disabledHours} use12Hours inputReadOnly />
                 </Col>
               </Form.Row>
             </Col>
-          </Form.Row>:null}
+          </Form.Row> : null}
           <Form.Row>
             <Form.Group as={Col} controlId="depttype">
               <Form.Label>Type of work</Form.Label>
@@ -231,12 +236,12 @@ class PostIssue extends Component {
             </Form.Group>
             <Form.Group as={Col} controlId="others">
               <Form.Label>others</Form.Label>
-              <Form.Control placeholder="If others please specify" onChange={this.onOthersChange} disabled={ this.state.department === "Others" ? null : "disabled" } required />
+              <Form.Control placeholder="If others please specify" onChange={this.onOthersChange} disabled={this.state.department === "Others" ? null : "disabled"} required />
             </Form.Group>
           </Form.Row>
           <textarea id="textbox" name="myTextBox" cols="50" rows="5" placeholder="Please enter a brief description of your problem" onChange={this.onDescriptionChange} required />
           <div className="previewComponent">
-          <form onSubmit={(e)=>this.handleSubmit(e)}>
+          <form>
             <input className="fileInput" name="image"
               type="file"
               accept="image/*" 

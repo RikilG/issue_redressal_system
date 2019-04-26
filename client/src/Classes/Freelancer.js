@@ -14,6 +14,7 @@ class Freelancer {
         this.skills = jsonObject.skills;
         this.noOfIssues = jsonObject.noOfIssues;
         this.rating = jsonObject.rating;
+        this.tstart = jsonObject.tstart;
         this.className = "Freelancer";
     }
 }

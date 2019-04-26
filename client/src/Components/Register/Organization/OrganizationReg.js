@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './OrganizationReg.css';
 import {Form, Col, Button} from 'react-bootstrap';
+import moment from 'moment';
 
 class OrganizationReg extends Component {
     constructor(props) {
@@ -19,7 +19,10 @@ class OrganizationReg extends Component {
             chkCivil: false,
             otherWork: "",
             certificates: "",
-            skills: []
+            skills: [],
+            rating: 0,
+            noOfIssues: 0,
+            tstart: moment()
         }
     }
 
@@ -43,7 +46,7 @@ class OrganizationReg extends Component {
             this.setState({ skills: this.state.skills.concat(others) });
         }
         if(!this.state.iAgree) {
-            alert("Please agree to T&C to continue.")
+            window.alert("Please agree to T&C to continue.")
             return;
         }
         fetch("/regOrganization", {
@@ -56,17 +59,18 @@ class OrganizationReg extends Component {
                 headquaters: this.state.headquaters,
                 mobile: this.state.mobile,
                 workforce: this.state.workforce,
-                skills: this.state.skills
+                skills: this.state.skills,
+                tstart: this.state.tstart
             })
           })
           .then(res => res.json())
           .then(data => {
               if(data.accepted){
-                alert("Successfully registered!!!, login to continue.");
+                window.alert("Successfully registered!!!, login to continue.");
                 this.props.setView("Home");
               }
                 else {
-                    alert("Organization already enrolled, contact site admin for more details.");
+                    window.alert("Organization already enrolled, contact site admin for more details.");
                     this.setState({ skills:[] });
                 }
           })

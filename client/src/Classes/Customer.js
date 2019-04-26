@@ -11,6 +11,7 @@ class Customer {
         this.pincode = jsonObject.pincode;
         this.mobile = jsonObject.mobile;
         this.aadhaar = jsonObject.aadhaar;
+        this.tstart = jsonObject.tstart;
         this.className = "Customer";
     }
 }
