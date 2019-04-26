@@ -38,7 +38,7 @@ class SPFeed extends Component {
             .then(data => {
                 this.setState({
                     issues: data.allIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
-                    localIssues: data.allIss.map((issue, index) => { if(myPin+5 > issue.pincode && myPin-5 < issue.pincode) return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} /> }),
+                    localIssues: data.allIss.map((issue, index) => { return (myPin+5 > issue.pincode && myPin-5 < issue.pincode)?<SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />:null }),
                     acceptedIssues: data.acptdIss.map((issue, index) => { return <SPCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} />; }),
                 });
             }).then( () => {

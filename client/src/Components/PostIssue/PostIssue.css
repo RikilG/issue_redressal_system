@@ -51,10 +51,9 @@
   border: 3em solid red;
 }
 
-#textbox {
+#textDesc {
   width: 90%;
   height: 20vw;
-  border: 1vw solid maroon;
 }
 
 #btnRegister,

@@ -14,7 +14,8 @@ class Feed extends Component {
       comIssues: [],
       loading: false,
       trendyIssues: [],
-      showModal: false
+      showModal: false,
+      myPin: (this.props.user)?this.props.user.pincode:500078,
     }
   }
 
@@ -23,6 +24,7 @@ class Feed extends Component {
 
   componentDidMount() {
     //fetch issue details from backend
+    let { myPin } = this.state;
     this.setState({ loading: true });
     fetch('/feed', {
       method: "post",
@@ -34,7 +36,7 @@ class Feed extends Component {
       .then(data => {
         this.setState({
           issues: data.myIssues.map((issue, index) => { return <CardXFeed header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} myIssues={true} setView={this.props.setView} storeData={this.props.storeData} />; }),
-          comIssues: data.comIssues.map((issue, index) => { return <ComCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate} />; }),
+          comIssues: data.comIssues.map((issue, index) => { return (myPin+5 > issue.pincode && myPin-5 < issue.pincode)?<ComCard header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate} />:null; }),
           trendyIssues: data.comIssues.map((issue, index) => { return <ComCard feedType="trendy" header={issue.complaintName} content={new Issue(issue)} parent={this} key={index} email={this.props.email} issueid={issue._id} handleDonate={this.handleDonate} />; })
         });
       }).then(() => {

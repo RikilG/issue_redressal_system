@@ -450,16 +450,18 @@ app.post('/dashboard', (req, res) => {
             issue.count({ type: "Government", status: "Pending" }, function (err, data7) {
               issue.count({ type: "Government", status: "In Progress" }, function (err, data8) {
                 issue.count({ type: "Government", status: "Completed" }, function (err, data9) {
-                  //console.log(data7, data8, data9);
-                  res.json({
-                    noc: customers,
-                    noi: issues,
-                    nof: freelancers,
-                    noo: organizations,
-                    num7: data7,
-                    num8: data8,
-                    num9: data9
-                  });
+                  rating.countDocuments({}, function (err, reviews) {
+                    res.json({
+                      noc: customers,
+                      noi: issues,
+                      nof: freelancers,
+                      noo: organizations,
+                      nor: reviews,
+                      num7: data7,
+                      num8: data8,
+                      num9: data9
+                    });
+                  })
                 });
               });
             });
@@ -568,6 +570,14 @@ app.post('/myPosts',(req,res) => {
       res.send({
         myIssues: issues
       });
+  })
+})
+
+app.post('/getReviews', (req, res) => {
+  rating.find({ SPemail: req.body.SPemail }, (err, data) => {
+    if(err) throw err;
+    console.log(data);
+    res.json({ reviews: data });
   })
 })
 

@@ -119,7 +119,7 @@ class ComCard extends Component {
     render() {
         let { upvote, downvote, /*uStatus, dStatus*/ } = this.state;
         // console.log(this.props.feedType);
-        if (this.props.feedType === "trendy" && upvote <= 3)
+        if (this.props.feedType === "trendy" && upvote <= 2)
             return (null);
         else {
             return (

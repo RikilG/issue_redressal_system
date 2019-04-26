@@ -229,6 +229,7 @@ class Dashboard extends Component {
             noi: null,
             nof: null,
             noo: null,
+            nor: null,
             nogp: null,//govt pending
             nogi: null,
             nogc: null,
@@ -336,6 +337,7 @@ class Dashboard extends Component {
                     noi: data.noi,
                     nof: data.nof,
                     noo: data.noo,
+                    nor: data.nor,
                     nogp: data.num7,
                     nogi: data.num8,
                     nogc: data.num9
@@ -357,7 +359,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        let { noc, noi, nof, noo } = this.state;
+        let { noc, noi, nof, noo, nor } = this.state;
 
         return (
             <div className="dashRoot">
@@ -398,8 +400,8 @@ class Dashboard extends Component {
                     </div>
                     <div className="dashStatsCard">
                         <div className="vcenter">
-                            <h3>Comments</h3>
-                            <h3>(Number)</h3>
+                            <h3>Reviews</h3>
+                            <h3>{nor}</h3>
                         </div>
                         <Line data={lineData5} legend={legend} options={options} />
                     </div>

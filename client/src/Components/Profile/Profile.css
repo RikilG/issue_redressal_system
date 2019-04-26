@@ -17,3 +17,15 @@
     width: 200px;
     border-Radius: 0.5em;
 }
+
+.reviewContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 2vw;
+}
+
+#reviewTable td,
+#reviewTable th{
+    min-width: 5vw;
+}
