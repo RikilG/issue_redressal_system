@@ -82,7 +82,7 @@ class FreelancerReg extends Component {
                 }
                 else {
                     window.alert("Freelancer email already existing, login to continue.");
-                    this.setState({ skills:[] });
+                    this.setState({ skills: [] });
                 }
             })
     }

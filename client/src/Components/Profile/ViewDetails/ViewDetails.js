@@ -41,10 +41,6 @@ class ViewDetails extends Component{
                         <td className="rightColumn">{this.props.user.address}</td>
                     </tr>
                     <tr className="allRows">
-                        <th className="leftColumn">Community</th>
-                        <td className="rightColumn">{this.props.user.community}</td>
-                    </tr>
-                    <tr className="allRows">
                         <th className="leftColumn">City</th>
                         <td className="rightColumn">{this.props.user.city}</td>
                     </tr>

@@ -5,15 +5,18 @@ import deleteIcon from '../../Assets/delete.png';
 import doneIcon from '../../Assets/done.png';
 import '../CardX/CardX.css';
 import '../Issue';
-
 class CardX extends Component {
     constructor(props) {
         super(props);
         let cont;
+        const images=require.context('../../uploads');
 
         if (this.props.content.className === 'Issue') {
             cont = (
                 <div className='cardxContent' >
+                {(this.props.content.imageURL)?
+                <img className="rajphoto" src= {images('./'+this.props.content.imageURL)} />
+                :null}
                     <table className="detailsTable"><tbody>
                         <tr><th>Complaint Name: </th><td> {this.props.content.complaintName} </td></tr>
                         <tr><th>Description:    </th><td> {this.props.content.description} </td></tr>
@@ -97,6 +100,7 @@ class CardX extends Component {
             <div className="cardxRoot">
                 <div className="cardxHeader" onClick={this.toggleBody} >
                     {this.props.header}
+                    {(this.props.content.status!=="Completed")?
                     <span id="controls">
                         {this.state.showBody && this.props.myIssues && !(this.props.content.type === "Government") ? (
                             <div className="control" onClick={this.redToGovt}>
@@ -123,6 +127,7 @@ class CardX extends Component {
                             </div>
                         )}
                     </span>
+                    :null}
                 </div>
                 {
                     this.state.showBody && (
@@ -131,7 +136,7 @@ class CardX extends Component {
                         </div>
                     )
                 }
-            </div >
+            </div>
         );
     }
 }

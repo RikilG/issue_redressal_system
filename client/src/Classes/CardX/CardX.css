@@ -62,6 +62,7 @@
     padding-right: 1vw;
     padding-top: 0;
     padding-bottom: 1.5vh;
+    min-height: 14em;
 }
 
 #controls {
@@ -86,4 +87,13 @@
     margin-right: 0.5em;
     height: 1.8em;
     width: 1.8em;
+}
+
+.rajphoto {
+    float : right;
+    margin-right: 1.5em;
+    margin-bottom: 1em;
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
 }

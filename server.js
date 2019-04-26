@@ -331,7 +331,7 @@ app.post("/postIssue", function (req, res) {
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-   cb(null, path.join(__dirname+'/uploads/'))
+   cb(null, path.join(__dirname+'/client/src/uploads/'))
    },
    filename: function (req, file, cb) {
     cb(null,file.originalname);
@@ -431,7 +431,7 @@ app.post('/dashboard3', (req, res) => {
                 num3: data3,
                 num4: data4,
                 num5: data5,
-                num6: data6
+                num6: data6,
               });
             });
           });
@@ -447,13 +447,22 @@ app.post('/dashboard', (req, res) => {
       issue.countDocuments({}, function (er, issues) {
         freelancer.countDocuments({}, function (err, freelancers) {
           organization.countDocuments({}, function (err, organizations) {
-            rating.countDocuments({}, function (err, reviews) {
-              res.json({
-                noc: customers,
-                noi: issues,
-                nof: freelancers,
-                noo: organizations,
-                nor: reviews
+            issue.count({ type: "Government", status: "Pending" }, function (err, data7) {
+              issue.count({ type: "Government", status: "In Progress" }, function (err, data8) {
+                issue.count({ type: "Government", status: "Completed" }, function (err, data9) {
+                  rating.countDocuments({}, function (err, reviews) {
+                    res.json({
+                      noc: customers,
+                      noi: issues,
+                      nof: freelancers,
+                      noo: organizations,
+                      nor: reviews,
+                      num7: data7,
+                      num8: data8,
+                      num9: data9
+                    });
+                  })
+                });
               });
             });
           });
@@ -528,13 +537,39 @@ app.post('/ombudTrack', (req, res) => {
   });
 })
 
-app.post('/passwordUpdate',(req, res) => {
-  customer.findOneAndUpdate({email : req.body.email},{password : req.body.password},(err, data) => {
+app.post('/passwordUpdate', (req, res) => {
+  customer.findOneAndUpdate({ email: req.body.email }, { password: req.body.password }, (err, data) => {
     if (err) {
-      res.json({errorStatus : true});
+      res.json({ errorStatus: true });
       console.log(err);
     }
+    else res.json({errorStatus : false});
+  })
+})
+
+app.post('/updateProfile',(req,res) => {
+  // console.log(req.body);
+  customer.findByIdAndUpdate(req.body.id, { "$set": {
+    fname: req.body.fname,
+    lname: req.body.lname,
+    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state,
+    pincode: req.body.pincode,
+    mobile: req.body.mobile,
+    aadhaar: req.body.aadhaar } }, (err) => {
+    if (err) {
+      res.json({ errorStatus: true });
+    }
     else res.json({ errorStatus: false });
+  });
+})
+
+app.post('/myPosts',(req,res) => {
+  issue.find({ email: req.body.email, status: "Completed" }, function (err, issues) {
+      res.send({
+        myIssues: issues
+      });
   })
 })
 
