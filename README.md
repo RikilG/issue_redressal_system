@@ -1,10 +1,25 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Issue Redressal System
 
-## Available Scripts
+This is a web app built to address the needs of people who have issues and need immediate help. Our web app provides a simple way for customers to hire freelancers and organizations to resolve their issues. There is also an option to add government issues or redirect issues to government.
+
+live demo : [issue-redressal-system](http://issue-redressal.herokuapp.com)
+
+## To run project
 
 In the project directory, you can run:
 
-### `npm start`
+```sh
+npm install
+npm start
+```
+
+And to start backend server, open another shell and run:
+
+```sh
+npm install
+cd client
+npm test
+```
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -12,41 +27,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+## Modifications you can make
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Currently, we are using mongoDB atlas(NoSQL) to store data and the url for the server is hardcoded. You can edit and put your own server url.
 
-### `npm run build`
+SQL server is also supported but requires few edits. it is present in `sqlserver` branch.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
